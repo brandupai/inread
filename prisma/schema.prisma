@@ -71,6 +71,8 @@ model Newsletter {
   contentHtml String   @db.LongText
   contentText String?  @db.LongText
   format      String   @default("newsletter") // "newsletter" | "video" | "thread" | "artigo" (etiqueta automática de formato)
+  contextTag  String? // etiqueta automática de contexto: "Trabalho" | "Finanças" | "Tecnologia" | "Notícias" | "Lazer"
+  listUnsubscribe String? @db.Text // header List-Unsubscribe (cancelar subscrição num clique)
   readingTime Int? // em minutos
 
   isRead      Boolean  @default(false)

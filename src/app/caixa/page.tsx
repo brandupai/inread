@@ -1,30 +1,10 @@
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/db';
-import { auth, signOut, authEnabled } from '@/auth';
+import { auth, authEnabled } from '@/auth';
+import { grad, iniciais } from '@/lib/visual';
+import Sublinhador from './Sublinhador';
 
 export const dynamic = 'force-dynamic';
-
-/** Miniatura determinística por remetente (gradiente a partir do email). */
-const GRADS = [
-  ['#A6D6AE', '#679281'],
-  ['#BFE3C6', '#4F7D69'],
-  ['#CDE8D8', '#86A98F'],
-  ['#9FC6B4', '#30493F'],
-  ['#D4EBD2', '#6FA183'],
-  ['#B2D8C4', '#54836E'],
-];
-
-function grad(seed: string) {
-  let h = 0;
-  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
-  const [a, b] = GRADS[h % GRADS.length];
-  return `linear-gradient(135deg, ${a}, ${b})`;
-}
-
-function iniciais(nome: string) {
-  const partes = nome.trim().split(/\s+/).slice(0, 2);
-  return partes.map((p) => p[0]?.toUpperCase() ?? '').join('');
-}
 
 type ListItem = {
   id: string;
@@ -34,6 +14,8 @@ type ListItem = {
   readingTime: number | null;
   isRead: boolean;
   isStarred: boolean;
+  contextTag: string | null;
+  format: string;
   createdAt: Date;
 };
 
@@ -53,9 +35,19 @@ const ICONS = {
   remetentes: 'M17 20v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1m14-13a4 4 0 11-8 0 4 4 0 018 0zm4 13v-1a4 4 0 00-3-3.87M16 3.13A4 4 0 0116 11',
 };
 
-export default async function Caixa({ searchParams }: { searchParams: Promise<{ n?: string; f?: string }> }) {
-  const { n, f } = await searchParams;
+const FORMATOS: Record<string, string> = { newsletter: 'Newsletter', video: 'Vídeo', thread: 'Thread', artigo: 'Artigo' };
+
+export default async function Caixa({
+  searchParams,
+}: {
+  searchParams: Promise<{ n?: string; f?: string; q?: string; t?: string }>;
+}) {
+  const { n, f, q, t } = await searchParams;
   const soFavoritos = f === 'fav';
+  const soHighlights = f === 'high';
+  const emGuardados = soFavoritos || soHighlights;
+  const pesquisa = q?.trim() || '';
+  const etiqueta = t?.trim() || '';
 
   let user = null;
   if (authEnabled) {
@@ -82,11 +74,6 @@ export default async function Caixa({ searchParams }: { searchParams: Promise<{ 
 
   const userId = user.id;
 
-  async function sair() {
-    'use server';
-    await signOut({ redirectTo: '/login' });
-  }
-
   async function alternarFavorito(formData: FormData) {
     'use server';
     const id = String(formData.get('id') ?? '');
@@ -104,18 +91,78 @@ export default async function Caixa({ searchParams }: { searchParams: Promise<{ 
     redirect(voltar);
   }
 
-  const todas: ListItem[] = await prisma.newsletter.findMany({
-    where: { userId: user.id, ...(soFavoritos ? { isStarred: true } : {}) },
-    orderBy: { createdAt: 'desc' },
-    take: 50,
-    select: { id: true, senderName: true, senderEmail: true, subject: true, readingTime: true, isRead: true, isStarred: true, createdAt: true },
-  });
+  async function apagarHighlight(formData: FormData) {
+    'use server';
+    const id = String(formData.get('id') ?? '');
+    const voltar = String(formData.get('voltar') ?? '/caixa');
+    let dono = userId;
+    if (authEnabled) {
+      const sessao = await auth();
+      if (!sessao?.user?.id) redirect('/login');
+      dono = sessao.user.id;
+    }
+    const h = await prisma.highlight.findFirst({ where: { id }, include: { newsletter: true } });
+    if (h && h.newsletter.userId === dono) {
+      await prisma.highlight.delete({ where: { id } });
+    }
+    redirect(voltar);
+  }
+
+  const filtroTexto = pesquisa
+    ? {
+        OR: [
+          { subject: { contains: pesquisa } },
+          { senderName: { contains: pesquisa } },
+          { senderEmail: { contains: pesquisa } },
+          { contentText: { contains: pesquisa } },
+        ],
+      }
+    : {};
+
+  const todas: ListItem[] = soHighlights
+    ? []
+    : await prisma.newsletter.findMany({
+        where: {
+          userId: user.id,
+          ...(soFavoritos ? { isStarred: true } : {}),
+          ...(etiqueta ? { contextTag: etiqueta } : {}),
+          ...filtroTexto,
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+        select: {
+          id: true, senderName: true, senderEmail: true, subject: true, readingTime: true,
+          isRead: true, isStarred: true, contextTag: true, format: true, createdAt: true,
+        },
+      });
+
+  type HighlightComOrigem = {
+    id: string;
+    text: string;
+    newsletter: { id: string; subject: string; senderName: string | null; senderEmail: string };
+  };
+
+  const meusHighlights: HighlightComOrigem[] = soHighlights
+    ? await prisma.highlight.findMany({
+        where: { newsletter: { userId: user.id } },
+        orderBy: { createdAt: 'desc' },
+        take: 100,
+        include: { newsletter: { select: { id: true, subject: true, senderName: true, senderEmail: true } } },
+      })
+    : [];
 
   const porLer = await prisma.newsletter.count({ where: { userId: user.id, isRead: false } });
+  const totalNaCaixa = await prisma.newsletter.count({ where: { userId: user.id } });
 
-  const selecionadaId = n ?? todas[0]?.id ?? null;
+  const etiquetasExistentes: Array<{ contextTag: string | null }> = await prisma.newsletter.groupBy({
+    by: ['contextTag'],
+    where: { userId: user.id, contextTag: { not: null } },
+    _count: { contextTag: true },
+  });
+
+  const selecionadaId = soHighlights ? (n ?? null) : (n ?? todas[0]?.id ?? null);
   const selected = selecionadaId
-    ? await prisma.newsletter.findFirst({ where: { id: selecionadaId, userId: user.id } })
+    ? await prisma.newsletter.findFirst({ where: { id: selecionadaId, userId: user.id }, include: { highlights: { orderBy: { createdAt: 'asc' } } } })
     : null;
 
   // Abrir uma newsletter marca-a como lida (só quando foi mesmo aberta pelo utilizador).
@@ -124,99 +171,169 @@ export default async function Caixa({ searchParams }: { searchParams: Promise<{ 
     selected.isRead = true;
   }
 
-  const base = soFavoritos ? '/caixa?f=fav' : '/caixa';
-  const linkPara = (id: string) => (soFavoritos ? `/caixa?f=fav&n=${id}` : `/caixa?n=${id}`);
+  const baseParams = new URLSearchParams();
+  if (f) baseParams.set('f', f);
+  if (pesquisa) baseParams.set('q', pesquisa);
+  if (etiqueta) baseParams.set('t', etiqueta);
+  const base = `/caixa${baseParams.size ? `?${baseParams}` : ''}`;
+  const linkPara = (id: string) => {
+    const p = new URLSearchParams(baseParams);
+    p.set('n', id);
+    return `/caixa?${p}`;
+  };
+  const linkEtiqueta = (tag: string | null) => {
+    const p = new URLSearchParams();
+    if (f) p.set('f', f);
+    if (pesquisa) p.set('q', pesquisa);
+    if (tag) p.set('t', tag);
+    return `/caixa${p.size ? `?${p}` : ''}`;
+  };
+
+  const chipAtivo = (ativo: boolean) =>
+    ({
+      borderRadius: 999,
+      padding: '7px 16px',
+      fontSize: 13,
+      fontWeight: 600,
+      color: ativo ? '#fff' : 'var(--ink)',
+      background: ativo ? 'var(--brand-dark)' : undefined,
+      border: ativo ? '1px solid var(--brand-dark)' : undefined,
+      whiteSpace: 'nowrap' as const,
+    });
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: '100vh', paddingBottom: 110 }}>
       <aside style={{ flex: '1 1 340px', minWidth: 0, padding: '24px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, padding: '0 4px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, padding: '0 4px' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="inread" style={{ height: 22, width: 'auto' }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
-            <span style={{ fontSize: 12, color: 'var(--quiet)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {user.inboxHash}@inread.app{user.plan === 'free' ? ` · ${todas.length}/50` : ''}
-            </span>
-            {authEnabled && (
-              <form action={sair}>
-                <button type="submit" style={{ border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 12, fontWeight: 600, color: 'var(--quiet)', cursor: 'pointer', padding: 0 }}>
-                  Sair
-                </button>
-              </form>
-            )}
+          <img src="/logo.svg" alt="inread" style={{ height: 22, width: 'auto', flex: '0 0 auto' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+            <form action="/caixa" style={{ display: 'flex', minWidth: 0 }}>
+              {f && <input type="hidden" name="f" value={f} />}
+              <input
+                name="q"
+                type="search"
+                defaultValue={pesquisa}
+                placeholder="Pesquisar…"
+                aria-label="Pesquisar newsletters"
+                className="glass"
+                style={{ width: '100%', maxWidth: 170, height: 36, border: '1px solid rgba(255,255,255,0.85)', borderRadius: 999, padding: '0 14px', fontSize: 13, fontFamily: 'inherit', color: 'var(--ink)', outline: 'none' }}
+              />
+            </form>
+            <a
+              href="/definicoes"
+              title="Definições"
+              className="glass"
+              style={{ flex: '0 0 auto', width: 36, height: 36, borderRadius: 999, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-dark)' }}
+            >
+              <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33h.01a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51h.01a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.01a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z" />
+              </svg>
+            </a>
           </div>
         </div>
 
         <div style={{ padding: '10px 4px 2px', display: 'flex', alignItems: 'baseline', gap: 12 }}>
-          <h1 style={{ margin: 0, fontSize: 34, lineHeight: 1 }}>{soFavoritos ? 'Guardados' : 'Caixa'}</h1>
-          {!soFavoritos && (
+          <h1 style={{ margin: 0, fontSize: 34, lineHeight: 1 }}>{emGuardados ? 'Guardados' : 'Caixa'}</h1>
+          {!emGuardados && (
             <span style={{ fontSize: 13, color: 'var(--quiet)' }}>
-              {porLer > 0 ? `${porLer} por ler` : 'tudo lido'}
+              {pesquisa ? `${todas.length} resultado${todas.length === 1 ? '' : 's'}` : porLer > 0 ? `${porLer} por ler` : 'tudo lido'}
             </span>
           )}
         </div>
 
-        <div style={{ display: 'flex', gap: 8, padding: '2px 4px 8px' }}>
-          <a
-            href="/caixa"
-            className="glass"
-            style={{ borderRadius: 999, padding: '7px 16px', fontSize: 13, fontWeight: 600, color: !soFavoritos ? '#fff' : 'var(--ink)', background: !soFavoritos ? 'var(--brand-dark)' : undefined, border: !soFavoritos ? '1px solid var(--brand-dark)' : undefined }}
-          >
-            Tudo
-          </a>
-          <a
-            href="/caixa?f=fav"
-            className="glass"
-            style={{ borderRadius: 999, padding: '7px 16px', fontSize: 13, fontWeight: 600, color: soFavoritos ? '#fff' : 'var(--ink)', background: soFavoritos ? 'var(--brand-dark)' : undefined, border: soFavoritos ? '1px solid var(--brand-dark)' : undefined }}
-          >
-            Favoritos
-          </a>
+        <div style={{ display: 'flex', gap: 8, padding: '2px 4px 8px', overflowX: 'auto' }}>
+          {emGuardados ? (
+            <>
+              <a href={pesquisa ? `/caixa?f=fav&q=${encodeURIComponent(pesquisa)}` : '/caixa?f=fav'} className="glass" style={chipAtivo(soFavoritos)}>Newsletters</a>
+              <a href="/caixa?f=high" className="glass" style={chipAtivo(soHighlights)}>Highlights</a>
+              <a href="/caixa" className="glass" style={chipAtivo(false)}>← Caixa</a>
+            </>
+          ) : (
+            <>
+              <a href={linkEtiqueta(null)} className="glass" style={chipAtivo(!etiqueta)}>Tudo</a>
+              {etiquetasExistentes.map((e) =>
+                e.contextTag ? (
+                  <a key={e.contextTag} href={linkEtiqueta(e.contextTag)} className="glass" style={chipAtivo(etiqueta === e.contextTag)}>
+                    {e.contextTag}
+                  </a>
+                ) : null,
+              )}
+            </>
+          )}
         </div>
 
-        {todas.map((item) => {
-          const nome = item.senderName ?? item.senderEmail;
-          return (
-            <a
-              key={item.id}
-              href={linkPara(item.id)}
-              className="glass"
-              style={{
-                display: 'flex',
-                gap: 12,
-                alignItems: 'center',
-                padding: '12px 14px',
-                borderRadius: 16,
-                border: item.id === selected?.id ? '1.5px solid var(--brand)' : undefined,
-              }}
-            >
-              <span style={{ flex: '0 0 auto', width: 44, height: 44, borderRadius: 13, background: grad(item.senderEmail), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.95)', boxShadow: '0 6px 14px rgba(52,78,65,0.18)' }}>
-                {iniciais(nome)}
-              </span>
-              <span style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0, flex: '1 1 auto' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 500, color: item.isRead ? 'var(--faint)' : 'var(--quiet)' }}>
-                  {!item.isRead && <span style={{ width: 7, height: 7, borderRadius: 999, background: 'var(--brand)', flex: '0 0 auto' }} />}
-                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{nome}</span>
-                  {item.isStarred && <span aria-label="Favorito" style={{ color: 'var(--brand)', flex: '0 0 auto' }}>★</span>}
+        {soHighlights ? (
+          <>
+            {meusHighlights.map((h) => (
+              <a key={h.id} href={`/caixa?n=${h.newsletter.id}`} className="glass" style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '12px 14px', borderRadius: 16 }}>
+                <span style={{ fontSize: 13.5, lineHeight: 1.5, color: '#262A26' }}>
+                  <mark>{h.text.length > 180 ? `${h.text.slice(0, 180)}…` : h.text}</mark>
                 </span>
-                <span style={{ fontSize: 14, fontWeight: item.isRead ? 500 : 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.subject}</span>
                 <span style={{ fontSize: 11, color: 'var(--faint)' }}>
-                  {item.createdAt.toLocaleDateString('pt-PT')} · {item.readingTime ?? 1} min
+                  {h.newsletter.senderName ?? h.newsletter.senderEmail} · {h.newsletter.subject}
                 </span>
-              </span>
-            </a>
-          );
-        })}
-
-        {todas.length === 0 && !soFavoritos && (
-          <div className="glass" style={{ borderRadius: 16, padding: '18px 16px', fontSize: 14, lineHeight: 1.6, color: 'var(--quiet)' }}>
-            A tua caixa está vazia. Subscreve newsletters com o endereço{' '}
-            <strong style={{ color: 'var(--brand-dark)' }}>{user.inboxHash}@inread.app</strong> e elas aparecem aqui, limpas.
-          </div>
-        )}
-        {todas.length === 0 && soFavoritos && (
-          <div className="glass" style={{ borderRadius: 16, padding: '18px 16px', fontSize: 14, lineHeight: 1.6, color: 'var(--quiet)' }}>
-            Ainda não guardaste nenhuma newsletter. Abre uma e toca em ☆ para a guardares aqui.
-          </div>
+              </a>
+            ))}
+            {meusHighlights.length === 0 && (
+              <div className="glass" style={{ borderRadius: 16, padding: '18px 16px', fontSize: 14, lineHeight: 1.6, color: 'var(--quiet)' }}>
+                Ainda não tens highlights. Abre uma newsletter e seleciona um trecho de texto para o sublinhares — depois exporta tudo em .md.
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            {todas.map((item) => {
+              const nome = item.senderName ?? item.senderEmail;
+              return (
+                <a
+                  key={item.id}
+                  href={linkPara(item.id)}
+                  className="glass"
+                  style={{
+                    display: 'flex',
+                    gap: 12,
+                    alignItems: 'center',
+                    padding: '12px 14px',
+                    borderRadius: 16,
+                    border: item.id === selected?.id ? '1.5px solid var(--brand)' : undefined,
+                  }}
+                >
+                  <span style={{ flex: '0 0 auto', width: 44, height: 44, borderRadius: 13, background: grad(item.senderEmail), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.95)', boxShadow: '0 6px 14px rgba(52,78,65,0.18)' }}>
+                    {iniciais(nome)}
+                  </span>
+                  <span style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0, flex: '1 1 auto' }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 500, color: item.isRead ? 'var(--faint)' : 'var(--quiet)' }}>
+                      {!item.isRead && <span style={{ width: 7, height: 7, borderRadius: 999, background: 'var(--brand)', flex: '0 0 auto' }} />}
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{nome}</span>
+                      {item.isStarred && <span aria-label="Favorito" style={{ color: 'var(--brand)', flex: '0 0 auto' }}>★</span>}
+                    </span>
+                    <span style={{ fontSize: 14, fontWeight: item.isRead ? 500 : 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.subject}</span>
+                    <span style={{ fontSize: 11, color: 'var(--faint)' }}>
+                      {item.createdAt.toLocaleDateString('pt-PT')} · {item.readingTime ?? 1} min
+                      {' · '}{FORMATOS[item.format] ?? item.format}
+                      {item.contextTag ? ` · ${item.contextTag}` : ''}
+                    </span>
+                  </span>
+                </a>
+              );
+            })}
+            {todas.length === 0 && (
+              <div className="glass" style={{ borderRadius: 16, padding: '18px 16px', fontSize: 14, lineHeight: 1.6, color: 'var(--quiet)' }}>
+                {pesquisa ? (
+                  <>Nenhum resultado para “{pesquisa}”.</>
+                ) : soFavoritos ? (
+                  <>Ainda não guardaste nenhuma newsletter. Abre uma e toca em ☆ para a guardares aqui.</>
+                ) : (
+                  <>
+                    A tua caixa está vazia. Subscreve newsletters com o endereço{' '}
+                    <strong style={{ color: 'var(--brand-dark)' }}>{user.inboxHash}@inread.app</strong> e elas aparecem aqui, limpas.
+                  </>
+                )}
+              </div>
+            )}
+          </>
         )}
       </aside>
 
@@ -230,6 +347,7 @@ export default async function Caixa({ searchParams }: { searchParams: Promise<{ 
                 </span>
                 <span style={{ fontSize: 13, color: 'var(--quiet)' }}>
                   {selected.senderName ?? selected.senderEmail} · {selected.createdAt.toLocaleDateString('pt-PT')} · {selected.readingTime ?? 1} min
+                  {selected.contextTag ? ` · ${selected.contextTag}` : ''}
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -253,12 +371,40 @@ export default async function Caixa({ searchParams }: { searchParams: Promise<{ 
               </div>
             </div>
             <h1 style={{ fontSize: 32, lineHeight: 1.2, margin: '0 0 20px' }}>{selected.subject}</h1>
-            <div className="artigo" dangerouslySetInnerHTML={{ __html: selected.contentHtml }} />
+            <div id="artigo-corpo" className="artigo" dangerouslySetInnerHTML={{ __html: selected.contentHtml }} />
+            <Sublinhador newsletterId={selected.id} />
+
+            {selected.highlights.length > 0 && (
+              <div style={{ marginTop: 32, borderTop: '1px solid rgba(48,73,63,0.15)', paddingTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--brand-dark)' }}>
+                  ✦ Os teus highlights ({selected.highlights.length})
+                </div>
+                {selected.highlights.map((h: { id: string; text: string }) => (
+                  <div key={h.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(166,214,174,0.7)', borderRadius: 12, padding: '10px 14px' }}>
+                    <span style={{ flex: '1 1 auto', fontSize: 14, lineHeight: 1.6, color: '#262A26' }}>
+                      <mark>{h.text}</mark>
+                    </span>
+                    <form action={apagarHighlight}>
+                      <input type="hidden" name="id" value={h.id} />
+                      <input type="hidden" name="voltar" value={linkPara(selected.id)} />
+                      <button type="submit" title="Apagar highlight" style={{ border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 14, color: 'var(--faint)', cursor: 'pointer', padding: 2 }}>
+                        ✕
+                      </button>
+                    </form>
+                  </div>
+                ))}
+                <div style={{ fontSize: 12, color: 'var(--faint)' }}>Incluídos no Exportar .md — prontos para Obsidian e Notion.</div>
+              </div>
+            )}
           </article>
         ) : (
           <div style={{ textAlign: 'center', paddingTop: 120, color: 'var(--quiet)' }}>
-            <p style={{ fontWeight: 600, color: 'var(--ink)' }}>Nenhuma newsletter selecionada</p>
-            <p style={{ fontSize: 14 }}>Seleciona uma newsletter para ler</p>
+            <p style={{ fontWeight: 600, color: 'var(--ink)' }}>
+              {soHighlights ? 'Os teus highlights' : 'Nenhuma newsletter selecionada'}
+            </p>
+            <p style={{ fontSize: 14 }}>
+              {soHighlights ? 'Toca num highlight para abrires a newsletter de origem' : 'Seleciona uma newsletter para ler'}
+            </p>
           </div>
         )}
       </main>
@@ -269,14 +415,14 @@ export default async function Caixa({ searchParams }: { searchParams: Promise<{ 
         className="glass"
         style={{ position: 'fixed', left: '50%', bottom: 18, transform: 'translateX(-50%)', zIndex: 20, display: 'flex', gap: 10, padding: 10, borderRadius: 26, boxShadow: '0 18px 44px rgba(52,78,65,0.22)' }}
       >
-        <a href="/caixa" className="gicon" title="Caixa" aria-current={!soFavoritos ? 'page' : undefined} style={{ width: 52, height: 52, borderRadius: 17, color: !soFavoritos ? '#fff' : 'var(--brand-dark)' }}>
-          <span className={!soFavoritos ? 'gi-blob gi-on' : 'gi-blob'} />
-          <span className="gi-glass" style={{ background: !soFavoritos ? 'rgba(48,73,63,0.28)' : undefined }} />
+        <a href="/caixa" className="gicon" title="Caixa" aria-current={!emGuardados ? 'page' : undefined} style={{ width: 52, height: 52, borderRadius: 17, color: !emGuardados ? '#fff' : 'var(--brand-dark)' }}>
+          <span className={!emGuardados ? 'gi-blob gi-on' : 'gi-blob'} />
+          <span className="gi-glass" style={{ background: !emGuardados ? 'rgba(48,73,63,0.28)' : undefined }} />
           <DockIcon d={ICONS.caixa} />
         </a>
-        <a href="/caixa?f=fav" className="gicon" title="Guardados" aria-current={soFavoritos ? 'page' : undefined} style={{ width: 52, height: 52, borderRadius: 17, color: soFavoritos ? '#fff' : 'var(--brand-dark)' }}>
-          <span className={soFavoritos ? 'gi-blob gi-on' : 'gi-blob'} />
-          <span className="gi-glass" style={{ background: soFavoritos ? 'rgba(48,73,63,0.28)' : undefined }} />
+        <a href="/caixa?f=fav" className="gicon" title="Guardados" aria-current={emGuardados ? 'page' : undefined} style={{ width: 52, height: 52, borderRadius: 17, color: emGuardados ? '#fff' : 'var(--brand-dark)' }}>
+          <span className={emGuardados ? 'gi-blob gi-on' : 'gi-blob'} />
+          <span className="gi-glass" style={{ background: emGuardados ? 'rgba(48,73,63,0.28)' : undefined }} />
           <DockIcon d={ICONS.guardados} />
         </a>
         <span className="gicon" title="Áudio — brevemente" style={{ width: 52, height: 52, borderRadius: 17, color: 'var(--brand-dark)', opacity: 0.45 }}>
@@ -289,11 +435,11 @@ export default async function Caixa({ searchParams }: { searchParams: Promise<{ 
           <span className="gi-glass" />
           <DockIcon d={ICONS.descobrir} />
         </span>
-        <span className="gicon" title="Remetentes — brevemente" style={{ width: 52, height: 52, borderRadius: 17, color: 'var(--brand-dark)', opacity: 0.45 }}>
+        <a href="/remetentes" className="gicon" title="Remetentes" style={{ width: 52, height: 52, borderRadius: 17, color: 'var(--brand-dark)' }}>
           <span className="gi-blob" />
           <span className="gi-glass" />
           <DockIcon d={ICONS.remetentes} />
-        </span>
+        </a>
       </nav>
     </div>
   );

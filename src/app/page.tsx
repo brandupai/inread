@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import { auth, authEnabled } from '@/auth';
+import RodapeSite from '@/components/RodapeSite';
 
 export const dynamic = 'force-dynamic';
 
@@ -237,15 +238,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <footer style={{ width: '100%', maxWidth: 1120, margin: 'auto auto 0', padding: 24, borderTop: '1px solid rgba(255,255,255,0.7)', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 12, fontSize: 13, color: 'var(--quiet)' }}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icon.png" alt="" style={{ width: 22, height: 22, borderRadius: 6 }} />© 2026 inread.app
-        </span>
-        <span style={{ display: 'flex', gap: 16 }}>
-          <a href="/login" style={{ color: 'var(--quiet)' }}>Entrar</a>
-        </span>
-      </footer>
+      <RodapeSite />
     </div>
   );
 }

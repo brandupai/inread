@@ -64,6 +64,26 @@ export function cleanEmailHtml(rawHtml: string): string {
   });
 }
 
+/**
+ * Etiqueta automática de contexto (a 2.ª etiqueta do par formato+contexto).
+ * Heurística por palavras-chave no remetente, assunto e texto.
+ */
+const CONTEXT_RULES: Array<{ tag: string; re: RegExp }> = [
+  { tag: 'Finanças', re: /\b(invest|finan[çc]|mercados?|bolsa|crypto|bitcoin|stocks?|etf|juros|economia|banco)\b/i },
+  { tag: 'Tecnologia', re: /\b(ai|ia|tech|software|dev|programa[çc][ãa]o|startup|saas|produto|code|coding|llm|robot)\b/i },
+  { tag: 'Trabalho', re: /\b(marketing|vendas|sales|neg[óo]cio|business|carreira|lideran[çc]a|gest[ãa]o|produtividade|empreend)\b/i },
+  { tag: 'Notícias', re: /\b(news|not[íi]cias|daily|di[áa]ri[oa]|semanal|weekly|briefing|roundup|digest)\b/i },
+  { tag: 'Lazer', re: /\b(viagem|travel|receita|cozinha|desporto|m[úu]sica|cinema|s[ée]ries?|jogos|gaming|lifestyle|cultura)\b/i },
+];
+
+export function detectContext(senderEmail: string, senderName: string | null, subject: string, text: string): string | null {
+  const alvo = `${senderName ?? ''} ${senderEmail} ${subject} ${text.slice(0, 1200)}`;
+  for (const { tag, re } of CONTEXT_RULES) {
+    if (re.test(alvo)) return tag;
+  }
+  return null;
+}
+
 export function detectFormat(subject: string, html: string): string {
   if (/youtube\.com|youtu\.be|v[ií]deo/i.test(html)) return 'video';
   if (/twitter\.com|x\.com\/\w+\/status|thread/i.test(subject + html)) return 'thread';

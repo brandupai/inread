@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import PostalMime from 'postal-mime';
 import { prisma } from '@/lib/db';
-import { cleanEmailHtml, detectFormat, estimateReadingTime, htmlToPlainText } from '@/lib/clean';
+import { cleanEmailHtml, detectContext, detectFormat, estimateReadingTime, htmlToPlainText } from '@/lib/clean';
 import { enforceQuota } from '@/lib/quota';
 
 export const dynamic = 'force-dynamic';
@@ -23,14 +23,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  let body: { to?: string; from?: string; fromName?: string; subject?: string; html?: string; text?: string; raw?: string };
+  let body: { to?: string; from?: string; fromName?: string; subject?: string; html?: string; text?: string; raw?: string; listUnsubscribe?: string };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: 'invalid json' }, { status: 400 });
   }
 
-  let { to, from, fromName, subject, html, text } = body;
+  let { to, from, fromName, subject, html, text, listUnsubscribe } = body;
 
   if (body.raw) {
     try {
@@ -41,6 +41,10 @@ export async function POST(req: NextRequest) {
       fromName = fromName ?? parsed.from?.name ?? undefined;
       from = from ?? parsed.from?.address ?? undefined;
       to = to ?? parsed.to?.[0]?.address ?? undefined;
+      listUnsubscribe =
+        listUnsubscribe ??
+        parsed.headers?.find((h: { key: string; value: string }) => h.key?.toLowerCase() === 'list-unsubscribe')?.value ??
+        undefined;
     } catch {
       return NextResponse.json({ error: 'invalid raw mime' }, { status: 400 });
     }
@@ -71,6 +75,8 @@ export async function POST(req: NextRequest) {
       contentHtml,
       contentText: plain,
       format: detectFormat(subject, html),
+      contextTag: detectContext(from, fromName ?? null, subject, plain),
+      listUnsubscribe: listUnsubscribe ?? null,
       readingTime: estimateReadingTime(plain),
     },
   });
