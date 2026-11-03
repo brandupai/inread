@@ -348,6 +348,96 @@ a:hover {
   }
 }
 
+/* ---- site escuro (homepage) ---- */
+
+.sd {
+  position: relative;
+  background: #0b1410;
+  color: #e8f2ea;
+  overflow-x: clip;
+}
+
+.sd::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1200px;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(166, 214, 174, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(166, 214, 174, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(1000px 700px at 50% 0%, #000 45%, transparent 100%);
+  mask-image: radial-gradient(1000px 700px at 50% 0%, #000 45%, transparent 100%);
+}
+
+.sd a {
+  color: inherit;
+}
+
+.sd-aurora {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sd-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: orbDrift 24s ease-in-out infinite alternate;
+}
+
+.sd-orb2 {
+  animation-duration: 30s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes orbDrift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(70px, 50px) scale(1.18);
+  }
+}
+
+.sd-glass {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.floatY {
+  animation: floatY 5.5s ease-in-out infinite alternate;
+}
+
+@keyframes floatY {
+  from {
+    transform: translateY(-5px);
+  }
+  to {
+    transform: translateY(7px);
+  }
+}
+
+.sd .trace-path {
+  filter: drop-shadow(0 0 7px rgba(166, 214, 174, 0.7));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sd-orb,
+  .floatY {
+    animation: none;
+  }
+}
+
 /* ---- homepage v2: voz, sequência do hero, marquee, percurso ---- */
 
 .voz {
