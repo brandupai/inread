@@ -152,9 +152,8 @@ export default async function Caixa({
     : [];
 
   const porLer = await prisma.newsletter.count({ where: { userId: user.id, isRead: false } });
-  const totalNaCaixa = await prisma.newsletter.count({ where: { userId: user.id } });
 
-  const etiquetasExistentes: Array<{ contextTag: string | null }> = await prisma.newsletter.groupBy({
+  const etiquetasExistentes: Array<{ contextTag: string | null; _count: { contextTag: number } }> = await prisma.newsletter.groupBy({
     by: ['contextTag'],
     where: { userId: user.id, contextTag: { not: null } },
     _count: { contextTag: true },
