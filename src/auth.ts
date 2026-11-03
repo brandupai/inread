@@ -15,7 +15,7 @@ function magicLinkHtml(url: string): string {
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:440px;background-color:#FFFFFF;border:1px solid #E2E4DF;border-radius:18px;">
             <tr>
               <td style="padding:36px 36px 28px;">
-                <img src="https://inread.app/email-logo.png" width="131" height="28" alt="inread" style="display:block;border:0;outline:none;" />
+                <img src="https://inread.app/email-logo.png?v=2" width="131" height="28" alt="inread" style="display:block;border:0;outline:none;" />
                 <h1 style="margin:22px 0 10px;font-size:21px;line-height:1.3;color:#1F221F;">O teu link de leitura está aqui</h1>
                 <p style="margin:0 0 24px;font-size:14.5px;line-height:1.6;color:#3C453F;">Clica no botão para entrares na tua caixa de leitura. O link é válido durante 24 horas e só funciona uma vez.</p>
                 <table role="presentation" cellpadding="0" cellspacing="0">

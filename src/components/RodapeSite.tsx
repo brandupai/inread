@@ -30,7 +30,7 @@ export default function RodapeSite() {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 36, justifyContent: 'space-between' }}>
         <div style={{ flex: '1 1 220px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="inread" style={{ height: 24, width: 'auto', alignSelf: 'flex-start' }} />
+          <img src="/logo.svg?v=2" alt="inread" style={{ height: 24, width: 'auto', alignSelf: 'flex-start' }} />
           <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: 'var(--quiet)', maxWidth: 260 }}>
             As tuas newsletters, fora da caixa de entrada. Privado por desenho — sem acesso ao teu email.
           </p>

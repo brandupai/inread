@@ -208,7 +208,7 @@ export default async function Caixa({
       <aside style={{ flex: '1 1 340px', minWidth: 0, padding: '24px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, padding: '0 4px' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-w.svg" alt="inread" style={{ height: 22, width: 'auto', flex: '0 0 auto' }} />
+          <img src="/logo-w.svg?v=2" alt="inread" style={{ height: 22, width: 'auto', flex: '0 0 auto' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
             <form action="/caixa" style={{ display: 'flex', minWidth: 0 }}>
               {f && <input type="hidden" name="f" value={f} />}

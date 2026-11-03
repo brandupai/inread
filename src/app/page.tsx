@@ -91,7 +91,7 @@ export default async function Home() {
         style={{ position: 'sticky', top: 14, zIndex: 30, width: 'calc(100% - 32px)', maxWidth: 1120, margin: '18px auto 0', padding: '12px 22px', background: 'rgba(240,248,242,0.92)', border: '1px solid rgba(255,255,255,0.6)', borderRadius: 999, backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', boxShadow: '0 18px 40px rgba(0,0,0,0.35)', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo.svg" alt="inread" style={{ height: 26, width: 'auto' }} />
+        <img src="/logo.svg?v=2" alt="inread" style={{ height: 26, width: 'auto' }} />
         <nav aria-label="Navegação" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 20, fontSize: 14, fontWeight: 500, color: 'var(--ink)' }}>
           <a href="#funcionalidades" style={{ color: 'var(--ink)' }}>Funcionalidades</a>
           <a href="#precos" style={{ color: 'var(--ink)' }}>Preços</a>

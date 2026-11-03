@@ -52,7 +52,7 @@ export default async function Bemvindo({ searchParams }: { searchParams: Promise
     <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
       <div className="glass luz" style={{ width: '100%', maxWidth: 460, borderRadius: 24, padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: 16, boxShadow: '0 30px 70px rgba(0,0,0,0.5)' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo.svg" alt="inread" style={{ height: 26, width: 'auto', alignSelf: 'flex-start' }} />
+        <img src="/logo.svg?v=2" alt="inread" style={{ height: 26, width: 'auto', alignSelf: 'flex-start' }} />
         <h1 style={{ margin: 0, fontSize: 26, lineHeight: 1.2 }}>Escolhe o teu endereço de newsletters</h1>
         <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: 'var(--ink-soft)' }}>
           É para aqui que vais redirecionar as tuas subscrições — as newsletters chegam ao inread, nunca à tua caixa de trabalho. Escolhe com calma: para já, não dá para mudar.

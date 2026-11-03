@@ -106,7 +106,7 @@ export default async function Admin() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap', padding: '0 4px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-w.svg" alt="inread" style={{ height: 22, width: 'auto' }} />
+          <img src="/logo-w.svg?v=2" alt="inread" style={{ height: 22, width: 'auto' }} />
           <h1 style={{ margin: 0, fontSize: 28 }}>Admin</h1>
         </div>
         <div style={{ display: 'flex', gap: 8, fontSize: 13, fontWeight: 600 }}>

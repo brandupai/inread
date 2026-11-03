@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   description:
     'Leitor minimalista de newsletters com alias privado @inread.app, leitura limpa e highlights exportáveis em Markdown.',
   icons: {
-    icon: '/icon.png',
-    apple: '/icon.png',
+    icon: '/icon.png?v=2',
+    apple: '/icon.png?v=2',
   },
 };
 
