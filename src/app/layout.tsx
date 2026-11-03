@@ -6,7 +6,10 @@ export const metadata: Metadata = {
   description:
     'Leitor minimalista de newsletters com alias privado @inread.app, leitura limpa e highlights exportáveis em Markdown.',
   icons: {
-    icon: '/icon.png?v=2',
+    icon: [
+      { url: '/favicon.svg?v=2', type: 'image/svg+xml' },
+      { url: '/icon.png?v=2', sizes: '512x512', type: 'image/png' },
+    ],
     apple: '/icon.png?v=2',
   },
 };
