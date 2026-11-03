@@ -8,14 +8,56 @@ generator client {
 }
 
 model User {
-  id          String       @id @default(uuid())
-  email       String       @unique
-  inboxHash   String       @unique // ex: "jorge_x9" -> jorge_x9@inread.app
-  plan        String       @default("free") // "free" | "pro"
-  createdAt   DateTime     @default(now())
-  newsletters Newsletter[]
+  id            String       @id @default(uuid())
+  name          String?
+  email         String       @unique
+  emailVerified DateTime?
+  image         String?
+  inboxHash     String?      @unique // ex: "jorge_x9" -> jorge_x9@inread.app (gerado no 1.º login)
+  plan          String       @default("free") // "free" | "pro"
+  createdAt     DateTime     @default(now())
+  newsletters   Newsletter[]
+  accounts      Account[]
+  sessions      Session[]
 
   @@map("users")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  sessionToken String   @id
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+  @@map("verification_tokens")
 }
 
 model Newsletter {

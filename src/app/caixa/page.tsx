@@ -1,16 +1,32 @@
+import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/db';
+import { auth, signOut, authEnabled } from '@/auth';
+import { ensureInboxHash } from '@/lib/alias';
 
 export const dynamic = 'force-dynamic';
 
 /**
- * Caixa de leitura (MVP): lista à esquerda, leitor à direita.
- * Nota: sem autenticação ainda — usa o primeiro utilizador (seed).
- * Auth.js (magic link + Google + Apple) entra a seguir no roadmap.
+ * Caixa de leitura: lista à esquerda, leitor à direita.
+ * Com autenticação configurada, cada utilizador vê apenas a sua caixa;
+ * sem providers configurados corre em modo de desenvolvimento (1.º utilizador).
  */
 export default async function Caixa({ searchParams }: { searchParams: Promise<{ n?: string }> }) {
   const { n } = await searchParams;
 
-  const user = await prisma.user.findFirst({ orderBy: { createdAt: 'asc' } });
+  let user = null;
+  if (authEnabled) {
+    const session = await auth();
+    if (!session?.user?.id) redirect('/login');
+    user = await prisma.user.findUnique({ where: { id: session.user.id } });
+    if (!user) redirect('/login');
+    if (!user.inboxHash) {
+      await ensureInboxHash(user.id);
+      user = await prisma.user.findUnique({ where: { id: user.id } });
+    }
+  } else {
+    user = await prisma.user.findFirst({ orderBy: { createdAt: 'asc' } });
+  }
+
   if (!user) {
     return (
       <main style={{ padding: 48, maxWidth: 560, margin: '0 auto' }}>
@@ -21,6 +37,11 @@ export default async function Caixa({ searchParams }: { searchParams: Promise<{ 
         </p>
       </main>
     );
+  }
+
+  async function sair() {
+    'use server';
+    await signOut({ redirectTo: '/login' });
   }
 
   const newsletters = await prisma.newsletter.findMany({
@@ -39,13 +60,22 @@ export default async function Caixa({ searchParams }: { searchParams: Promise<{ 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: '100vh' }}>
       <aside style={{ flex: '1 1 320px', minWidth: 0, padding: '24px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, padding: '0 4px 8px' }}>
-          <span style={{ fontSize: 24, fontWeight: 700 }}>
-            inread<span style={{ color: 'var(--brand)' }}>.</span>
-          </span>
-          <span style={{ fontSize: 12, color: 'var(--quiet)' }}>
-            {user.inboxHash}@inread.app · {newsletters.length}/50
-          </span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8, padding: '0 4px 8px' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, minWidth: 0 }}>
+            <span style={{ fontSize: 24, fontWeight: 700 }}>
+              inread<span style={{ color: 'var(--brand)' }}>.</span>
+            </span>
+            <span style={{ fontSize: 12, color: 'var(--quiet)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {user.inboxHash}@inread.app · {newsletters.length}/50
+            </span>
+          </div>
+          {authEnabled && (
+            <form action={sair}>
+              <button type="submit" style={{ border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 12, fontWeight: 600, color: 'var(--quiet)', cursor: 'pointer', padding: 0 }}>
+                Sair
+              </button>
+            </form>
+          )}
         </div>
         {newsletters.map((item: { id: string; senderName: string | null; senderEmail: string; subject: string; readingTime: number | null; isRead: boolean; createdAt: Date }) => (
           <a

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import TurndownService from 'turndown';
 import { prisma } from '@/lib/db';
+import { auth, authEnabled } from '@/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,6 +18,13 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     include: { highlights: true },
   });
   if (!n) return NextResponse.json({ error: 'not found' }, { status: 404 });
+
+  if (authEnabled) {
+    const session = await auth();
+    if (!session?.user?.id || session.user.id !== n.userId) {
+      return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+    }
+  }
 
   const turndown = new TurndownService({ headingStyle: 'atx' });
   const bodyMd = turndown.turndown(n.contentHtml);
