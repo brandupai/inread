@@ -152,6 +152,202 @@ a:hover {
   border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
+/* ---- ícones liquid glass ---- */
+
+.gicon {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(52, 78, 65, 0.22);
+}
+
+.gi-blob {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  top: -16%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a6d6ae, #679281);
+  filter: blur(7px);
+  opacity: 0.65;
+}
+
+.gi-on {
+  background: linear-gradient(135deg, #679281, #2f5d4c);
+  opacity: 1;
+  filter: blur(6px);
+}
+
+.gi-glass {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.34);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: inherit;
+}
+
+.gicon svg {
+  position: relative;
+}
+
+/* ---- animações da homepage (os "gifs" em CSS) ---- */
+
+.cardIn {
+  animation: cardIn 6s ease-in-out infinite;
+}
+
+@keyframes cardIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+.vanish {
+  animation: vanish 5s ease-in-out infinite;
+}
+
+@keyframes vanish {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+}
+
+.sumIn {
+  animation: sumIn 7s ease-in-out infinite;
+}
+
+@keyframes sumIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  30% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.sweep {
+  background-image: linear-gradient(rgba(166, 214, 174, 0.8), rgba(166, 214, 174, 0.8));
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  animation: sweep 6s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+@keyframes sweep {
+  0% {
+    background-size: 0% 100%;
+  }
+  12% {
+    background-size: 0% 100%;
+  }
+  40% {
+    background-size: 100% 100%;
+  }
+  88% {
+    background-size: 100% 100%;
+  }
+  100% {
+    background-size: 0% 100%;
+  }
+}
+
+.chipIn {
+  animation: chipIn 6s ease-in-out infinite;
+}
+
+@keyframes chipIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  45% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  58% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.eqb {
+  animation: eq 0.8s ease-in-out infinite alternate;
+  transform-origin: center bottom;
+}
+
+@keyframes eq {
+  from {
+    transform: scaleY(0.35);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardIn,
+  .vanish,
+  .sumIn,
+  .sweep,
+  .chipIn,
+  .eqb {
+    animation: none;
+  }
+}
+
 mark {
   background: var(--highlight);
   border-radius: 3px;
