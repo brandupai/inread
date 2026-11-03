@@ -4,7 +4,6 @@ import Google from 'next-auth/providers/google';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { createTransport } from 'nodemailer';
 import { prisma } from '@/lib/db';
-import { ensureInboxHash } from '@/lib/alias';
 
 function magicLinkHtml(url: string): string {
   return `<!doctype html>
@@ -16,7 +15,7 @@ function magicLinkHtml(url: string): string {
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:440px;background-color:#FFFFFF;border:1px solid #E2E4DF;border-radius:18px;">
             <tr>
               <td style="padding:36px 36px 28px;">
-                <div style="font-size:26px;font-weight:700;letter-spacing:-0.5px;color:#1F221F;">inread<span style="color:#679281;">.</span></div>
+                <img src="https://inread.app/email-logo.png" width="131" height="28" alt="inread" style="display:block;border:0;outline:none;" />
                 <h1 style="margin:22px 0 10px;font-size:21px;line-height:1.3;color:#1F221F;">O teu link de leitura está aqui</h1>
                 <p style="margin:0 0 24px;font-size:14.5px;line-height:1.6;color:#3C453F;">Clica no botão para entrares na tua caixa de leitura. O link é válido durante 24 horas e só funciona uma vez.</p>
                 <table role="presentation" cellpadding="0" cellspacing="0">
@@ -94,15 +93,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: '/login',
     verifyRequest: '/login/verificar',
   },
-  events: {
-    async createUser({ user }) {
-      if (user.id) {
-        try {
-          await ensureInboxHash(user.id);
-        } catch (e) {
-          console.error('ensureInboxHash failed', e);
-        }
-      }
-    },
-  },
+  // Nota: o alias (inboxHash) deixa de ser gerado automaticamente —
+  // o utilizador escolhe-o no primeiro login, em /bemvindo.
 });

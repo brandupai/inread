@@ -2,7 +2,15 @@ import { prisma } from './db';
 
 const SUFFIX_CHARS = 'abcdefghjkmnpqrstuvwxyz23456789';
 
-function slugify(source: string): string {
+export const ALIAS_REGEX = /^[a-z0-9][a-z0-9_-]{1,18}[a-z0-9]$/;
+
+export const RESERVED_ALIASES = new Set([
+  'admin', 'administrator', 'login', 'no-reply', 'noreply', 'suporte', 'support',
+  'info', 'root', 'postmaster', 'abuse', 'contact', 'contacto', 'help', 'ajuda',
+  'mail', 'email', 'www', 'inread', 'app', 'api', 'equipa', 'team', 'ola', 'hello',
+]);
+
+export function slugify(source: string): string {
   return source
     .toLowerCase()
     .normalize('NFD')

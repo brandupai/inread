@@ -71,7 +71,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
           </form>
         )}
         <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, color: 'var(--faint)' }}>
-          Ao entrar crias a tua conta e o teu alias privado @inread.app. Grátis até 50 newsletters.
+          Ao entrar crias a tua conta e escolhes o teu endereço privado @inread.app. Grátis até 50 newsletters.
         </p>
       </div>
     </main>

@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/db';
 import { auth, signOut, authEnabled } from '@/auth';
-import { ensureInboxHash } from '@/lib/alias';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,10 +18,7 @@ export default async function Caixa({ searchParams }: { searchParams: Promise<{ 
     if (!session?.user?.id) redirect('/login');
     user = await prisma.user.findUnique({ where: { id: session.user.id } });
     if (!user) redirect('/login');
-    if (!user.inboxHash) {
-      await ensureInboxHash(user.id);
-      user = await prisma.user.findUnique({ where: { id: user.id } });
-    }
+    if (!user.inboxHash) redirect('/bemvindo');
   } else {
     user = await prisma.user.findFirst({ orderBy: { createdAt: 'asc' } });
   }
