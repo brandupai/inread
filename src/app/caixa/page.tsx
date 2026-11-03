@@ -153,11 +153,14 @@ export default async function Caixa({
 
   const porLer = await prisma.newsletter.count({ where: { userId: user.id, isRead: false } });
 
-  const etiquetasExistentes: Array<{ contextTag: string | null; _count: { contextTag: number } }> = await prisma.newsletter.groupBy({
+  const etiquetasBrutas = await prisma.newsletter.groupBy({
     by: ['contextTag'],
     where: { userId: user.id, contextTag: { not: null } },
     _count: { contextTag: true },
   });
+  const etiquetasExistentes: string[] = etiquetasBrutas
+    .map((e: { contextTag: string | null }) => e.contextTag)
+    .filter((x: string | null): x is string => Boolean(x));
 
   const selecionadaId = soHighlights ? (n ?? null) : (n ?? todas[0]?.id ?? null);
   const selected = selecionadaId
@@ -252,13 +255,11 @@ export default async function Caixa({
           ) : (
             <>
               <a href={linkEtiqueta(null)} className="glass" style={chipAtivo(!etiqueta)}>Tudo</a>
-              {etiquetasExistentes.map((e) =>
-                e.contextTag ? (
-                  <a key={e.contextTag} href={linkEtiqueta(e.contextTag)} className="glass" style={chipAtivo(etiqueta === e.contextTag)}>
-                    {e.contextTag}
-                  </a>
-                ) : null,
-              )}
+              {etiquetasExistentes.map((tag) => (
+                <a key={tag} href={linkEtiqueta(tag)} className="glass" style={chipAtivo(etiqueta === tag)}>
+                  {tag}
+                </a>
+              ))}
             </>
           )}
         </div>
