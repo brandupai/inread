@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import PostalMime from 'postal-mime';
 import { prisma } from '@/lib/db';
 import { cleanEmailHtml, detectFormat, estimateReadingTime, htmlToPlainText } from '@/lib/clean';
 import { enforceQuota } from '@/lib/quota';
@@ -7,12 +8,14 @@ export const dynamic = 'force-dynamic';
 
 /**
  * Ingestão de email. Os registos MX de inread.app apontam para o router
- * (Cloudflare Email Routing + Worker), que converte o email em JSON e faz
- * POST para este endpoint com o header x-inread-secret.
+ * (Cloudflare Email Routing + Worker), que faz POST para este endpoint
+ * com o header x-inread-secret.
  *
- * Payload esperado:
- * { "to": "jorge_x9@inread.app", "from": "autor@newsletter.com",
- *   "fromName": "Semana Tech", "subject": "...", "html": "...", "text": "..." }
+ * Dois formatos aceites:
+ * 1. Email em bruto (preferido — o Worker fica mínimo):
+ *    { "to": "jorge_x9@inread.app", "from": "autor@news.com", "raw": "<MIME completo>" }
+ *    O MIME é interpretado aqui (postal-mime): subject, html, text, nome do remetente.
+ * 2. Já interpretado: { to, from, fromName?, subject, html, text? }
  */
 export async function POST(req: NextRequest) {
   const secret = req.headers.get('x-inread-secret');
@@ -20,14 +23,29 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  let body: { to?: string; from?: string; fromName?: string; subject?: string; html?: string; text?: string };
+  let body: { to?: string; from?: string; fromName?: string; subject?: string; html?: string; text?: string; raw?: string };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: 'invalid json' }, { status: 400 });
   }
 
-  const { to, from, fromName, subject, html, text } = body;
+  let { to, from, fromName, subject, html, text } = body;
+
+  if (body.raw) {
+    try {
+      const parsed = await PostalMime.parse(body.raw);
+      subject = subject ?? parsed.subject ?? '(sem assunto)';
+      html = parsed.html ?? (parsed.text ? `<pre>${parsed.text}</pre>` : undefined);
+      text = parsed.text ?? undefined;
+      fromName = fromName ?? parsed.from?.name ?? undefined;
+      from = from ?? parsed.from?.address ?? undefined;
+      to = to ?? parsed.to?.[0]?.address ?? undefined;
+    } catch {
+      return NextResponse.json({ error: 'invalid raw mime' }, { status: 400 });
+    }
+  }
+
   if (!to || !from || !subject || !html) {
     return NextResponse.json({ error: 'missing fields (to, from, subject, html)' }, { status: 400 });
   }
