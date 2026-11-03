@@ -5,9 +5,9 @@ export const metadata = { title: 'Integrações — inread' };
 type Estado = 'ativo' | 'via-md' | 'brevemente';
 
 const PILL: Record<Estado, { t: string; bg: string; c: string }> = {
-  ativo: { t: 'Disponível', bg: 'rgba(166,214,174,0.55)', c: 'var(--brand-deep)' },
-  'via-md': { t: 'Via export .md', bg: 'rgba(166,214,174,0.3)', c: 'var(--brand-dark)' },
-  brevemente: { t: 'Brevemente', bg: 'rgba(0,0,0,0.06)', c: 'var(--quiet)' },
+  ativo: { t: 'Disponível', bg: 'var(--brand-light)', c: '#152A20' },
+  'via-md': { t: 'Via export .md', bg: 'rgba(166,214,174,0.22)', c: 'var(--brand-light)' },
+  brevemente: { t: 'Brevemente', bg: 'rgba(255,255,255,0.1)', c: 'var(--quiet)' },
 };
 
 const ENTRADA: Array<{ n: string; d: string; e: Estado }> = [
@@ -44,7 +44,7 @@ export default function Integracoes() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ width: '100%', maxWidth: 860, margin: '0 auto', padding: '40px 24px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-dark)' }}>‹ inread.app</a>
+        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-light)' }}>‹ inread.app</a>
         <h1 style={{ margin: '4px 0 0', fontSize: 'clamp(30px, 5vw, 42px)' }}>Integrações</h1>
         <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.6, color: 'var(--ink-soft)' }}>
           O inread é um cidadão de primeira classe da web: o que entra é teu, o que sai é aberto. Sem formatos fechados.

@@ -45,7 +45,7 @@ export default function FAQ() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ width: '100%', maxWidth: 760, margin: '0 auto', padding: '40px 24px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-dark)' }}>‹ inread.app</a>
+        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-light)' }}>‹ inread.app</a>
         <h1 style={{ margin: '4px 0 6px', fontSize: 'clamp(30px, 5vw, 42px)' }}>Perguntas frequentes</h1>
         {FAQS.map((f) => (
           <details key={f.p} className="glass" style={{ borderRadius: 16, padding: '4px 18px' }}>

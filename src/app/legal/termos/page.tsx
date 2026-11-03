@@ -9,7 +9,7 @@ export default function Termos() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ width: '100%', maxWidth: 720, margin: '0 auto', padding: '40px 24px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-dark)' }}>‹ inread.app</a>
+        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-light)' }}>‹ inread.app</a>
         <h1 style={{ margin: '4px 0 0', fontSize: 'clamp(28px, 5vw, 38px)' }}>Termos de utilização</h1>
         <p style={{ ...p, color: 'var(--quiet)' }}>Última atualização: 3 de novembro de 2026</p>
 

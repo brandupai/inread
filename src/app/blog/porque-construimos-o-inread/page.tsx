@@ -2,13 +2,13 @@ import RodapeSite from '@/components/RodapeSite';
 
 export const metadata = { title: 'Porque construímos o inread — Blog' };
 
-const p = { margin: 0, fontSize: 16, lineHeight: 1.75, color: '#2A322C' as const };
+const p = { margin: 0, fontSize: 16, lineHeight: 1.75, color: 'var(--ink-soft)' as const };
 
 export default function Post() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ width: '100%', maxWidth: 680, margin: '0 auto', padding: '40px 24px 0', display: 'flex', flexDirection: 'column', gap: 18 }}>
-        <a href="/blog" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-dark)' }}>‹ Blog</a>
+        <a href="/blog" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-light)' }}>‹ Blog</a>
         <span style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--brand)' }}>3 de novembro de 2026</span>
         <h1 style={{ margin: 0, fontSize: 'clamp(30px, 5vw, 44px)', lineHeight: 1.15 }}>Porque construímos o inread</h1>
         <p style={p}>

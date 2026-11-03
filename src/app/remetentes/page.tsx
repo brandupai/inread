@@ -69,7 +69,7 @@ export default async function Remetentes() {
   return (
     <main style={{ minHeight: '100vh', padding: '24px 16px 64px', maxWidth: 640, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '0 4px 6px' }}>
-        <a href="/caixa" className="glass" title="Voltar à caixa" style={{ width: 38, height: 38, borderRadius: 999, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-dark)', fontSize: 18 }}>
+        <a href="/caixa" className="glass" title="Voltar à caixa" style={{ width: 38, height: 38, borderRadius: 999, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-light)', fontSize: 18 }}>
           ‹
         </a>
         <h1 style={{ margin: 0, fontSize: 26 }}>Remetentes</h1>
@@ -77,7 +77,7 @@ export default async function Remetentes() {
       </div>
 
       <div className="glass" style={{ borderRadius: 16, padding: '14px 16px', fontSize: 13, lineHeight: 1.55, color: 'var(--quiet)', border: '1px solid rgba(166,214,174,0.8)' }}>
-        Todas as publicações que escrevem para <strong style={{ color: 'var(--brand-dark)' }}>{user.inboxHash}@inread.app</strong>.
+        Todas as publicações que escrevem para <strong style={{ color: 'var(--brand-light)' }}>{user.inboxHash}@inread.app</strong>.
         Quando uma deixa de interessar, cancela a subscrição num clique — sem procurar o link escondido no rodapé.
       </div>
 
@@ -118,7 +118,7 @@ export default async function Remetentes() {
       {remetentes.length === 0 && (
         <div className="glass" style={{ borderRadius: 16, padding: '18px 16px', fontSize: 14, lineHeight: 1.6, color: 'var(--quiet)' }}>
           Ainda não recebeste newsletters. Subscreve com o endereço{' '}
-          <strong style={{ color: 'var(--brand-dark)' }}>{user.inboxHash}@inread.app</strong> e os remetentes aparecem aqui.
+          <strong style={{ color: 'var(--brand-light)' }}>{user.inboxHash}@inread.app</strong> e os remetentes aparecem aqui.
         </div>
       )}
     </main>

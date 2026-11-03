@@ -22,7 +22,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
 
   return (
     <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-      <div className="glass" style={{ width: '100%', maxWidth: 420, borderRadius: 24, padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: 18, boxShadow: '0 18px 50px rgba(52,78,65,0.14)' }}>
+      <div className="glass luz" style={{ width: '100%', maxWidth: 420, borderRadius: 24, padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: 18, boxShadow: '0 30px 70px rgba(0,0,0,0.5)' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo.svg" alt="inread" style={{ height: 30, width: 'auto', alignSelf: 'flex-start' }} />
         <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.55, color: 'var(--ink-soft)' }}>

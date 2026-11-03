@@ -15,7 +15,7 @@ export default function Blog() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <main style={{ width: '100%', maxWidth: 720, margin: '0 auto', padding: '40px 24px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-dark)' }}>‹ inread.app</a>
+        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-light)' }}>‹ inread.app</a>
         <h1 style={{ margin: '4px 0 0', fontSize: 'clamp(30px, 5vw, 42px)' }}>Blog</h1>
         <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.6, color: 'var(--ink-soft)' }}>
           Notas sobre leitura calma, privacidade e a construção do inread.
@@ -25,7 +25,7 @@ export default function Blog() {
             <span style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--brand)' }}>{p.data}</span>
             <h2 style={{ margin: 0, fontSize: 23, color: 'var(--ink)' }}>{p.titulo}</h2>
             <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: 'var(--ink-soft)' }}>{p.resumo}</p>
-            <span style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-dark)' }}>Ler o artigo</span>
+            <span style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-light)' }}>Ler o artigo</span>
           </a>
         ))}
       </main>

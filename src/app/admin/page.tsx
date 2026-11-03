@@ -98,22 +98,24 @@ export default async function Admin() {
   const freeUsers = totalUsers - proUsers;
   const mrr = (proUsers * 4.99).toFixed(2);
 
-  const td: CSSProperties = { padding: '9px 10px', fontSize: 13, borderBottom: '1px solid rgba(255,255,255,0.6)', whiteSpace: 'nowrap' };
+  const td: CSSProperties = { padding: '9px 10px', fontSize: 13, borderBottom: '1px solid rgba(255,255,255,0.12)', whiteSpace: 'nowrap' };
   const th: CSSProperties = { ...td, fontSize: 11.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--quiet)', textAlign: 'left' };
 
   return (
     <main style={{ minHeight: '100vh', padding: '24px 16px 64px', maxWidth: 1060, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap', padding: '0 4px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="inread" style={{ height: 24, width: 'auto' }} />
+          <span style={{ display: 'inline-flex', alignItems: 'center', background: 'rgba(239,243,238,0.94)', border: '1px solid rgba(255,255,255,0.6)', borderRadius: 999, padding: '6px 14px' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="inread" style={{ height: 20, width: 'auto' }} />
+          </span>
           <h1 style={{ margin: 0, fontSize: 28 }}>Admin</h1>
         </div>
         <div style={{ display: 'flex', gap: 8, fontSize: 13, fontWeight: 600 }}>
           <a href="#clientes" className="glass" style={{ borderRadius: 999, padding: '7px 14px' }}>Clientes</a>
           <a href="#analytics" className="glass" style={{ borderRadius: 999, padding: '7px 14px' }}>Analytics</a>
           <a href="#financeiro" className="glass" style={{ borderRadius: 999, padding: '7px 14px' }}>Financeiro</a>
-          <a href="/caixa" className="glass" style={{ borderRadius: 999, padding: '7px 14px', color: 'var(--brand-dark)' }}>← App</a>
+          <a href="/caixa" className="glass" style={{ borderRadius: 999, padding: '7px 14px', color: 'var(--brand-light)' }}>← App</a>
         </div>
       </div>
 

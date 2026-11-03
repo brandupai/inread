@@ -207,8 +207,10 @@ export default async function Caixa({
     <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: '100vh', paddingBottom: 110 }}>
       <aside style={{ flex: '1 1 340px', minWidth: 0, padding: '24px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, padding: '0 4px' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="inread" style={{ height: 22, width: 'auto', flex: '0 0 auto' }} />
+          <span style={{ flex: '0 0 auto', display: 'inline-flex', alignItems: 'center', background: 'rgba(239,243,238,0.94)', border: '1px solid rgba(255,255,255,0.6)', borderRadius: 999, padding: '6px 14px' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="inread" style={{ height: 20, width: 'auto' }} />
+          </span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
             <form action="/caixa" style={{ display: 'flex', minWidth: 0 }}>
               {f && <input type="hidden" name="f" value={f} />}
@@ -226,7 +228,7 @@ export default async function Caixa({
               href="/definicoes"
               title="Definições"
               className="glass"
-              style={{ flex: '0 0 auto', width: 36, height: 36, borderRadius: 999, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-dark)' }}
+              style={{ flex: '0 0 auto', width: 36, height: 36, borderRadius: 999, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-light)' }}
             >
               <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="3" />
@@ -328,7 +330,7 @@ export default async function Caixa({
                 ) : (
                   <>
                     A tua caixa está vazia. Subscreve newsletters com o endereço{' '}
-                    <strong style={{ color: 'var(--brand-dark)' }}>{user.inboxHash}@inread.app</strong> e elas aparecem aqui, limpas.
+                    <strong style={{ color: 'var(--brand-light)' }}>{user.inboxHash}@inread.app</strong> e elas aparecem aqui, limpas.
                   </>
                 )}
               </div>
@@ -339,7 +341,7 @@ export default async function Caixa({
 
       <main style={{ flex: '999 1 560px', minWidth: 0, padding: 24 }}>
         {selected ? (
-          <article className="glass" style={{ borderRadius: 24, padding: '36px clamp(24px, 6vw, 64px) 48px', maxWidth: 860, margin: '0 auto' }}>
+          <article className="glass luz" style={{ borderRadius: 24, padding: '36px clamp(24px, 6vw, 64px) 48px', maxWidth: 860, margin: '0 auto', boxShadow: '0 30px 70px rgba(0,0,0,0.45)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 18 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
                 <span style={{ flex: '0 0 auto', width: 34, height: 34, borderRadius: 10, background: grad(selected.senderEmail), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.95)' }}>

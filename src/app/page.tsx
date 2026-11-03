@@ -87,6 +87,7 @@ export default async function Home() {
 
       {/* navegação — pílula clara para o logo original */}
       <header
+        className="luz"
         style={{ position: 'sticky', top: 14, zIndex: 30, width: 'calc(100% - 32px)', maxWidth: 1120, margin: '18px auto 0', padding: '12px 22px', background: 'rgba(239,243,238,0.92)', border: '1px solid rgba(255,255,255,0.6)', borderRadius: 999, backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', boxShadow: '0 18px 40px rgba(0,0,0,0.35)', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -300,7 +301,7 @@ export default async function Home() {
 
       {/* painel claro: privacidade (inversão de contraste) */}
       <section className="reveal" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '82px 24px 0' }}>
-        <div style={{ borderRadius: 30, background: 'linear-gradient(150deg, #E4F0E5 0%, #CDEBD2 55%, #BFE3C6 100%)', color: 'var(--ink)', padding: 'clamp(36px, 6vw, 64px)', display: 'flex', flexDirection: 'column', gap: 22, boxShadow: '0 30px 80px rgba(0,0,0,0.45)' }}>
+        <div className="luz" style={{ borderRadius: 30, background: 'linear-gradient(150deg, #E4F0E5 0%, #CDEBD2 55%, #BFE3C6 100%)', padding: 'clamp(36px, 6vw, 64px)', display: 'flex', flexDirection: 'column', gap: 22, boxShadow: '0 30px 80px rgba(0,0,0,0.45)' }}>
           <h2 className="t-rise" style={{ margin: 0, fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 700, letterSpacing: '-0.015em', color: 'var(--brand-deep)' }}>
             Lê sem deixar <span className="voz" style={{ color: 'var(--brand)', fontWeight: 400 }}>rasto.</span>
           </h2>
@@ -381,7 +382,7 @@ export default async function Home() {
       </section>
 
       {/* rodapé claro */}
-      <div style={{ position: 'relative', zIndex: 1, background: 'linear-gradient(165deg, #E4F0E5 0%, #EFF3EE 60%, #E9F1EC 100%)', borderRadius: '34px 34px 0 0', marginTop: 10 }}>
+      <div style={{ position: 'relative', zIndex: 1, marginTop: 10 }}>
         <RodapeSite />
       </div>
 

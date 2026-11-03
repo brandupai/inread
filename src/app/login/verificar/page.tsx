@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 export default function Verificar() {
   return (
     <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-      <div className="glass" style={{ width: '100%', maxWidth: 420, borderRadius: 24, padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: 14, boxShadow: '0 18px 50px rgba(52,78,65,0.14)', textAlign: 'center' }}>
+      <div className="glass luz" style={{ width: '100%', maxWidth: 420, borderRadius: 24, padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: 14, boxShadow: '0 30px 70px rgba(0,0,0,0.5)', textAlign: 'center' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo.svg" alt="inread" style={{ height: 28, width: 'auto', margin: '0 auto 6px' }} />
         <h1 style={{ margin: 0, fontSize: 24 }}>Verifica o teu email</h1>

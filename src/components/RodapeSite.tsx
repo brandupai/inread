@@ -22,10 +22,11 @@ function Social({ nome, path }: { nome: string; path: string }) {
   );
 }
 
-/** Rodapé do site público (homepage, FAQ, contactos, legais). */
+/** Rodapé do site público — ilha clara sobre o fundo escuro. */
 export default function RodapeSite() {
   return (
-    <footer style={{ width: '100%', maxWidth: 1120, margin: '48px auto 0', padding: '32px 24px 28px', borderTop: '1px solid rgba(255,255,255,0.75)' }}>
+    <footer className="luz" style={{ width: '100%', margin: '48px auto 0', padding: '32px 24px 28px', background: 'linear-gradient(165deg, #E4F0E5 0%, #EFF3EE 60%, #E9F1EC 100%)', borderRadius: '34px 34px 0 0' }}>
+      <div style={{ maxWidth: 1120, margin: '0 auto' }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 36, justifyContent: 'space-between' }}>
         <div style={{ flex: '1 1 220px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -73,8 +74,9 @@ export default function RodapeSite() {
           <a href="/legal/termos" style={colLink}>Termos de utilização</a>
         </div>
       </div>
+      </div>
 
-      <div style={{ marginTop: 28, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.65)', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 10, fontSize: 12.5, color: 'var(--faint)' }}>
+      <div style={{ maxWidth: 1120, margin: '28px auto 0', paddingTop: 16, borderTop: '1px solid rgba(48,73,63,0.15)', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 10, fontSize: 12.5, color: 'var(--faint)' }}>
         <span>© 2026 inread.app — feito na Europa 🇵🇹</span>
         <a href="/login" style={{ color: 'var(--faint)' }}>Entrar</a>
       </div>
