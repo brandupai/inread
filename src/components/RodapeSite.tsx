@@ -44,8 +44,21 @@ export default function RodapeSite() {
           <div style={colTitulo}>Produto</div>
           <a href="/login" style={colLink}>Ler na web</a>
           <a href="/#funcionalidades" style={colLink}>Funcionalidades</a>
+          <a href="/integracoes" style={colLink}>Integrações</a>
           <a href="/#precos" style={colLink}>Preços</a>
-          <span style={{ ...colLink, opacity: 0.55 }} title="Brevemente">Apps iPhone · Android · Mac · Windows</span>
+        </div>
+
+        <div style={{ flex: '0 1 auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={colTitulo}>Recursos</div>
+          <a href="/blog" style={colLink}>Blog</a>
+          <a href="/changelog" style={colLink}>Changelog</a>
+          <a href="/ajuda" style={colLink}>Ajuda</a>
+        </div>
+
+        <div style={{ flex: '0 1 auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={colTitulo}>Criadores</div>
+          <a href="/parceiros" style={colLink}>Programa de parceiros</a>
+          <a href="/parceiros" style={colLink}>Submeter newsletter</a>
         </div>
 
         <div style={{ flex: '0 1 auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
