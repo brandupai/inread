@@ -1,11 +1,11 @@
 /** Miniaturas determinísticas por remetente (gradiente a partir do email). */
 const GRADS = [
-  ['#A6D6AE', '#679281'],
-  ['#BFE3C6', '#4F7D69'],
-  ['#CDE8D8', '#86A98F'],
-  ['#9FC6B4', '#30493F'],
-  ['#D4EBD2', '#6FA183'],
-  ['#B2D8C4', '#54836E'],
+  ['#4ACC5F', '#2FA44B'],
+  ['#A7EDB6', '#1E7A30'],
+  ['#C9F2D4', '#56B96B'],
+  ['#8FE3A0', '#146A2E'],
+  ['#D2F5DA', '#2FA44B'],
+  ['#A0E8B0', '#166A2E'],
 ];
 
 export function grad(seed: string) {

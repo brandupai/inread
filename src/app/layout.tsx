@@ -21,9 +21,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <div className="bg-blobs" aria-hidden="true">
-          <div className="blob blobA" style={{ width: 640, height: 640, left: '50%', marginLeft: -320, top: '-16%', background: 'radial-gradient(circle at 50% 45%, rgba(103,146,129,0.5) 0%, rgba(47,93,76,0.3) 45%, rgba(11,20,16,0) 72%)' }} />
-          <div className="blob blobB" style={{ width: 520, height: 520, right: '-14%', top: '24%', background: 'radial-gradient(circle at 50% 50%, rgba(166,214,174,0.22) 0%, rgba(11,20,16,0) 70%)' }} />
-          <div className="blob blobC" style={{ width: 560, height: 560, left: '-16%', bottom: '-18%', background: 'radial-gradient(circle at 50% 40%, rgba(63,110,91,0.35) 0%, rgba(11,20,16,0) 70%)' }} />
+          <div className="blob blobA" style={{ width: 640, height: 640, left: '50%', marginLeft: -320, top: '-16%', background: 'radial-gradient(circle at 50% 45%, rgba(47,164,75,0.5) 0%, rgba(24,100,40,0.3) 45%, rgba(11,20,15,0) 72%)' }} />
+          <div className="blob blobB" style={{ width: 520, height: 520, right: '-14%', top: '24%', background: 'radial-gradient(circle at 50% 50%, rgba(74,204,95,0.22) 0%, rgba(11,20,15,0) 70%)' }} />
+          <div className="blob blobC" style={{ width: 560, height: 560, left: '-16%', bottom: '-18%', background: 'radial-gradient(circle at 50% 40%, rgba(30,122,48,0.35) 0%, rgba(11,20,15,0) 70%)' }} />
         </div>
         <div className="app-content">{children}</div>
       </body>

@@ -207,10 +207,8 @@ export default async function Caixa({
     <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: '100vh', paddingBottom: 110 }}>
       <aside style={{ flex: '1 1 340px', minWidth: 0, padding: '24px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, padding: '0 4px' }}>
-          <span style={{ flex: '0 0 auto', display: 'inline-flex', alignItems: 'center', background: 'rgba(239,243,238,0.94)', border: '1px solid rgba(255,255,255,0.6)', borderRadius: 999, padding: '6px 14px' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="inread" style={{ height: 20, width: 'auto' }} />
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-w.svg" alt="inread" style={{ height: 22, width: 'auto', flex: '0 0 auto' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
             <form action="/caixa" style={{ display: 'flex', minWidth: 0 }}>
               {f && <input type="hidden" name="f" value={f} />}
@@ -302,7 +300,7 @@ export default async function Caixa({
                     border: item.id === selected?.id ? '1.5px solid var(--brand)' : undefined,
                   }}
                 >
-                  <span style={{ flex: '0 0 auto', width: 44, height: 44, borderRadius: 13, background: grad(item.senderEmail), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.95)', boxShadow: '0 6px 14px rgba(52,78,65,0.18)' }}>
+                  <span style={{ flex: '0 0 auto', width: 44, height: 44, borderRadius: 13, background: grad(item.senderEmail), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.95)', boxShadow: '0 6px 14px rgba(12,64,28,0.18)' }}>
                     {iniciais(nome)}
                   </span>
                   <span style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0, flex: '1 1 auto' }}>
@@ -359,7 +357,7 @@ export default async function Caixa({
                   <button
                     type="submit"
                     title={selected.isStarred ? 'Remover dos favoritos' : 'Guardar nos favoritos'}
-                    style={{ height: 36, border: '1px solid rgba(48,73,63,0.3)', borderRadius: 999, background: selected.isStarred ? 'var(--highlight)' : 'rgba(255,255,255,0.75)', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, color: 'var(--brand-dark)', cursor: 'pointer', padding: '0 14px' }}
+                    style={{ height: 36, border: '1px solid rgba(18,86,36,0.3)', borderRadius: 999, background: selected.isStarred ? 'var(--highlight)' : 'rgba(255,255,255,0.75)', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, color: 'var(--brand-dark)', cursor: 'pointer', padding: '0 14px' }}
                   >
                     {selected.isStarred ? '★ Guardada' : '☆ Guardar'}
                   </button>
@@ -377,12 +375,12 @@ export default async function Caixa({
             <Sublinhador newsletterId={selected.id} />
 
             {selected.highlights.length > 0 && (
-              <div style={{ marginTop: 32, borderTop: '1px solid rgba(48,73,63,0.15)', paddingTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ marginTop: 32, borderTop: '1px solid rgba(18,86,36,0.15)', paddingTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--brand-dark)' }}>
                   ✦ Os teus highlights ({selected.highlights.length})
                 </div>
                 {selected.highlights.map((h: { id: string; text: string }) => (
-                  <div key={h.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(166,214,174,0.7)', borderRadius: 12, padding: '10px 14px' }}>
+                  <div key={h.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(74,204,95,0.7)', borderRadius: 12, padding: '10px 14px' }}>
                     <span style={{ flex: '1 1 auto', fontSize: 14, lineHeight: 1.6, color: '#262A26' }}>
                       <mark>{h.text}</mark>
                     </span>
@@ -415,16 +413,16 @@ export default async function Caixa({
       <nav
         aria-label="Navegação principal"
         className="glass"
-        style={{ position: 'fixed', left: '50%', bottom: 18, transform: 'translateX(-50%)', zIndex: 20, display: 'flex', gap: 10, padding: 10, borderRadius: 26, boxShadow: '0 18px 44px rgba(52,78,65,0.22)' }}
+        style={{ position: 'fixed', left: '50%', bottom: 18, transform: 'translateX(-50%)', zIndex: 20, display: 'flex', gap: 10, padding: 10, borderRadius: 26, boxShadow: '0 18px 44px rgba(12,64,28,0.22)' }}
       >
         <a href="/caixa" className="gicon" title="Caixa" aria-current={!emGuardados ? 'page' : undefined} style={{ width: 52, height: 52, borderRadius: 17, color: !emGuardados ? '#fff' : 'var(--brand-dark)' }}>
           <span className={!emGuardados ? 'gi-blob gi-on' : 'gi-blob'} />
-          <span className="gi-glass" style={{ background: !emGuardados ? 'rgba(48,73,63,0.28)' : undefined }} />
+          <span className="gi-glass" style={{ background: !emGuardados ? 'rgba(18,86,36,0.28)' : undefined }} />
           <DockIcon d={ICONS.caixa} />
         </a>
         <a href="/caixa?f=fav" className="gicon" title="Guardados" aria-current={emGuardados ? 'page' : undefined} style={{ width: 52, height: 52, borderRadius: 17, color: emGuardados ? '#fff' : 'var(--brand-dark)' }}>
           <span className={emGuardados ? 'gi-blob gi-on' : 'gi-blob'} />
-          <span className="gi-glass" style={{ background: emGuardados ? 'rgba(48,73,63,0.28)' : undefined }} />
+          <span className="gi-glass" style={{ background: emGuardados ? 'rgba(18,86,36,0.28)' : undefined }} />
           <DockIcon d={ICONS.guardados} />
         </a>
         <span className="gicon" title="Áudio — brevemente" style={{ width: 52, height: 52, borderRadius: 17, color: 'var(--brand-dark)', opacity: 0.45 }}>

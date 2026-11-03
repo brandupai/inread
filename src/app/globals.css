@@ -37,12 +37,12 @@
   --faint: rgba(232, 242, 234, 0.45);
   --surface: #ffffff;
   --line: rgba(255, 255, 255, 0.14);
-  --brand: #679281;
-  --brand-light: #a6d6ae;
+  --brand: #2FA44B;
+  --brand-light: #4acc5f;
   --brand-dark: #30493f;
-  --brand-deep: #1f3329;
-  --highlight: #bfe3c6;
-  --dark: #0b1410;
+  --brand-deep: #0b2b14;
+  --highlight: #a7edb6;
+  --dark: #0b140f;
   --font-display: 'Stang', Inter, system-ui, sans-serif;
 }
 
@@ -72,7 +72,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: #0b1410;
+  background: #0b140f;
   min-height: 100vh;
   color: var(--ink);
   font-family: Inter, system-ui, -apple-system, sans-serif;
@@ -204,13 +204,13 @@ a:hover {
   left: 50%;
   transform: translateX(-50%);
   border-radius: 50%;
-  background: linear-gradient(135deg, #a6d6ae, #679281);
+  background: linear-gradient(135deg, #4acc5f, #2FA44B);
   filter: blur(7px);
   opacity: 0.65;
 }
 
 .gi-on {
-  background: linear-gradient(135deg, #679281, #2f5d4c);
+  background: linear-gradient(135deg, #2FA44B, #1E7A30);
   opacity: 1;
   filter: blur(6px);
 }
@@ -306,7 +306,7 @@ a:hover {
 }
 
 .sweep {
-  background-image: linear-gradient(rgba(166, 214, 174, 0.8), rgba(166, 214, 174, 0.8));
+  background-image: linear-gradient(rgba(74, 204, 95, 0.8), rgba(74, 204, 95, 0.8));
   background-repeat: no-repeat;
   background-size: 0% 100%;
   animation: sweep 6s ease-in-out infinite;
@@ -385,7 +385,7 @@ a:hover {
 
 .sd {
   position: relative;
-  background: #0b1410;
+  background: #0b140f;
   color: #e8f2ea;
   overflow-x: clip;
 }
@@ -398,8 +398,8 @@ a:hover {
   left: 0;
   height: 1200px;
   pointer-events: none;
-  background-image: linear-gradient(rgba(166, 214, 174, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(166, 214, 174, 0.05) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(74, 204, 95, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74, 204, 95, 0.05) 1px, transparent 1px);
   background-size: 56px 56px;
   -webkit-mask-image: radial-gradient(1000px 700px at 50% 0%, #000 45%, transparent 100%);
   mask-image: radial-gradient(1000px 700px at 50% 0%, #000 45%, transparent 100%);
@@ -461,7 +461,7 @@ a:hover {
 }
 
 .sd .trace-path {
-  filter: drop-shadow(0 0 7px rgba(166, 214, 174, 0.7));
+  filter: drop-shadow(0 0 7px rgba(74, 204, 95, 0.7));
 }
 
 .t-rise {

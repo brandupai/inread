@@ -27,7 +27,7 @@ function Barras({ titulo, dados }: { titulo: string; dados: Array<{ label: strin
       <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 90 }}>
         {dados.map((d) => (
           <div key={d.label} title={`${d.label}: ${d.n}`} style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, minWidth: 0 }}>
-            <div style={{ width: '100%', borderRadius: 6, background: 'linear-gradient(180deg,#A6D6AE,#679281)', height: `${Math.max(4, (d.n / max) * 78)}px`, opacity: d.n === 0 ? 0.25 : 1 }} />
+            <div style={{ width: '100%', borderRadius: 6, background: 'linear-gradient(180deg,#4ACC5F,#2FA44B)', height: `${Math.max(4, (d.n / max) * 78)}px`, opacity: d.n === 0 ? 0.25 : 1 }} />
           </div>
         ))}
       </div>
@@ -105,10 +105,8 @@ export default async function Admin() {
     <main style={{ minHeight: '100vh', padding: '24px 16px 64px', maxWidth: 1060, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap', padding: '0 4px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', background: 'rgba(239,243,238,0.94)', border: '1px solid rgba(255,255,255,0.6)', borderRadius: 999, padding: '6px 14px' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="inread" style={{ height: 20, width: 'auto' }} />
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-w.svg" alt="inread" style={{ height: 22, width: 'auto' }} />
           <h1 style={{ margin: 0, fontSize: 28 }}>Admin</h1>
         </div>
         <div style={{ display: 'flex', gap: 8, fontSize: 13, fontWeight: 600 }}>
@@ -164,7 +162,7 @@ export default async function Admin() {
                 <td style={td}>{c.email}</td>
                 <td style={td}>{c.inboxHash ? `${c.inboxHash}@inread.app` : <span style={{ color: 'var(--faint)' }}>— por escolher</span>}</td>
                 <td style={td}>
-                  <span style={{ fontSize: 11.5, fontWeight: 700, borderRadius: 999, padding: '3px 10px', background: c.plan === 'pro' ? 'var(--brand-dark)' : 'rgba(166,214,174,0.5)', color: c.plan === 'pro' ? '#fff' : 'var(--brand-dark)' }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 700, borderRadius: 999, padding: '3px 10px', background: c.plan === 'pro' ? 'var(--brand-dark)' : 'rgba(74,204,95,0.5)', color: c.plan === 'pro' ? '#fff' : 'var(--brand-dark)' }}>
                     {c.plan.toUpperCase()}
                   </span>
                 </td>

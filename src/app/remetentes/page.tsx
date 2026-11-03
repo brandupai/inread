@@ -76,14 +76,14 @@ export default async function Remetentes() {
         <span style={{ fontSize: 12.5, color: 'var(--quiet)' }}>{remetentes.length}</span>
       </div>
 
-      <div className="glass" style={{ borderRadius: 16, padding: '14px 16px', fontSize: 13, lineHeight: 1.55, color: 'var(--quiet)', border: '1px solid rgba(166,214,174,0.8)' }}>
+      <div className="glass" style={{ borderRadius: 16, padding: '14px 16px', fontSize: 13, lineHeight: 1.55, color: 'var(--quiet)', border: '1px solid rgba(74,204,95,0.8)' }}>
         Todas as publicações que escrevem para <strong style={{ color: 'var(--brand-light)' }}>{user.inboxHash}@inread.app</strong>.
         Quando uma deixa de interessar, cancela a subscrição num clique — sem procurar o link escondido no rodapé.
       </div>
 
       {remetentes.map((r) => (
         <div key={r.email} className="glass" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '13px 16px', borderRadius: 16 }}>
-          <span style={{ flex: '0 0 auto', width: 44, height: 44, borderRadius: 13, background: grad(r.email), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.95)', boxShadow: '0 6px 14px rgba(52,78,65,0.18)' }}>
+          <span style={{ flex: '0 0 auto', width: 44, height: 44, borderRadius: 13, background: grad(r.email), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.95)', boxShadow: '0 6px 14px rgba(12,64,28,0.18)' }}>
             {iniciais(r.nome)}
           </span>
           <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: '1 1 auto' }}>
@@ -96,7 +96,7 @@ export default async function Remetentes() {
           <span style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: '0 0 auto', alignItems: 'flex-end' }}>
             <a
               href={`/caixa?q=${encodeURIComponent(r.email)}`}
-              style={{ fontSize: 12, fontWeight: 600, color: 'var(--brand-dark)', border: '1px solid rgba(48,73,63,0.3)', borderRadius: 999, padding: '6px 12px', background: 'rgba(255,255,255,0.7)' }}
+              style={{ fontSize: 12, fontWeight: 600, color: 'var(--brand-dark)', border: '1px solid rgba(18,86,36,0.3)', borderRadius: 999, padding: '6px 12px', background: 'rgba(255,255,255,0.7)' }}
             >
               Ver edições
             </a>

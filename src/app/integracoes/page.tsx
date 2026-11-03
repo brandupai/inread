@@ -5,8 +5,8 @@ export const metadata = { title: 'Integrações — inread' };
 type Estado = 'ativo' | 'via-md' | 'brevemente';
 
 const PILL: Record<Estado, { t: string; bg: string; c: string }> = {
-  ativo: { t: 'Disponível', bg: 'var(--brand-light)', c: '#152A20' },
-  'via-md': { t: 'Via export .md', bg: 'rgba(166,214,174,0.22)', c: 'var(--brand-light)' },
+  ativo: { t: 'Disponível', bg: 'var(--brand-light)', c: '#102B18' },
+  'via-md': { t: 'Via export .md', bg: 'rgba(74,204,95,0.22)', c: 'var(--brand-light)' },
   brevemente: { t: 'Brevemente', bg: 'rgba(255,255,255,0.1)', c: 'var(--quiet)' },
 };
 

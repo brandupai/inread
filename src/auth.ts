@@ -20,7 +20,7 @@ function magicLinkHtml(url: string): string {
                 <p style="margin:0 0 24px;font-size:14.5px;line-height:1.6;color:#3C453F;">Clica no botão para entrares na tua caixa de leitura. O link é válido durante 24 horas e só funciona uma vez.</p>
                 <table role="presentation" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td style="background-color:#30493F;border-radius:999px;">
+                    <td style="background-color:#146A2E;border-radius:999px;">
                       <a href="${url}" style="display:inline-block;padding:13px 28px;font-size:15px;font-weight:600;color:#FFFFFF;text-decoration:none;">Entrar na minha caixa</a>
                     </td>
                   </tr>
