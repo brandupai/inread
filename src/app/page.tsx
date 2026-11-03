@@ -27,13 +27,14 @@ const ctaAcid: CSSProperties = {
   boxShadow: '0 0 0 1px rgba(166,214,174,0.4), 0 18px 44px rgba(166,214,174,0.22)',
 };
 
-function MiniRow({ delay, color, sender, subject }: { delay?: string; color: string; sender: string; subject: string }) {
+function MiniRow({ delay, img, sender, subject }: { delay?: string; img: string; sender: string; subject: string }) {
   return (
     <div
       className="cardIn"
       style={{ animationDelay: delay, display: 'flex', gap: 10, alignItems: 'center', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '10px 12px' }}
     >
-      <div style={{ width: 30, height: 30, borderRadius: 999, background: color, flex: '0 0 auto' }} />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={img} alt="" style={{ width: 34, height: 34, borderRadius: 9, flex: '0 0 auto', objectFit: 'cover', boxShadow: '0 4px 12px rgba(0,0,0,0.4)' }} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0 }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: '#E8F2EA' }}>{sender}</span>
         <span style={{ fontSize: 11, ...quiet, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{subject}</span>
@@ -106,12 +107,10 @@ export default async function Home() {
         <div className="h-seq" style={{ fontSize: 13, fontWeight: 600, color: ACID, border: '1px solid rgba(166,214,174,0.4)', borderRadius: 999, padding: '7px 16px', background: 'rgba(166,214,174,0.07)' }}>
           O leitor de newsletters que não pede acesso ao teu email
         </div>
-        <h1 className="h-seq" style={{ animationDelay: '0.12s', margin: 0, fontSize: 'clamp(40px, 7.4vw, 78px)', lineHeight: 1.04, fontWeight: 700, letterSpacing: '-0.02em', maxWidth: 920, color: '#F4FAF5' }}>
-          A tua caixa de entrada
-          <br />
-          não foi feita para ler.
-          <br />
-          <span className="voz" style={{ color: ACID, fontWeight: 400 }}>O inread foi.</span>
+        <h1 style={{ margin: 0, fontSize: 'clamp(40px, 7.4vw, 78px)', lineHeight: 1.04, fontWeight: 700, letterSpacing: '-0.02em', maxWidth: 920, color: '#F4FAF5' }}>
+          <span className="h-seq" style={{ display: 'block', animationDelay: '0.1s' }}>A tua caixa de entrada</span>
+          <span className="h-seq" style={{ display: 'block', animationDelay: '0.24s' }}>não foi feita para ler.</span>
+          <span className="voz h-seq" style={{ display: 'block', animationDelay: '0.42s', color: ACID, fontWeight: 400 }}>O inread foi.</span>
         </h1>
         <p className="h-seq" style={{ animationDelay: '0.24s', margin: 0, fontSize: 18, lineHeight: 1.6, ...quiet, maxWidth: 520 }}>
           Um endereço privado para as tuas newsletters, leitura sem rastreio e highlights que levas contigo. Tudo num lugar calmo, longe do trabalho.
@@ -136,9 +135,9 @@ export default async function Home() {
               <span style={{ fontFamily: 'var(--font-display)', fontSize: 19, fontWeight: 700, color: '#F4FAF5' }}>Caixa</span>
               <span style={{ fontSize: 12, ...faint }}>3 por ler</span>
             </div>
-            <MiniRow color="linear-gradient(135deg,#A6D6AE,#679281)" sender="Semana Tech" subject="Nº 142 — O regresso da web calma" />
-            <MiniRow delay="0.5s" color="linear-gradient(135deg,#E8DFC8,#B9A878)" sender="Café com Design" subject="Tipografia que respira" />
-            <MiniRow delay="1s" color="linear-gradient(135deg,#C9D8E8,#7E99B5)" sender="Produto & Co" subject="Como definir preços em SaaS" />
+            <MiniRow img="/demo/nl-tech.png" sender="Semana Tech" subject="Nº 142 — O regresso da web calma" />
+            <MiniRow delay="0.5s" img="/demo/nl-design.png" sender="Café com Design" subject="Tipografia que respira" />
+            <MiniRow delay="1s" img="/demo/nl-produto.png" sender="Produto & Co" subject="Como definir preços em SaaS" />
           </div>
         </div>
 
@@ -153,7 +152,6 @@ export default async function Home() {
 
       {/* marquee */}
       <section aria-label="Plataformas compatíveis" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1120, margin: '30px auto 0', padding: '0 24px' }}>
-        <p style={{ margin: '0 0 10px', textAlign: 'center', fontSize: 13, ...faint }}>Funciona com tudo o que envia email</p>
         <div className="marquee">
           <div className="marquee-track">
             {[...PLATAFORMAS, ...PLATAFORMAS].map((p, i) => (
@@ -167,7 +165,7 @@ export default async function Home() {
 
       {/* percurso */}
       <section className="reveal" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '92px 24px 20px', textAlign: 'center' }}>
-        <h2 style={{ margin: 0, fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 700, letterSpacing: '-0.015em', color: '#F4FAF5' }}>
+        <h2 className="t-rise" style={{ margin: 0, fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 700, letterSpacing: '-0.015em', color: '#F4FAF5' }}>
           Subscreves. Limpamos. <span className="voz" style={{ color: ACID, fontWeight: 400 }}>Lês.</span>
         </h2>
         <div style={{ position: 'relative', marginTop: 46 }}>
@@ -193,8 +191,8 @@ export default async function Home() {
       </section>
 
       {/* bento */}
-      <section id="funcionalidades" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '82px 24px 10px', display: 'flex', flexDirection: 'column', gap: 30 }}>
-        <h2 style={{ margin: 0, fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 700, letterSpacing: '-0.015em', textAlign: 'center', color: '#F4FAF5' }}>
+      <section id="funcionalidades" className="reveal" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '82px 24px 10px', display: 'flex', flexDirection: 'column', gap: 30 }}>
+        <h2 className="t-rise" style={{ margin: 0, fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 700, letterSpacing: '-0.015em', textAlign: 'center', color: '#F4FAF5' }}>
           Tudo o que uma newsletter <span className="voz" style={{ color: ACID, fontWeight: 400 }}>merece.</span>
         </h2>
 
@@ -208,8 +206,8 @@ export default async function Home() {
             <div style={{ alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(166,214,174,0.1)', border: '1px solid rgba(166,214,174,0.45)', borderRadius: 999, padding: '7px 14px', fontSize: 14, fontWeight: 600, color: ACID }}>
               sofia@inread.app
             </div>
-            <MiniRow color="linear-gradient(135deg,#A6D6AE,#679281)" sender="Semana Tech" subject="Nº 142 — O regresso da web calma" />
-            <MiniRow delay="0.7s" color="linear-gradient(135deg,#E8DFC8,#B9A878)" sender="Café com Design" subject="Tipografia que respira" />
+            <MiniRow img="/demo/nl-tech.png" sender="Semana Tech" subject="Nº 142 — O regresso da web calma" />
+            <MiniRow delay="0.7s" img="/demo/nl-news.png" sender="Manhãs de Notícias" subject="O que importa esta terça-feira" />
           </div>
 
           {/* leitura limpa */}
@@ -288,7 +286,8 @@ export default async function Home() {
             </p>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '10px 14px' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
-                <span style={{ width: 30, height: 30, borderRadius: 9, background: 'linear-gradient(135deg,#C9D8E8,#7E99B5)', flex: '0 0 auto' }} />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/demo/nl-produto.png" alt="" style={{ width: 30, height: 30, borderRadius: 9, flex: '0 0 auto', objectFit: 'cover' }} />
                 <span style={{ fontSize: 13.5, fontWeight: 600, color: '#E8F2EA', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Produto & Co</span>
               </span>
               <span style={{ fontSize: 12, fontWeight: 600, color: '#E3A9A9', border: '1px solid rgba(217,130,130,0.5)', borderRadius: 999, padding: '6px 12px', flex: '0 0 auto' }}>
@@ -300,9 +299,9 @@ export default async function Home() {
       </section>
 
       {/* painel claro: privacidade (inversão de contraste) */}
-      <section style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '82px 24px 0' }}>
+      <section className="reveal" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '82px 24px 0' }}>
         <div style={{ borderRadius: 30, background: 'linear-gradient(150deg, #E4F0E5 0%, #CDEBD2 55%, #BFE3C6 100%)', color: 'var(--ink)', padding: 'clamp(36px, 6vw, 64px)', display: 'flex', flexDirection: 'column', gap: 22, boxShadow: '0 30px 80px rgba(0,0,0,0.45)' }}>
-          <h2 style={{ margin: 0, fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 700, letterSpacing: '-0.015em', color: 'var(--brand-deep)' }}>
+          <h2 className="t-rise" style={{ margin: 0, fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 700, letterSpacing: '-0.015em', color: 'var(--brand-deep)' }}>
             Lê sem deixar <span className="voz" style={{ color: 'var(--brand)', fontWeight: 400 }}>rasto.</span>
           </h2>
           <p style={{ margin: 0, fontSize: 16, lineHeight: 1.65, maxWidth: 560, color: 'var(--ink-soft)' }}>
@@ -324,8 +323,8 @@ export default async function Home() {
       </section>
 
       {/* preços */}
-      <section id="precos" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 920, margin: '0 auto', padding: '88px 24px 10px', display: 'flex', flexDirection: 'column', gap: 26 }}>
-        <h2 style={{ margin: 0, fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 700, letterSpacing: '-0.015em', textAlign: 'center', color: '#F4FAF5' }}>
+      <section id="precos" className="reveal" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 920, margin: '0 auto', padding: '88px 24px 10px', display: 'flex', flexDirection: 'column', gap: 26 }}>
+        <h2 className="t-rise" style={{ margin: 0, fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 700, letterSpacing: '-0.015em', textAlign: 'center', color: '#F4FAF5' }}>
           Começa grátis. <span className="voz" style={{ color: ACID, fontWeight: 400 }}>Fica se gostares.</span>
         </h2>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 18 }}>
@@ -345,12 +344,14 @@ export default async function Home() {
           <div style={{ flex: '1 1 300px', minWidth: 0, borderRadius: 26, padding: 30, display: 'flex', flexDirection: 'column', gap: 14, background: `linear-gradient(160deg, ${ACID}, #8FC9A0)`, color: INK_DARK, boxShadow: '0 0 60px rgba(166,214,174,0.3), 0 24px 56px rgba(0,0,0,0.4)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 15, fontWeight: 700 }}>Pro</span>
-              <span style={{ fontSize: 11.5, fontWeight: 700, color: ACID, background: INK_DARK, borderRadius: 999, padding: '4px 11px' }}>Em breve</span>
+              <span style={{ fontSize: 11.5, fontWeight: 700, color: ACID, background: INK_DARK, borderRadius: 999, padding: '4px 11px' }}>Preço de lançamento</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 20, fontWeight: 600, color: 'rgba(11,20,16,0.5)', textDecoration: 'line-through' }}>€7,99</span>
               <span style={{ fontFamily: 'var(--font-display)', fontSize: 46, fontWeight: 700, lineHeight: 1 }}>€4,99</span>
               <span style={{ fontSize: 14, color: 'rgba(11,20,16,0.65)' }}>/mês · ou €49,99/ano</span>
             </div>
+            <div style={{ fontSize: 12.5, fontWeight: 600, color: 'rgba(11,20,16,0.7)' }}>Garante este preço até ao final do ano — fica teu para sempre.</div>
             <ul style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 9, fontSize: 14, lineHeight: 1.5, color: 'rgba(11,20,16,0.85)' }}>
               <li>Armazenamento ilimitado</li>
               <li>Resumos com IA e áudio diário</li>
@@ -369,8 +370,8 @@ export default async function Home() {
       <section style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '84px 24px 72px', textAlign: 'center' }}>
         <div style={{ position: 'relative' }}>
           <div className="sd-orb" aria-hidden="true" style={{ width: 480, height: 480, top: -140, left: '50%', marginLeft: -240, position: 'absolute', background: 'radial-gradient(circle at 50% 50%, rgba(166,214,174,0.26) 0%, rgba(11,20,16,0) 70%)' }} />
-          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18 }}>
-            <h2 style={{ margin: 0, fontSize: 'clamp(34px, 5.4vw, 56px)', fontWeight: 700, letterSpacing: '-0.015em', maxWidth: 700, color: '#F4FAF5' }}>
+          <div className="reveal" style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18 }}>
+            <h2 className="t-rise" style={{ margin: 0, fontSize: 'clamp(34px, 5.4vw, 56px)', fontWeight: 700, letterSpacing: '-0.015em', maxWidth: 700, color: '#F4FAF5' }}>
               As tuas newsletters merecem <span className="voz" style={{ color: ACID, fontWeight: 400 }}>uma casa melhor.</span>
             </h2>
             <p style={{ margin: 0, fontSize: 15.5, ...quiet }}>Demora menos de um minuto: escolhes o endereço e começas a subscrever.</p>

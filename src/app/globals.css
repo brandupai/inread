@@ -431,10 +431,27 @@ a:hover {
   filter: drop-shadow(0 0 7px rgba(166, 214, 174, 0.7));
 }
 
+.t-rise {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.in .t-rise,
+.in.t-rise {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sd-orb,
   .floatY {
     animation: none;
+  }
+  .t-rise {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 

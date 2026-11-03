@@ -21,7 +21,7 @@ const FAQS: Array<{ p: string; r: string }> = [
   },
   {
     p: 'E o inread Pro?',
-    r: 'Por €4,99/mês ou €49,99/ano: armazenamento ilimitado, resumos com IA no topo de cada edição, um apanhado diário em áudio e exportações avançadas. Está a chegar — o plano Free já dá para usar o produto todo no dia a dia.',
+    r: 'Preço de lançamento: €4,99/mês ou €49,99/ano (em vez de €7,99/mês), garantido para quem aderir até ao final do ano. Inclui armazenamento ilimitado, resumos com IA no topo de cada edição, um apanhado diário em áudio e exportações avançadas. Está a chegar — o plano Free já dá para usar o produto todo no dia a dia.',
   },
   {
     p: 'Posso exportar os meus highlights para o Obsidian ou Notion?',
