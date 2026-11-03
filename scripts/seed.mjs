@@ -19,6 +19,12 @@ async function main() {
     },
   });
 
+  const existing = await prisma.newsletter.count({ where: { userId: user.id } });
+  if (existing > 0) {
+    console.log(`Seed: utilizador ${user.inboxHash}@inread.app já tem ${existing} newsletters — nada a fazer.`);
+    return;
+  }
+
   await prisma.newsletter.create({
     data: {
       userId: user.id,
