@@ -61,10 +61,9 @@ export default async function Caixa({ searchParams }: { searchParams: Promise<{ 
     <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: '100vh' }}>
       <aside style={{ flex: '1 1 320px', minWidth: 0, padding: '24px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8, padding: '0 4px 8px' }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, minWidth: 0 }}>
-            <span style={{ fontSize: 24, fontWeight: 700 }}>
-              inread<span style={{ color: 'var(--brand)' }}>.</span>
-            </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="inread" style={{ height: 22, width: 'auto' }} />
             <span style={{ fontSize: 12, color: 'var(--quiet)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {user.inboxHash}@inread.app · {newsletters.length}/50
             </span>

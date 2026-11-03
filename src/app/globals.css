@@ -1,15 +1,40 @@
+@font-face {
+  font-family: 'Stang';
+  src: url('/fonts/Stang-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Stang';
+  src: url('/fonts/Stang-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Stang';
+  src: url('/fonts/Stang-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --ink: #1f221f;
   --ink-soft: #3c453f;
   --quiet: #4a5a50;
   --faint: #878a81;
-  --ground: #f1f1ef;
   --surface: #ffffff;
   --line: #e2e4df;
   --brand: #679281;
   --brand-light: #a6d6ae;
   --brand-dark: #30493f;
+  --brand-deep: #1f3329;
   --highlight: #bfe3c6;
+  --font-display: 'Stang', Inter, system-ui, sans-serif;
 }
 
 * {
@@ -26,14 +51,99 @@ body {
   font-family: Inter, system-ui, -apple-system, sans-serif;
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
 a {
   color: var(--brand-dark);
   text-decoration: none;
 }
 
 a:hover {
-  color: #1f3329;
+  color: var(--brand-deep);
 }
+
+/* ---- fundo animado (liquid glass) ---- */
+
+.bg-blobs {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-content {
+  position: relative;
+  z-index: 1;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+}
+
+.blobA {
+  animation: driftA 16s ease-in-out infinite alternate;
+}
+
+.blobB {
+  animation: driftB 21s ease-in-out infinite alternate;
+}
+
+.blobC {
+  animation: driftC 26s ease-in-out infinite alternate;
+}
+
+.blobD {
+  animation: driftB 19s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes driftA {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(80px, -60px) scale(1.18);
+  }
+}
+
+@keyframes driftB {
+  from {
+    transform: translate(0, 0) scale(1.08);
+  }
+  to {
+    transform: translate(-70px, 50px) scale(0.9);
+  }
+}
+
+@keyframes driftC {
+  from {
+    transform: translate(0, 0) scale(0.95);
+  }
+  to {
+    transform: translate(50px, 70px) scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blobA,
+  .blobB,
+  .blobC,
+  .blobD {
+    animation: none;
+  }
+}
+
+/* ---- vidro ---- */
 
 .glass {
   background: rgba(255, 255, 255, 0.55);
@@ -47,6 +157,8 @@ mark {
   border-radius: 3px;
   padding: 1px 2px;
 }
+
+/* ---- artigo ---- */
 
 .artigo img {
   max-width: 100%;
