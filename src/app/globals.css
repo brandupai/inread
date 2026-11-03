@@ -1,0 +1,65 @@
+:root {
+  --ink: #1f221f;
+  --ink-soft: #3c453f;
+  --quiet: #4a5a50;
+  --faint: #878a81;
+  --ground: #f1f1ef;
+  --surface: #ffffff;
+  --line: #e2e4df;
+  --brand: #679281;
+  --brand-light: #a6d6ae;
+  --brand-dark: #30493f;
+  --highlight: #bfe3c6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(165deg, #e4f0e5 0%, #eff3ee 55%, #e9f1ec 100%);
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+}
+
+a {
+  color: var(--brand-dark);
+  text-decoration: none;
+}
+
+a:hover {
+  color: #1f3329;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(22px) saturate(1.5);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+mark {
+  background: var(--highlight);
+  border-radius: 3px;
+  padding: 1px 2px;
+}
+
+.artigo img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.artigo {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #262a26;
+}
+
+.artigo a {
+  text-decoration: underline;
+}

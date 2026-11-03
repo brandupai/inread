@@ -1,0 +1,63 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          String       @id @default(uuid())
+  email       String       @unique
+  inboxHash   String       @unique // ex: "jorge_x9" -> jorge_x9@inread.app
+  plan        String       @default("free") // "free" | "pro"
+  createdAt   DateTime     @default(now())
+  newsletters Newsletter[]
+
+  @@map("users")
+}
+
+model Newsletter {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  senderName  String?
+  senderEmail String
+  subject     String
+  contentHtml String   @db.LongText
+  contentText String?  @db.LongText
+  format      String   @default("newsletter") // "newsletter" | "video" | "thread" | "artigo" (etiqueta automática de formato)
+  readingTime Int? // em minutos
+
+  isRead      Boolean  @default(false)
+  isStarred   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  highlights  Highlight[]
+  tags        Tag[]
+
+  @@index([userId, createdAt])
+  @@map("newsletters")
+}
+
+model Highlight {
+  id           String     @id @default(uuid())
+  newsletterId String
+  newsletter   Newsletter @relation(fields: [newsletterId], references: [id], onDelete: Cascade)
+  text         String     @db.Text
+  note         String?    @db.Text
+  createdAt    DateTime   @default(now())
+
+  @@map("highlights")
+}
+
+model Tag {
+  id          String       @id @default(uuid())
+  name        String
+  kind        String       @default("context") // "context" (do utilizador) | "format" (automática)
+  newsletters Newsletter[]
+
+  @@map("tags")
+}
