@@ -43,19 +43,34 @@ export async function POST(req: NextRequest) {
         const sub = event.data.object as Stripe.Subscription;
         const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
         const ativo = sub.status === 'active' || sub.status === 'trialing' || sub.status === 'past_due';
-        await prisma.user.updateMany({
+        const porCliente = await prisma.user.updateMany({
           where: { stripeCustomerId: customerId },
           data: { plan: ativo ? 'pro' : 'free', stripeSubscriptionId: sub.id },
         });
+        // Fallback: se o checkout.session.completed se perdeu, liga pelo userId dos metadados.
+        const userId = sub.metadata?.userId;
+        if (porCliente.count === 0 && userId) {
+          await prisma.user.updateMany({
+            where: { id: userId },
+            data: { plan: ativo ? 'pro' : 'free', stripeCustomerId: customerId, stripeSubscriptionId: sub.id },
+          });
+        }
         break;
       }
       case 'customer.subscription.deleted': {
         const sub = event.data.object as Stripe.Subscription;
         const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
-        await prisma.user.updateMany({
+        const porCliente = await prisma.user.updateMany({
           where: { stripeCustomerId: customerId },
           data: { plan: 'free', stripeSubscriptionId: null },
         });
+        const userId = sub.metadata?.userId;
+        if (porCliente.count === 0 && userId) {
+          await prisma.user.updateMany({
+            where: { id: userId },
+            data: { plan: 'free', stripeSubscriptionId: null },
+          });
+        }
         break;
       }
       default:
