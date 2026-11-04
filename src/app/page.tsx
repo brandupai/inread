@@ -71,7 +71,7 @@ export default async function Home() {
   const entrou = Boolean(session?.user);
   const cta = entrou ? '/caixa' : '/login';
   const ctaLabel = entrou ? 'Abrir a minha caixa' : 'Criar o meu endereço grátis';
-  const proHref = entrou && billingEnabled ? '/api/stripe/checkout?p=mensal' : cta;
+  const proHref = entrou && billingEnabled ? '/pro' : cta;
   const proLabel = entrou && billingEnabled ? 'Ativar o Pro' : 'Começar grátis';
 
   return (
@@ -365,11 +365,6 @@ export default async function Home() {
             <a href={proHref} style={{ marginTop: 'auto', textAlign: 'center', background: INK_DARK, borderRadius: 999, padding: '13px 18px', fontSize: 15, fontWeight: 700, color: ACID }}>
               {proLabel}
             </a>
-            {entrou && billingEnabled && (
-              <a href="/api/stripe/checkout?p=anual" style={{ textAlign: 'center', fontSize: 12.5, fontWeight: 600, color: 'rgba(11,20,15,0.7)' }}>
-                Prefiro o anual — €49,99/ano →
-              </a>
-            )}
           </div>
         </div>
         <p style={{ margin: 0, textAlign: 'center', fontSize: 13, ...faint }}>IVA incluído. Cancela quando quiseres — exportas tudo antes de sair.</p>

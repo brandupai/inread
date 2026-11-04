@@ -95,16 +95,8 @@ export default async function Definicoes() {
             : `€4,99/mês ou €49,99/ano — armazenamento ilimitado, resumos IA e áudio. Estás no plano Free (${total}/50 na caixa).`
         }
         extra={ehPro ? (billingEnabled ? 'Gerir ›' : '') : billingEnabled ? 'Ativar ›' : 'Brevemente'}
-        href={billingEnabled ? (ehPro ? '/api/stripe/portal' : '/api/stripe/checkout?p=mensal') : undefined}
+        href={billingEnabled ? (ehPro ? '/api/stripe/portal' : '/pro') : undefined}
       />
-      {!ehPro && billingEnabled && (
-        <a
-          href="/api/stripe/checkout?p=anual"
-          style={{ margin: '-6px 4px 0', fontSize: 12.5, fontWeight: 600, color: 'var(--brand-light)' }}
-        >
-          Prefiro o plano anual — €49,99/ano (2 meses grátis) →
-        </a>
-      )}
 
       {/* Conta */}
       <div style={{ padding: '10px 4px 0', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--quiet)' }}>Conta</div>
