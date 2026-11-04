@@ -3,6 +3,7 @@ import { prisma } from '@/lib/db';
 import { auth, authEnabled } from '@/auth';
 import { grad, iniciais } from '@/lib/visual';
 import Sublinhador from './Sublinhador';
+import AutoRefresh from './AutoRefresh';
 
 export const dynamic = 'force-dynamic';
 
@@ -222,6 +223,7 @@ export default async function Caixa({
                 style={{ width: '100%', maxWidth: 170, height: 36, border: '1px solid rgba(255,255,255,0.85)', borderRadius: 999, padding: '0 14px', fontSize: 13, fontFamily: 'inherit', color: 'var(--ink)', outline: 'none' }}
               />
             </form>
+            <AutoRefresh />
             <a
               href="/definicoes"
               title="Definições"
