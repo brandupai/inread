@@ -19,3 +19,17 @@ export function iniciais(nome: string) {
   const partes = nome.trim().split(/\s+/).slice(0, 2);
   return partes.map((p) => p[0]?.toUpperCase() ?? '').join('');
 }
+
+/** "há 12 min", "há 2 h", "ontem", "3 nov". */
+export function tempoRelativo(d: Date): string {
+  const seg = Math.max(0, (Date.now() - d.getTime()) / 1000);
+  if (seg < 60) return 'agora mesmo';
+  const min = Math.floor(seg / 60);
+  if (min < 60) return `há ${min} min`;
+  const h = Math.floor(min / 60);
+  if (h < 24) return `há ${h} h`;
+  const dias = Math.floor(h / 24);
+  if (dias === 1) return 'ontem';
+  if (dias < 7) return `há ${dias} dias`;
+  return d.toLocaleDateString('pt-PT', { day: 'numeric', month: 'short' });
+}
