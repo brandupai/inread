@@ -4,6 +4,22 @@ export const metadata = { title: 'Changelog — inread' };
 
 const ENTRADAS: Array<{ data: string; titulo: string; itens: string[] }> = [
   {
+    data: '4 de novembro de 2026',
+    titulo: 'A caixa vira app: 3 colunas, Pro ativo e documentação',
+    itens: [
+      'Nova caixa em 3 colunas — navegação, lista e leitor lado a lado, com sidebar colapsável',
+      'Filtros de período (24 h / 7 dias / 30 dias / Sempre) e modo "Por ler"',
+      'Leitor em fundo claro com barra de ações: anterior/seguinte, expandir, tamanho da letra, guardar, lido e menu de opções',
+      'Seleciona texto e partilha na hora: Sublinhar, Copiar, WhatsApp, Email, X',
+      'Cancelar subscrição direto no leitor (usa o link oficial da newsletter)',
+      'Caixa atualiza-se sozinha e tem botão de atualizar',
+      'inread Pro ativo: checkout seguro, portal de cliente para faturas e cancelamento',
+      'Nova página /pro com escolha entre mensal e anual',
+      'Documentação completa em inread.app/docs',
+      'Entregabilidade do email de login melhorada (DMARC)',
+    ],
+  },
+  {
     data: '3 de novembro de 2026',
     titulo: 'Site novo, highlights e organização automática',
     itens: [
