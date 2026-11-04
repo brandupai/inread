@@ -77,7 +77,12 @@ if (process.env.EMAIL_SERVER && process.env.EMAIL_FROM) {
 }
 
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  providers.push(Google);
+  providers.push(
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    })
+  );
 }
 
 export const authEnabled = providers.length > 0;
