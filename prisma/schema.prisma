@@ -15,7 +15,7 @@ model User {
   image         String?
   inboxHash     String?      @unique // ex: "jorge_x9" -> jorge_x9@inread.app (gerado no 1.º login)
   plan          String       @default("free") // "free" | "pro"
-  stripeCustomerId     String? @unique
+  stripeCustomerId     String?
   stripeSubscriptionId String?
   createdAt     DateTime     @default(now())
   newsletters   Newsletter[]
