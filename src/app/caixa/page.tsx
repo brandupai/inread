@@ -503,7 +503,7 @@ export default async function Caixa({
               </div>
               <h1 style={{ fontSize: 30, lineHeight: 1.22, margin: '0 0 22px', color: '#141a16' }}>{selected.subject}</h1>
               <div id="artigo-corpo" className="artigo" dangerouslySetInnerHTML={{ __html: selected.contentHtml }} />
-              <Sublinhador newsletterId={selected.id} />
+              <Sublinhador newsletterId={selected.id} assunto={selected.subject} />
 
               {selected.highlights.length > 0 && (
                 <div style={{ marginTop: 32, borderTop: '1px solid rgba(18,86,36,0.15)', paddingTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>

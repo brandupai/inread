@@ -788,3 +788,12 @@ mark {
 .ddown-menu a.ddown-item { color: #E8F2EA; }
 .ddown-menu.claro a.ddown-item { color: #21302a; }
 .ddown-item.perigo { color: #e2574f !important; }
+
+/* ---- documentação ---- */
+.docs-prosa { font-size: 15px; line-height: 1.75; color: rgba(232, 242, 234, 0.82); }
+.docs-prosa h3 { margin: 26px 0 10px; font-size: 18px; color: #F4FAF5; }
+.docs-prosa p { margin: 0 0 14px; }
+.docs-prosa ul, .docs-prosa ol { margin: 0 0 14px; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+.docs-prosa a { color: #4ACC5F; font-weight: 600; }
+.docs-prosa code { background: rgba(255, 255, 255, 0.09); border-radius: 6px; padding: 2px 6px; font-size: 0.9em; }
+.docs-prosa strong { color: #F4FAF5; }

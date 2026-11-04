@@ -54,6 +54,7 @@ export default function RodapeSite() {
           <a href="/blog" style={colLink}>Blog</a>
           <a href="/changelog" style={colLink}>Changelog</a>
           <a href="/ajuda" style={colLink}>Ajuda</a>
+          <a href="/docs" style={colLink}>Documentação</a>
         </div>
 
         <div style={{ flex: '0 1 auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
