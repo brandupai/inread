@@ -3,9 +3,10 @@ import Nodemailer from 'next-auth/providers/nodemailer';
 import Google from 'next-auth/providers/google';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { createTransport } from 'nodemailer';
+import { randomInt } from 'crypto';
 import { prisma } from '@/lib/db';
 
-function magicLinkHtml(url: string): string {
+function magicLinkHtml(url: string, codigo: string): string {
   return `<!doctype html>
 <html lang="pt">
   <body style="margin:0;padding:0;background-color:#F1F1EF;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;">
@@ -16,8 +17,8 @@ function magicLinkHtml(url: string): string {
             <tr>
               <td style="padding:36px 36px 28px;">
                 <img src="https://inread.app/email-logo.png?v=2" width="131" height="28" alt="inread" style="display:block;border:0;outline:none;" />
-                <h1 style="margin:22px 0 10px;font-size:21px;line-height:1.3;color:#1F221F;">O teu link de leitura está aqui</h1>
-                <p style="margin:0 0 24px;font-size:14.5px;line-height:1.6;color:#3C453F;">Clica no botão para entrares na tua caixa de leitura. O link é válido durante 24 horas e só funciona uma vez.</p>
+                <h1 style="margin:22px 0 10px;font-size:21px;line-height:1.3;color:#1F221F;">O teu acesso está aqui</h1>
+                <p style="margin:0 0 24px;font-size:14.5px;line-height:1.6;color:#3C453F;">Clica no botão para entrares na tua caixa de leitura. Válido durante 15 minutos e só funciona uma vez.</p>
                 <table role="presentation" cellpadding="0" cellspacing="0">
                   <tr>
                     <td style="background-color:#146A2E;border-radius:999px;">
@@ -25,7 +26,14 @@ function magicLinkHtml(url: string): string {
                     </td>
                   </tr>
                 </table>
-                <p style="margin:24px 0 0;font-size:12.5px;line-height:1.6;color:#878A81;">Se o botão não funcionar, copia este link para o browser:<br><a href="${url}" style="color:#4A5A50;word-break:break-all;">${url}</a></p>
+                <p style="margin:26px 0 8px;font-size:13.5px;line-height:1.6;color:#3C453F;">Em alternativa, escreve este código na página de verificação:</p>
+                <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                  <tr>
+                    <td align="center" style="background-color:#F3F6F3;border:1px solid #E2E4DF;border-radius:12px;padding:14px;">
+                      <span style="font-family:'SF Mono',Menlo,Consolas,monospace;font-size:26px;font-weight:700;letter-spacing:0.35em;color:#146A2E;">${codigo}</span>
+                    </td>
+                  </tr>
+                </table>
               </td>
             </tr>
             <tr>
@@ -57,15 +65,16 @@ if (process.env.EMAIL_SERVER && process.env.EMAIL_FROM) {
     Nodemailer({
       server: process.env.EMAIL_SERVER,
       from: process.env.EMAIL_FROM,
-      maxAge: 24 * 60 * 60,
-      async sendVerificationRequest({ identifier, url, provider }) {
+      maxAge: 15 * 60,
+      generateVerificationToken: async () => String(randomInt(100000, 1000000)),
+      async sendVerificationRequest({ identifier, url, provider, token }) {
         const transport = createTransport(provider.server);
         const result = await transport.sendMail({
           to: identifier,
           from: provider.from,
-          subject: 'O teu link de leitura — inread',
-          text: `Entra na tua caixa de leitura do inread:\n\n${url}\n\nO link é válido durante 24 horas e só funciona uma vez.\nSe não pediste este email, ignora-o.`,
-          html: magicLinkHtml(url),
+          subject: `${token} é o teu código de acesso — inread`,
+          text: `Entra na tua caixa de leitura do inread:\n\n${url}\n\nOu escreve o código ${token} na página de verificação.\n\nVálido durante 15 minutos e só funciona uma vez.\nSe não pediste este email, ignora-o.`,
+          html: magicLinkHtml(url, token),
         });
         const failed = result.rejected.concat(result.pending).filter(Boolean);
         if (failed.length) {
@@ -81,6 +90,9 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      // O Google verifica os emails, por isso é seguro ligar ao utilizador
+      // já criado por magic link com o mesmo endereço.
+      allowDangerousEmailAccountLinking: true,
     })
   );
 }

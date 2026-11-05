@@ -12,7 +12,9 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
 
   async function magicLink(formData: FormData) {
     'use server';
-    await signIn('nodemailer', { email: String(formData.get('email') ?? ''), redirectTo: '/caixa' });
+    const email = String(formData.get('email') ?? '').trim().toLowerCase();
+    await signIn('nodemailer', { email, redirect: false });
+    redirect(`/login/verificar?e=${encodeURIComponent(email)}`);
   }
 
   async function google() {

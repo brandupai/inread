@@ -9,14 +9,18 @@ export default function AutoRefresh() {
   const [aRodar, setARodar] = useState(false);
 
   useEffect(() => {
-    const intervalo = setInterval(() => router.refresh(), 60_000);
-    const aoFocar = () => router.refresh();
-    window.addEventListener('focus', aoFocar);
-    document.addEventListener('visibilitychange', aoFocar);
+    // Só atualiza com o separador visível, e com calma — evita acumular
+    // pedidos no servidor (rate limit) com vários separadores abertos.
+    const seVisivel = () => {
+      if (document.visibilityState === 'visible') router.refresh();
+    };
+    const intervalo = setInterval(seVisivel, 180_000);
+    window.addEventListener('focus', seVisivel);
+    document.addEventListener('visibilitychange', seVisivel);
     return () => {
       clearInterval(intervalo);
-      window.removeEventListener('focus', aoFocar);
-      document.removeEventListener('visibilitychange', aoFocar);
+      window.removeEventListener('focus', seVisivel);
+      document.removeEventListener('visibilitychange', seVisivel);
     };
   }, [router]);
 

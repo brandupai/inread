@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/db';
 import { auth, authEnabled } from '@/auth';
 import { grad, iniciais, tempoRelativo } from '@/lib/visual';
@@ -104,13 +105,12 @@ export default async function Caixa({
   async function alternarFavorito(formData: FormData) {
     'use server';
     const id = String(formData.get('id') ?? '');
-    const voltar = String(formData.get('voltar') ?? '/caixa');
     const dono = await donoAtual();
     const alvo = await prisma.newsletter.findFirst({ where: { id, userId: dono } });
     if (alvo) {
       await prisma.newsletter.update({ where: { id: alvo.id }, data: { isStarred: !alvo.isStarred } });
     }
-    redirect(voltar);
+    revalidatePath('/caixa');
   }
 
   async function alternarLido(formData: FormData) {
@@ -136,13 +136,12 @@ export default async function Caixa({
   async function apagarHighlight(formData: FormData) {
     'use server';
     const id = String(formData.get('id') ?? '');
-    const voltar = String(formData.get('voltar') ?? '/caixa');
     const dono = await donoAtual();
     const h = await prisma.highlight.findFirst({ where: { id }, include: { newsletter: true } });
     if (h && h.newsletter.userId === dono) {
       await prisma.highlight.delete({ where: { id } });
     }
-    redirect(voltar);
+    revalidatePath('/caixa');
   }
 
   const filtroTexto = pesquisa
