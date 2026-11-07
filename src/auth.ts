@@ -21,7 +21,7 @@ function magicLinkHtml(url: string, codigo: string): string {
                 <p style="margin:0 0 24px;font-size:14.5px;line-height:1.6;color:#3C453F;">Clica no botão para entrares na tua caixa de leitura. Válido durante 15 minutos e só funciona uma vez.</p>
                 <table role="presentation" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td style="background-color:#146A2E;border-radius:999px;">
+                    <td style="background-color:#09572C;border-radius:999px;">
                       <a href="${url}" style="display:inline-block;padding:13px 28px;font-size:15px;font-weight:600;color:#FFFFFF;text-decoration:none;">Entrar na minha caixa</a>
                     </td>
                   </tr>
@@ -30,7 +30,7 @@ function magicLinkHtml(url: string, codigo: string): string {
                 <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
                   <tr>
                     <td align="center" style="background-color:#F3F6F3;border:1px solid #E2E4DF;border-radius:12px;padding:14px;">
-                      <span style="font-family:'SF Mono',Menlo,Consolas,monospace;font-size:26px;font-weight:700;letter-spacing:0.35em;color:#146A2E;">${codigo}</span>
+                      <span style="font-family:'SF Mono',Menlo,Consolas,monospace;font-size:26px;font-weight:700;letter-spacing:0.35em;color:#09572C;">${codigo}</span>
                     </td>
                   </tr>
                 </table>

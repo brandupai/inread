@@ -29,7 +29,7 @@ export default async function Verificar({ searchParams }: { searchParams: Promis
               placeholder="000000"
               aria-label="Código de 6 dígitos"
               style={{
-                width: '100%', height: 52, borderRadius: 14, border: '1px solid rgba(18,86,36,0.3)',
+                width: '100%', height: 52, borderRadius: 14, border: '1px solid rgba(9,87,44,0.3)',
                 background: 'rgba(255,255,255,0.85)', textAlign: 'center', fontFamily: 'ui-monospace, Menlo, monospace',
                 fontSize: 24, fontWeight: 700, letterSpacing: '0.4em', color: 'var(--brand-dark)', outline: 'none',
               }}

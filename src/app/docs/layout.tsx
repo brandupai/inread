@@ -13,7 +13,7 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
         </a>
         <span style={{ fontSize: 13, fontWeight: 700, color: 'rgba(232,242,234,0.55)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Documentação</span>
         <div style={{ flex: 1 }} />
-        <a href="/caixa" style={{ fontSize: 13, fontWeight: 700, color: '#0B140F', background: '#4ACC5F', borderRadius: 999, padding: '8px 16px' }}>Abrir a caixa</a>
+        <a href="/caixa" style={{ fontSize: 13, fontWeight: 700, color: '#0B140F', background: '#1BE03C', borderRadius: 999, padding: '8px 16px' }}>Abrir a caixa</a>
       </header>
 
       <div style={{ flex: 1, display: 'flex', flexWrap: 'wrap', width: '100%', maxWidth: 1120, margin: '0 auto', padding: '26px 22px 72px', gap: 36 }}>

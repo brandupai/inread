@@ -23,18 +23,18 @@ export default async function Descobrir() {
     <div className="app3">
       <SidebarNav ativo="descobrir" porLer={porLer} />
       <main style={{ flex: '1 1 0', minWidth: 0, padding: '22px 22px 80px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <h1 style={{ margin: 0, fontSize: 20, color: '#F4FAF5' }}>Descobrir</h1>
+        <h1 style={{ margin: 0, fontSize: 20, color: 'var(--app-txt-forte)' }}>Descobrir</h1>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {CATS.map((c, i) => (
             <span key={c} className={i === 0 ? 'f-chip on' : 'f-chip'}>{c}</span>
           ))}
         </div>
-        <div style={{ borderRadius: 18, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.05)', padding: '28px 22px', maxWidth: 720, textAlign: 'center' }}>
+        <div style={{ borderRadius: 18, border: '1px solid var(--app-borda)', background: 'var(--app-painel)', padding: '28px 22px', maxWidth: 720, textAlign: 'center' }}>
           <div style={{ fontSize: 28, marginBottom: 10 }}>🧭</div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: '#F4FAF5', marginBottom: 6 }}>O diretório de newsletters está a ser construído</div>
-          <div style={{ fontSize: 13, lineHeight: 1.65, color: 'rgba(232,242,234,0.6)', maxWidth: 480, margin: '0 auto' }}>
+          <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--app-txt-forte)', marginBottom: 6 }}>O diretório de newsletters está a ser construído</div>
+          <div style={{ fontSize: 13, lineHeight: 1.65, color: 'var(--app-txt-fraco)', maxWidth: 480, margin: '0 auto' }}>
             Em breve vais poder explorar e subscrever newsletters por categoria com um clique, diretamente para o teu endereço @inread.app. És autor? Submete a tua em{' '}
-            <a href="/parceiros" style={{ color: '#4ACC5F', fontWeight: 600 }}>inread.app/parceiros</a>.
+            <a href="/parceiros" style={{ color: '#1BE03C', fontWeight: 600 }}>inread.app/parceiros</a>.
           </div>
         </div>
       </main>

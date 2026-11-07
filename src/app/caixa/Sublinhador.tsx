@@ -92,7 +92,7 @@ export default function Sublinhador({ newsletterId, assunto }: { newsletterId: s
       style={{
         border: 'none',
         borderRadius: 999,
-        background: forte ? '#4ACC5F' : 'transparent',
+        background: forte ? '#1BE03C' : 'transparent',
         color: forte ? '#0B140F' : '#E8F2EA',
         fontFamily: 'inherit',
         fontSize: 12.5,

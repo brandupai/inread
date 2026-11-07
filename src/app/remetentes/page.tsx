@@ -76,7 +76,7 @@ export default async function Remetentes() {
         <span style={{ fontSize: 12.5, color: 'var(--quiet)' }}>{remetentes.length}</span>
       </div>
 
-      <div className="glass" style={{ borderRadius: 16, padding: '14px 16px', fontSize: 13, lineHeight: 1.55, color: 'var(--quiet)', border: '1px solid rgba(74,204,95,0.8)' }}>
+      <div className="glass" style={{ borderRadius: 16, padding: '14px 16px', fontSize: 13, lineHeight: 1.55, color: 'var(--quiet)', border: '1px solid rgba(27,224,60,0.8)' }}>
         Todas as publicações que escrevem para <strong style={{ color: 'var(--brand-light)' }}>{user.inboxHash}@inread.app</strong>.
         Quando uma deixa de interessar, cancela a subscrição num clique — sem procurar o link escondido no rodapé.
       </div>
@@ -96,7 +96,7 @@ export default async function Remetentes() {
           <span style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: '0 0 auto', alignItems: 'flex-end' }}>
             <a
               href={`/caixa?q=${encodeURIComponent(r.email)}`}
-              style={{ fontSize: 12, fontWeight: 600, color: 'var(--brand-dark)', border: '1px solid rgba(18,86,36,0.3)', borderRadius: 999, padding: '6px 12px', background: 'rgba(255,255,255,0.7)' }}
+              style={{ fontSize: 12, fontWeight: 600, color: 'var(--brand-dark)', border: '1px solid rgba(9,87,44,0.3)', borderRadius: 999, padding: '6px 12px', background: 'rgba(255,255,255,0.7)' }}
             >
               Ver edições
             </a>

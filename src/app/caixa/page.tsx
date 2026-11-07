@@ -4,8 +4,11 @@ import { prisma } from '@/lib/db';
 import { auth, authEnabled } from '@/auth';
 import { grad, iniciais, tempoRelativo } from '@/lib/visual';
 import Sublinhador from './Sublinhador';
-import AutoRefresh from './AutoRefresh';
-import Aspeto from './Aspeto';
+import Tipografia from './Tipografia';
+import Voz from './Voz';
+import AliasChip from './AliasChip';
+import BotaoTema from '@/components/BotaoTema';
+import PuxarAtualizar from '@/components/PuxarAtualizar';
 import Expandir from './Expandir';
 import SidebarNav from '@/components/SidebarNav';
 
@@ -248,6 +251,7 @@ export default async function Caixa({
   })();
 
   const tituloLista = soHighlights ? 'Sublinhados' : soFavoritos ? 'Guardados' : 'Caixa';
+  const meuAlias = user.inboxHash ? `${user.inboxHash}@inread.app` : 'nomeapelido@inread.app';
 
   return (
     <div className="app3">
@@ -255,15 +259,24 @@ export default async function Caixa({
 
       {/* ===== coluna da lista ===== */}
       <section className="col-lista">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '0 2px' }}>
-          <h1 style={{ margin: 0, fontSize: 20, lineHeight: 1, color: '#F4FAF5', flex: '0 0 auto' }}>{tituloLista}</h1>
-          <span style={{ fontSize: 12, color: 'rgba(232,242,234,0.55)', flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        <PuxarAtualizar alvo=".col-lista" />
+
+        <AliasChip alias={meuAlias} />
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 2px 0' }}>
+          <h1 className="t-app-forte" style={{ margin: 0, fontSize: 16, lineHeight: 1, flex: '0 0 auto' }}>{tituloLista}</h1>
+          <span className="t-app-tenue" style={{ fontSize: 12, flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {pesquisa
               ? `${soHighlights ? meusHighlights.length : todas.length} resultado${(soHighlights ? meusHighlights.length : todas.length) === 1 ? '' : 's'}`
               : !emGuardados && porLer > 0
                 ? `${porLer} por ler`
                 : ''}
           </span>
+          {pesquisa && (
+            <a href={linkCom({ q: null, n: null })} className="f-chip" style={{ padding: '4px 9px', fontSize: 11.5 }}>
+              “{pesquisa.length > 14 ? `${pesquisa.slice(0, 14)}…` : pesquisa}” ✕
+            </a>
+          )}
           {!emGuardados && porLer > 0 && (
             <form action={marcarTudoLido} style={{ display: 'inline-flex' }}>
               <input type="hidden" name="voltar" value={base} />
@@ -272,21 +285,7 @@ export default async function Caixa({
               </button>
             </form>
           )}
-          <AutoRefresh />
         </div>
-
-        <form action="/caixa" style={{ display: 'flex', padding: '2px 2px 0' }}>
-          {f && <input type="hidden" name="f" value={f} />}
-          {periodo !== 'tudo' && <input type="hidden" name="p" value={periodo} />}
-          <input
-            name="q"
-            type="search"
-            defaultValue={pesquisa}
-            placeholder="Pesquisar em tudo…"
-            aria-label="Pesquisar newsletters"
-            style={{ width: '100%', height: 36, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '0 12px', fontSize: 13, fontFamily: 'inherit', color: '#E8F2EA', outline: 'none' }}
-          />
-        </form>
 
         {/* filtros */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '4px 2px 6px', flexWrap: 'wrap' }}>
@@ -305,7 +304,7 @@ export default async function Caixa({
                 </summary>
                 <div className="ddown-menu" style={{ left: 0, right: 'auto', minWidth: 180 }}>
                   {Object.entries(PERIODOS).map(([chave, def]) => (
-                    <a key={chave} href={linkCom({ p: chave === 'tudo' ? null : chave, n: null })} className="ddown-item" style={chave === periodo ? { color: '#4ACC5F', fontWeight: 700 } : undefined}>
+                    <a key={chave} href={linkCom({ p: chave === 'tudo' ? null : chave, n: null })} className="ddown-item" style={chave === periodo ? { color: '#1BE03C', fontWeight: 700 } : undefined}>
                       {def.rotulo}
                     </a>
                   ))}
@@ -335,18 +334,18 @@ export default async function Caixa({
           <>
             {meusHighlights.map((h) => (
               <a key={h.id} href={`/caixa?n=${h.newsletter.id}`} className="m-carta" style={{ flexDirection: 'column', gap: 6 }}>
-                <span style={{ fontSize: 13.5, lineHeight: 1.5, color: '#E8F2EA' }}>
+                <span style={{ fontSize: 13.5, lineHeight: 1.5, color: 'var(--app-txt)' }}>
                   “{h.text.length > 170 ? `${h.text.slice(0, 170)}…` : h.text}”
                 </span>
-                <span style={{ fontSize: 11, color: 'rgba(232,242,234,0.5)' }}>
+                <span style={{ fontSize: 11, color: 'var(--app-txt-tenue)' }}>
                   {h.newsletter.senderName ?? h.newsletter.senderEmail} · {h.newsletter.subject}
                 </span>
               </a>
             ))}
             {meusHighlights.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '48px 18px', color: 'rgba(232,242,234,0.6)' }}>
+              <div style={{ textAlign: 'center', padding: '48px 18px', color: 'var(--app-txt-fraco)' }}>
                 <div style={{ fontSize: 30, marginBottom: 10 }}>✦</div>
-                <div style={{ fontWeight: 700, color: '#F4FAF5', marginBottom: 6 }}>Ainda não há sublinhados</div>
+                <div style={{ fontWeight: 700, color: 'var(--app-txt-forte)', marginBottom: 6 }}>Ainda não há sublinhados</div>
                 <div style={{ fontSize: 13, lineHeight: 1.6 }}>Abre uma newsletter e seleciona um trecho para o sublinhares.</div>
               </div>
             )}
@@ -361,17 +360,17 @@ export default async function Caixa({
                     {iniciais(nome)}
                   </span>
                   <span style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0, flex: '1 1 auto' }}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 500, color: item.isRead ? 'rgba(232,242,234,0.45)' : 'rgba(232,242,234,0.7)' }}>
-                      {!item.isRead && <span style={{ width: 7, height: 7, borderRadius: 999, background: '#4ACC5F', flex: '0 0 auto' }} />}
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 500, color: item.isRead ? 'var(--app-txt-tenue)' : 'var(--app-txt-fraco)' }}>
+                      {!item.isRead && <span style={{ width: 7, height: 7, borderRadius: 999, background: '#1BE03C', flex: '0 0 auto' }} />}
                       <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{nome}</span>
-                      {item.isStarred && <span aria-label="Guardada" style={{ color: '#4ACC5F', flex: '0 0 auto' }}>★</span>}
+                      {item.isStarred && <span aria-label="Guardada" style={{ color: '#1BE03C', flex: '0 0 auto' }}>★</span>}
                     </span>
                     <span
                       style={{
                         fontSize: 13.5,
                         fontWeight: item.isRead ? 500 : 700,
                         lineHeight: 1.35,
-                        color: item.isRead ? 'rgba(232,242,234,0.75)' : '#F4FAF5',
+                        color: item.isRead ? 'var(--app-txt-fraco)' : 'var(--app-txt-forte)',
                         display: '-webkit-box',
                         WebkitLineClamp: 2,
                         WebkitBoxOrient: 'vertical',
@@ -380,7 +379,7 @@ export default async function Caixa({
                     >
                       {item.subject}
                     </span>
-                    <span style={{ fontSize: 10.5, color: 'rgba(232,242,234,0.42)' }}>
+                    <span style={{ fontSize: 10.5, color: 'var(--app-txt-tenue)' }}>
                       {tempoRelativo(item.createdAt)} · {item.readingTime ?? 1} min{item.contextTag ? ` · ${item.contextTag}` : ''}
                     </span>
                   </span>
@@ -388,9 +387,9 @@ export default async function Caixa({
               );
             })}
             {todas.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '48px 18px', color: 'rgba(232,242,234,0.6)' }}>
+              <div style={{ textAlign: 'center', padding: '48px 18px', color: 'var(--app-txt-fraco)' }}>
                 <div style={{ fontSize: 30, marginBottom: 10 }}>{pesquisa ? '🔍' : soFavoritos ? '🔖' : '📭'}</div>
-                <div style={{ fontWeight: 700, color: '#F4FAF5', marginBottom: 6 }}>
+                <div style={{ fontWeight: 700, color: 'var(--app-txt-forte)', marginBottom: 6 }}>
                   {pesquisa ? 'Nada encontrado' : soFavoritos ? 'Nada guardado ainda' : soPorLer ? 'Tudo lido ✓' : 'Nada por aqui…'}
                 </div>
                 <div style={{ fontSize: 13, lineHeight: 1.6 }}>
@@ -405,7 +404,7 @@ export default async function Caixa({
                   ) : (
                     <>
                       Subscreve newsletters com o endereço{' '}
-                      <strong style={{ color: '#4ACC5F' }}>{user.inboxHash}@inread.app</strong> e elas aparecem aqui, limpas.
+                      <strong style={{ color: '#1BE03C' }}>{user.inboxHash}@inread.app</strong> e elas aparecem aqui, limpas.
                     </>
                   )}
                 </div>
@@ -439,13 +438,15 @@ export default async function Caixa({
                       : 'Poupa tempo com resumos das tuas newsletters gerados por IA.'}
                   </div>
                   {!ehPro && (
-                    <a href="/pro" style={{ textAlign: 'center', background: '#4ACC5F', color: '#0B140F', borderRadius: 999, padding: '9px 14px', fontSize: 13, fontWeight: 700 }}>
+                    <a href="/pro" style={{ textAlign: 'center', background: '#1BE03C', color: '#0B140F', borderRadius: 999, padding: '9px 14px', fontSize: 13, fontWeight: 700 }}>
                       Passar ao Pro
                     </a>
                   )}
                 </div>
               </details>
-              <Aspeto />
+              <BotaoTema />
+              <Tipografia />
+              <Voz titulo={selected.subject} />
 
               <div style={{ flex: '1 1 auto' }} />
 
@@ -505,12 +506,12 @@ export default async function Caixa({
               <Sublinhador newsletterId={selected.id} assunto={selected.subject} />
 
               {selected.highlights.length > 0 && (
-                <div style={{ marginTop: 32, borderTop: '1px solid rgba(18,86,36,0.15)', paddingTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <div style={{ marginTop: 32, borderTop: '1px solid rgba(9,87,44,0.15)', paddingTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
                   <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--brand-dark)' }}>
                     ✦ Os teus sublinhados ({selected.highlights.length})
                   </div>
                   {selected.highlights.map((h: { id: string; text: string }) => (
-                    <div key={h.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: 'rgba(255,255,255,0.75)', border: '1px solid rgba(74,204,95,0.7)', borderRadius: 12, padding: '10px 14px' }}>
+                    <div key={h.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: 'rgba(255,255,255,0.75)', border: '1px solid rgba(27,224,60,0.7)', borderRadius: 12, padding: '10px 14px' }}>
                       <span style={{ flex: '1 1 auto', fontSize: 14, lineHeight: 1.6, color: '#262A26' }}>
                         <mark>{h.text}</mark>
                       </span>
@@ -544,12 +545,12 @@ export default async function Caixa({
       <nav aria-label="Navegação principal" className="glass dock-mobile" style={{ position: 'fixed', left: '50%', bottom: 18, transform: 'translateX(-50%)', zIndex: 20, gap: 10, padding: 10, borderRadius: 26, boxShadow: '0 18px 44px rgba(0,0,0,0.4)' }}>
         <a href="/caixa" className="gicon" title="Caixa" aria-current={!emGuardados ? 'page' : undefined} style={{ width: 52, height: 52, borderRadius: 17, color: !emGuardados ? '#fff' : 'var(--brand-light)' }}>
           <span className={!emGuardados ? 'gi-blob gi-on' : 'gi-blob'} />
-          <span className="gi-glass" style={{ background: !emGuardados ? 'rgba(18,86,36,0.28)' : undefined }} />
+          <span className="gi-glass" style={{ background: !emGuardados ? 'rgba(9,87,44,0.28)' : undefined }} />
           <DockIcon d={ICONS.caixa} />
         </a>
         <a href="/caixa?f=fav" className="gicon" title="Guardados" aria-current={emGuardados ? 'page' : undefined} style={{ width: 52, height: 52, borderRadius: 17, color: emGuardados ? '#fff' : 'var(--brand-light)' }}>
           <span className={emGuardados ? 'gi-blob gi-on' : 'gi-blob'} />
-          <span className="gi-glass" style={{ background: emGuardados ? 'rgba(18,86,36,0.28)' : undefined }} />
+          <span className="gi-glass" style={{ background: emGuardados ? 'rgba(9,87,44,0.28)' : undefined }} />
           <DockIcon d={ICONS.guardados} />
         </a>
         <a href="/audio" className="gicon" title="Áudio" style={{ width: 52, height: 52, borderRadius: 17, color: 'var(--brand-light)' }}>

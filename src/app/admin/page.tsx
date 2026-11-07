@@ -27,7 +27,7 @@ function Barras({ titulo, dados }: { titulo: string; dados: Array<{ label: strin
       <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 90 }}>
         {dados.map((d) => (
           <div key={d.label} title={`${d.label}: ${d.n}`} style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, minWidth: 0 }}>
-            <div style={{ width: '100%', borderRadius: 6, background: 'linear-gradient(180deg,#4ACC5F,#2FA44B)', height: `${Math.max(4, (d.n / max) * 78)}px`, opacity: d.n === 0 ? 0.25 : 1 }} />
+            <div style={{ width: '100%', borderRadius: 6, background: 'linear-gradient(180deg,#1BE03C,#15B832)', height: `${Math.max(4, (d.n / max) * 78)}px`, opacity: d.n === 0 ? 0.25 : 1 }} />
           </div>
         ))}
       </div>
@@ -162,7 +162,7 @@ export default async function Admin() {
                 <td style={td}>{c.email}</td>
                 <td style={td}>{c.inboxHash ? `${c.inboxHash}@inread.app` : <span style={{ color: 'var(--faint)' }}>— por escolher</span>}</td>
                 <td style={td}>
-                  <span style={{ fontSize: 11.5, fontWeight: 700, borderRadius: 999, padding: '3px 10px', background: c.plan === 'pro' ? 'var(--brand-dark)' : 'rgba(74,204,95,0.5)', color: c.plan === 'pro' ? '#fff' : 'var(--brand-dark)' }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 700, borderRadius: 999, padding: '3px 10px', background: c.plan === 'pro' ? 'var(--brand-dark)' : 'rgba(27,224,60,0.5)', color: c.plan === 'pro' ? '#fff' : 'var(--brand-dark)' }}>
                     {c.plan.toUpperCase()}
                   </span>
                 </td>

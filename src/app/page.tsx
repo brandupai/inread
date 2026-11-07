@@ -5,7 +5,7 @@ import RodapeSite from '@/components/RodapeSite';
 
 export const dynamic = 'force-dynamic';
 
-const ACID = '#4ACC5F';
+const ACID = '#1BE03C';
 const INK_DARK = '#0B140F';
 
 const dcard: CSSProperties = {
@@ -25,7 +25,7 @@ const ctaAcid: CSSProperties = {
   padding: '16px 30px',
   fontSize: 16.5,
   fontWeight: 700,
-  boxShadow: '0 0 0 1px rgba(74,204,95,0.4), 0 18px 44px rgba(74,204,95,0.22)',
+  boxShadow: '0 0 0 1px rgba(27,224,60,0.4), 0 18px 44px rgba(27,224,60,0.22)',
 };
 
 function MiniRow({ delay, img, sender, subject }: { delay?: string; img: string; sender: string; subject: string }) {
@@ -49,7 +49,7 @@ function ChipOrbita({ texto, delay, floatDelay, style }: { texto: string; delay:
     <span className="chip-pop" style={{ animationDelay: delay, position: 'absolute', zIndex: 2, ...style }}>
       <span
         className="floatY"
-        style={{ animationDelay: floatDelay, display: 'inline-block', background: 'rgba(11,20,15,0.75)', border: '1px solid rgba(74,204,95,0.5)', borderRadius: 999, padding: '8px 14px', fontSize: 12.5, fontWeight: 600, color: ACID, boxShadow: '0 0 22px rgba(74,204,95,0.22)', whiteSpace: 'nowrap', backdropFilter: 'blur(8px)' }}
+        style={{ animationDelay: floatDelay, display: 'inline-block', background: 'rgba(11,20,15,0.75)', border: '1px solid rgba(27,224,60,0.5)', borderRadius: 999, padding: '8px 14px', fontSize: 12.5, fontWeight: 600, color: ACID, boxShadow: '0 0 22px rgba(27,224,60,0.22)', whiteSpace: 'nowrap', backdropFilter: 'blur(8px)' }}
       >
         {texto}
       </span>
@@ -78,8 +78,8 @@ export default async function Home() {
     <div className="sd" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       {/* auroras */}
       <div className="sd-aurora" aria-hidden="true">
-        <div className="sd-orb" style={{ width: 760, height: 760, top: -220, left: '50%', marginLeft: -380, background: 'radial-gradient(circle at 50% 45%, rgba(47,164,75,0.55) 0%, rgba(24,100,40,0.35) 45%, rgba(11,20,15,0) 72%)' }} />
-        <div className="sd-orb sd-orb2" style={{ width: 520, height: 520, top: 480, right: -180, opacity: 0.7, background: 'radial-gradient(circle at 50% 50%, rgba(74,204,95,0.28) 0%, rgba(11,20,15,0) 70%)' }} />
+        <div className="sd-orb" style={{ width: 760, height: 760, top: -220, left: '50%', marginLeft: -380, background: 'radial-gradient(circle at 50% 45%, rgba(21,184,50,0.55) 0%, rgba(24,100,40,0.35) 45%, rgba(11,20,15,0) 72%)' }} />
+        <div className="sd-orb sd-orb2" style={{ width: 520, height: 520, top: 480, right: -180, opacity: 0.7, background: 'radial-gradient(circle at 50% 50%, rgba(27,224,60,0.28) 0%, rgba(11,20,15,0) 70%)' }} />
         <div className="sd-orb" style={{ width: 560, height: 560, bottom: 420, left: -220, opacity: 0.6, background: 'radial-gradient(circle at 50% 50%, rgba(30,122,48,0.4) 0%, rgba(11,20,15,0) 70%)' }} />
       </div>
 
@@ -108,7 +108,7 @@ export default async function Home() {
 
       {/* hero */}
       <section style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '76px 24px 30px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 26, textAlign: 'center' }}>
-        <div className="h-seq" style={{ fontSize: 13, fontWeight: 600, color: ACID, border: '1px solid rgba(74,204,95,0.4)', borderRadius: 999, padding: '7px 16px', background: 'rgba(74,204,95,0.07)' }}>
+        <div className="h-seq" style={{ fontSize: 13, fontWeight: 600, color: ACID, border: '1px solid rgba(27,224,60,0.4)', borderRadius: 999, padding: '7px 16px', background: 'rgba(27,224,60,0.07)' }}>
           O leitor de newsletters que não pede acesso ao teu email
         </div>
         <h1 style={{ margin: 0, fontSize: 'clamp(40px, 7.4vw, 78px)', lineHeight: 1.04, fontWeight: 700, letterSpacing: '-0.02em', maxWidth: 920, color: '#F4FAF5' }}>
@@ -127,9 +127,9 @@ export default async function Home() {
         {/* produto com chips em órbita */}
         <div className="h-seq" style={{ animationDelay: '0.5s', position: 'relative', width: '100%', maxWidth: 560, marginTop: 26 }}>
           <svg aria-hidden="true" viewBox="0 0 560 300" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible' }}>
-            <path d="M 150 30 C 90 20, 50 0, 40 -8" fill="none" stroke="rgba(74,204,95,0.45)" strokeWidth="1.5" strokeDasharray="3 6" strokeLinecap="round" />
-            <path d="M 440 70 C 500 65, 540 55, 560 48" fill="none" stroke="rgba(74,204,95,0.45)" strokeWidth="1.5" strokeDasharray="3 6" strokeLinecap="round" />
-            <path d="M 150 260 C 110 280, 90 292, 75 300" fill="none" stroke="rgba(74,204,95,0.45)" strokeWidth="1.5" strokeDasharray="3 6" strokeLinecap="round" />
+            <path d="M 150 30 C 90 20, 50 0, 40 -8" fill="none" stroke="rgba(27,224,60,0.45)" strokeWidth="1.5" strokeDasharray="3 6" strokeLinecap="round" />
+            <path d="M 440 70 C 500 65, 540 55, 560 48" fill="none" stroke="rgba(27,224,60,0.45)" strokeWidth="1.5" strokeDasharray="3 6" strokeLinecap="round" />
+            <path d="M 150 260 C 110 280, 90 292, 75 300" fill="none" stroke="rgba(27,224,60,0.45)" strokeWidth="1.5" strokeDasharray="3 6" strokeLinecap="round" />
           </svg>
           <ChipOrbita texto="0 rastreadores" delay="0.9s" floatDelay="0s" style={{ top: -22, left: '-1%' }} />
           <ChipOrbita texto="100% do texto" delay="1.1s" floatDelay="1.4s" style={{ top: 30, right: '-4%' }} />
@@ -207,7 +207,7 @@ export default async function Home() {
             <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, ...quiet }}>
               Escolhes o teu nome@inread.app e usa-lo em todas as subscrições. O teu email pessoal fica fora disto — e nós nunca lhe tocamos.
             </p>
-            <div style={{ alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(74,204,95,0.1)', border: '1px solid rgba(74,204,95,0.45)', borderRadius: 999, padding: '7px 14px', fontSize: 14, fontWeight: 600, color: ACID }}>
+            <div style={{ alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(27,224,60,0.1)', border: '1px solid rgba(27,224,60,0.45)', borderRadius: 999, padding: '7px 14px', fontSize: 14, fontWeight: 600, color: ACID }}>
               sofia@inread.app
             </div>
             <MiniRow img="/demo/nl-tech.png" sender="Semana Tech" subject="Nº 142 — O regresso da web calma" />
@@ -223,7 +223,7 @@ export default async function Home() {
             <div style={barra('60%', true)} />
             <div style={barra('92%')} />
             <div style={barra('86%')} />
-            <div style={{ height: 52, borderRadius: 12, background: 'linear-gradient(135deg, rgba(74,204,95,0.5), rgba(30,122,48,0.55))' }} />
+            <div style={{ height: 52, borderRadius: 12, background: 'linear-gradient(135deg, rgba(27,224,60,0.5), rgba(30,122,48,0.55))' }} />
             <div style={barra('88%')} />
             <div className="vanish" style={{ position: 'absolute', top: 88, right: 16, background: 'rgba(11,20,15,0.85)', border: '1px solid rgba(217,130,130,0.6)', borderRadius: 10, padding: '7px 11px', fontSize: 11, fontWeight: 600, color: '#E3A9A9' }}>
               Popup de subscrição ✕
@@ -236,10 +236,10 @@ export default async function Home() {
           {/* resumos IA + áudio */}
           <div style={{ ...dcard, gridColumn: 'span 5', padding: 24, display: 'flex', flexDirection: 'column', gap: 10 }}>
             <h3 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: '#F4FAF5' }}>Resumo em três linhas, áudio em sete minutos</h3>
-            <div className="sumIn" style={{ background: 'rgba(74,204,95,0.09)', border: '1px solid rgba(74,204,95,0.4)', borderRadius: 14, padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div className="sumIn" style={{ background: 'rgba(27,224,60,0.09)', border: '1px solid rgba(27,224,60,0.4)', borderRadius: 14, padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
               <span style={{ fontSize: 11.5, fontWeight: 700, color: ACID }}>✦ Resumo</span>
-              <div style={{ height: 7, width: '96%', borderRadius: 999, background: 'rgba(74,204,95,0.45)' }} />
-              <div style={{ height: 7, width: '74%', borderRadius: 999, background: 'rgba(74,204,95,0.45)' }} />
+              <div style={{ height: 7, width: '96%', borderRadius: 999, background: 'rgba(27,224,60,0.45)' }} />
+              <div style={{ height: 7, width: '74%', borderRadius: 999, background: 'rgba(27,224,60,0.45)' }} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 999, padding: '9px 14px' }}>
               <span style={{ width: 28, height: 28, borderRadius: 999, background: ACID, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: INK_DARK, flex: '0 0 auto' }}>
@@ -259,9 +259,9 @@ export default async function Home() {
           <div style={{ ...dcard, gridColumn: 'span 7', padding: 24, display: 'flex', flexDirection: 'column', gap: 12 }}>
             <h3 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: '#F4FAF5' }}>Highlights que levas contigo</h3>
             <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.7, color: '#DCEADF' }}>
-              <span className="sweep" style={{ padding: '1px 3px', backgroundImage: 'linear-gradient(rgba(74,204,95,0.3), rgba(74,204,95,0.3))' }}>O futuro da leitura não é mais uma caixa de entrada</span> — é um lugar separado, sem pressa e sem rasto.
+              <span className="sweep" style={{ padding: '1px 3px', backgroundImage: 'linear-gradient(rgba(27,224,60,0.3), rgba(27,224,60,0.3))' }}>O futuro da leitura não é mais uma caixa de entrada</span> — é um lugar separado, sem pressa e sem rasto.
             </p>
-            <div className="chipIn" style={{ alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(74,204,95,0.1)', border: '1px solid rgba(74,204,95,0.45)', borderRadius: 999, padding: '8px 14px', fontSize: 12.5, fontWeight: 600, color: ACID }}>
+            <div className="chipIn" style={{ alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(27,224,60,0.1)', border: '1px solid rgba(27,224,60,0.45)', borderRadius: 999, padding: '8px 14px', fontSize: 12.5, fontWeight: 600, color: ACID }}>
               highlights.md guardado — pronto para o Obsidian e o Notion
             </div>
             <p style={{ margin: 0, fontSize: 13, ...faint }}>Markdown limpo, sem formatos fechados. As tuas notas são tuas.</p>
@@ -304,7 +304,7 @@ export default async function Home() {
 
       {/* painel claro: privacidade (inversão de contraste) */}
       <section className="reveal" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '82px 24px 0' }}>
-        <div className="luz" style={{ borderRadius: 30, background: 'linear-gradient(150deg, #EAF7ED 0%, #BDEECA 55%, #A7EDB6 100%)', padding: 'clamp(36px, 6vw, 64px)', display: 'flex', flexDirection: 'column', gap: 22, boxShadow: '0 30px 80px rgba(0,0,0,0.45)' }}>
+        <div className="luz" style={{ borderRadius: 30, background: 'linear-gradient(150deg, #EAF7ED 0%, #BDEECA 55%, #A8F7B9 100%)', padding: 'clamp(36px, 6vw, 64px)', display: 'flex', flexDirection: 'column', gap: 22, boxShadow: '0 30px 80px rgba(0,0,0,0.45)' }}>
           <h2 className="t-rise" style={{ margin: 0, fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 700, letterSpacing: '-0.015em', color: 'var(--brand-deep)' }}>
             Lê sem deixar <span className="voz" style={{ color: 'var(--brand)', fontWeight: 400 }}>rasto.</span>
           </h2>
@@ -345,7 +345,7 @@ export default async function Home() {
               Começar grátis
             </a>
           </div>
-          <div style={{ flex: '1 1 300px', minWidth: 0, borderRadius: 26, padding: 30, display: 'flex', flexDirection: 'column', gap: 14, background: `linear-gradient(160deg, ${ACID}, #3DBD55)`, color: INK_DARK, boxShadow: '0 0 60px rgba(74,204,95,0.3), 0 24px 56px rgba(0,0,0,0.4)' }}>
+          <div style={{ flex: '1 1 300px', minWidth: 0, borderRadius: 26, padding: 30, display: 'flex', flexDirection: 'column', gap: 14, background: `linear-gradient(160deg, ${ACID}, #17C434)`, color: INK_DARK, boxShadow: '0 0 60px rgba(27,224,60,0.3), 0 24px 56px rgba(0,0,0,0.4)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 15, fontWeight: 700 }}>Pro</span>
               <span style={{ fontSize: 11.5, fontWeight: 700, color: ACID, background: INK_DARK, borderRadius: 999, padding: '4px 11px' }}>Preço de lançamento</span>
@@ -373,7 +373,7 @@ export default async function Home() {
       {/* CTA final */}
       <section style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '84px 24px 72px', textAlign: 'center' }}>
         <div style={{ position: 'relative' }}>
-          <div className="sd-orb" aria-hidden="true" style={{ width: 480, height: 480, top: -140, left: '50%', marginLeft: -240, position: 'absolute', background: 'radial-gradient(circle at 50% 50%, rgba(74,204,95,0.26) 0%, rgba(11,20,15,0) 70%)' }} />
+          <div className="sd-orb" aria-hidden="true" style={{ width: 480, height: 480, top: -140, left: '50%', marginLeft: -240, position: 'absolute', background: 'radial-gradient(circle at 50% 50%, rgba(27,224,60,0.26) 0%, rgba(11,20,15,0) 70%)' }} />
           <div className="reveal" style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18 }}>
             <h2 className="t-rise" style={{ margin: 0, fontSize: 'clamp(34px, 5.4vw, 56px)', fontWeight: 700, letterSpacing: '-0.015em', maxWidth: 700, color: '#F4FAF5' }}>
               As tuas newsletters merecem <span className="voz" style={{ color: ACID, fontWeight: 400 }}>uma casa melhor.</span>

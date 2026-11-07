@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Busca from './Busca';
 
 type Item = {
   chave: string;
@@ -59,8 +60,8 @@ export default function SidebarNav({ ativo, porLer }: { ativo: string; porLer: n
     <aside className={aberta ? 'sbar' : 'sbar fechada'} aria-label="Navegação principal">
       <div className="s-topo">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <a href="/caixa" className="s-logo-txt" style={{ display: 'inline-flex', alignItems: 'center' }}>
-          <img src="/logo-w.svg?v=2" alt="inread" style={{ height: 20, width: 'auto' }} />
+        <a href="/caixa" title="inread" style={{ display: 'inline-flex', alignItems: 'center' }}>
+          <img src="/favicon-dark.svg?v=3" alt="inread" style={{ height: 30, width: 30 }} />
         </a>
         <button type="button" className="s-ico-btn" onClick={alternar} title={aberta ? 'Recolher menu' : 'Expandir menu'} aria-label={aberta ? 'Recolher menu' : 'Expandir menu'}>
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
@@ -78,7 +79,9 @@ export default function SidebarNav({ ativo, porLer }: { ativo: string; porLer: n
         </a>
       ))}
 
-      <div style={{ marginTop: 'auto' }} />
+      <Busca />
+      <hr className="s-sep" />
+
       <a href="/definicoes" className={ativo === 'definicoes' ? 's-item on' : 's-item'} title="Definições">
         <svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="3" />

@@ -76,7 +76,7 @@ export default function Changelog() {
             </ul>
           </article>
         ))}
-        <article className="glass" style={{ borderRadius: 18, padding: '22px 22px 18px', display: 'flex', flexDirection: 'column', gap: 10, border: '1px solid rgba(74,204,95,0.9)' }}>
+        <article className="glass" style={{ borderRadius: 18, padding: '22px 22px 18px', display: 'flex', flexDirection: 'column', gap: 10, border: '1px solid rgba(27,224,60,0.9)' }}>
           <span style={{ fontSize: 12.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--brand-dark)' }}>A caminho</span>
           <ul style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 7, fontSize: 14.5, lineHeight: 1.55, color: 'var(--ink-soft)' }}>
             {A_CAMINHO.map((i) => (

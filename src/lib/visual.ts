@@ -1,10 +1,10 @@
 /** Miniaturas determinísticas por remetente (gradiente a partir do email). */
 const GRADS = [
-  ['#4ACC5F', '#2FA44B'],
-  ['#A7EDB6', '#1E7A30'],
-  ['#C9F2D4', '#56B96B'],
-  ['#8FE3A0', '#146A2E'],
-  ['#D2F5DA', '#2FA44B'],
+  ['#1BE03C', '#15B832'],
+  ['#A8F7B9', '#0B6B34'],
+  ['#C9F2D4', '#2ACB49'],
+  ['#8FE3A0', '#09572C'],
+  ['#D2F5DA', '#15B832'],
   ['#A0E8B0', '#166A2E'],
 ];
 

@@ -6,7 +6,7 @@ import { billingEnabled } from '@/lib/stripe';
 
 export const dynamic = 'force-dynamic';
 
-const ACID = '#4ACC5F';
+const ACID = '#1BE03C';
 const INK_DARK = '#0B140F';
 
 const quiet: CSSProperties = { color: 'rgba(232,242,234,0.66)' };
@@ -49,7 +49,7 @@ export default async function Pro() {
 
   return (
     <main style={{ position: 'relative', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '34px 24px 80px', overflow: 'hidden' }}>
-      <div aria-hidden="true" style={{ position: 'absolute', width: 560, height: 560, top: -200, left: '50%', marginLeft: -280, borderRadius: '50%', filter: 'blur(90px)', background: 'radial-gradient(circle at 50% 50%, rgba(74,204,95,0.22) 0%, rgba(11,20,15,0) 70%)', pointerEvents: 'none' }} />
+      <div aria-hidden="true" style={{ position: 'absolute', width: 560, height: 560, top: -200, left: '50%', marginLeft: -280, borderRadius: '50%', filter: 'blur(90px)', background: 'radial-gradient(circle at 50% 50%, rgba(27,224,60,0.22) 0%, rgba(11,20,15,0) 70%)', pointerEvents: 'none' }} />
 
       <div style={{ position: 'relative', width: '100%', maxWidth: 880, display: 'flex', flexDirection: 'column', gap: 30 }}>
         <a href={entrou ? '/definicoes' : '/'} style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-light)' }}>‹ Voltar</a>
@@ -84,7 +84,7 @@ export default async function Pro() {
           </div>
 
           {/* Anual */}
-          <div style={{ ...cartao, background: `linear-gradient(160deg, ${ACID}, #3DBD55)`, color: INK_DARK, boxShadow: '0 0 60px rgba(74,204,95,0.3), 0 24px 56px rgba(0,0,0,0.4)' }}>
+          <div style={{ ...cartao, background: `linear-gradient(160deg, ${ACID}, #17C434)`, color: INK_DARK, boxShadow: '0 0 60px rgba(27,224,60,0.3), 0 24px 56px rgba(0,0,0,0.4)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 15, fontWeight: 700 }}>Anual</span>
               <span style={{ fontSize: 11.5, fontWeight: 700, color: ACID, background: INK_DARK, borderRadius: 999, padding: '4px 11px' }}>2 meses grátis</span>
