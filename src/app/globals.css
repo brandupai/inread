@@ -387,8 +387,8 @@ a:hover {
 
 .sd {
   position: relative;
-  background: #0b140f;
-  color: #e8f2ea;
+  background: #f1f0eb;
+  color: #15160f;
   overflow-x: clip;
 }
 
@@ -400,8 +400,8 @@ a:hover {
   left: 0;
   height: 1200px;
   pointer-events: none;
-  background-image: linear-gradient(rgba(27, 224, 60, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(27, 224, 60, 0.05) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(20, 21, 15, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 21, 15, 0.055) 1px, transparent 1px);
   background-size: 56px 56px;
   -webkit-mask-image: radial-gradient(1000px 700px at 50% 0%, #000 45%, transparent 100%);
   mask-image: radial-gradient(1000px 700px at 50% 0%, #000 45%, transparent 100%);
