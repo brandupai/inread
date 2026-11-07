@@ -1,9 +1,16 @@
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/db';
 import { auth, authEnabled } from '@/auth';
-import SidebarNav from '@/components/SidebarNav';
+import AppShell from '@/components/AppShell';
 
 export const dynamic = 'force-dynamic';
+
+const RESUMOS = [
+  { nome: 'Apanhado de hoje', detalhe: '4 edições · 7 min', cor: 'linear-gradient(135deg, #0A4424, #1BE03C)' },
+  { nome: 'Tecnologia', detalhe: 'Semanal · 5 min', cor: 'linear-gradient(135deg, #15B832, #072E18)' },
+  { nome: 'Notícias', detalhe: 'Diário · 4 min', cor: 'linear-gradient(135deg, #2ACB49, #0A4424)' },
+  { nome: 'Trabalho & Produto', detalhe: 'Semanal · 6 min', cor: 'linear-gradient(135deg, #0B6B34, #1BE03C)' },
+];
 
 export default async function Audio() {
   let userId: string | null = null;
@@ -18,26 +25,38 @@ export default async function Audio() {
   const porLer = userId ? await prisma.newsletter.count({ where: { userId, isRead: false } }) : 0;
 
   return (
-    <div className="app3">
-      <SidebarNav ativo="audio" porLer={porLer} />
-      <main style={{ flex: '1 1 0', minWidth: 0, padding: '22px 22px 80px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <h1 style={{ margin: 0, fontSize: 20, color: 'var(--app-txt-forte)' }}>Áudio</h1>
-        <div style={{ borderRadius: 18, border: '1px solid var(--app-borda)', background: 'var(--app-painel)', padding: 18, display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', maxWidth: 720 }}>
-          <span style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg, #0A4424, #1BE03C)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#0B140F', flex: '0 0 auto' }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V6l10-2v12M9 18a3 3 0 11-6 0 3 3 0 016 0zm10-2a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-          </span>
-          <span style={{ flex: '1 1 260px', minWidth: 0 }}>
-            <span style={{ display: 'block', fontSize: 15, fontWeight: 700, color: 'var(--app-txt-forte)' }}>Um podcast diário, feito para ti</span>
-            <span style={{ display: 'block', fontSize: 13, color: 'var(--app-txt-fraco)', marginTop: 3 }}>
-              O apanhado em áudio das tuas newsletters do dia — a chegar com o inread Pro.
-            </span>
-          </span>
-          <span style={{ flex: '0 0 auto', fontSize: 12.5, fontWeight: 700, color: '#0B140F', background: '#1BE03C', borderRadius: 999, padding: '8px 16px' }}>Brevemente</span>
+    <AppShell
+      ativo="audio"
+      porLer={porLer}
+      titulo="Áudio"
+      leitor={
+        <div style={{ margin: 'auto', textAlign: 'center', padding: 32, maxWidth: 420, color: 'var(--leitor-txt-fraco)' }}>
+          <div style={{ fontSize: 30, marginBottom: 10 }}>🎧</div>
+          <p style={{ fontWeight: 700, color: 'var(--leitor-txt)', marginBottom: 6 }}>Um podcast diário, feito para ti</p>
+          <p style={{ fontSize: 14, margin: 0, lineHeight: 1.6 }}>
+            O apanhado em áudio das tuas newsletters, com vozes naturais. Chega com o inread Pro — entretanto, qualquer
+            edição pode ser ouvida no leitor com o botão de voz.
+          </p>
         </div>
-        <div style={{ fontSize: 13, color: 'var(--app-txt-tenue)', maxWidth: 720, lineHeight: 1.6 }}>
-          Resumos diários por tema (Tecnologia, Notícias, Produtividade, Negócios) gerados a partir do que chega à tua caixa. Diz-nos em suporte@inread.app que vozes e formatos gostavas de ouvir.
+      }
+    >
+      {RESUMOS.map((r) => (
+        <div key={r.nome} className="m-carta" style={{ alignItems: 'center' }}>
+          <span style={{ width: 42, height: 42, borderRadius: 11, background: r.cor, flex: '0 0 auto', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#06220F' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5l12 7-12 7z" /></svg>
+          </span>
+          <span style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0, flex: '1 1 auto' }}>
+            <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700 }}>{r.nome}</span>
+            <span className="t-app-tenue" style={{ fontSize: 11 }}>{r.detalhe}</span>
+          </span>
+          <span style={{ flex: '0 0 auto', fontSize: 10.5, fontWeight: 700, color: '#1BE03C', border: '1px solid rgba(27,224,60,0.45)', borderRadius: 999, padding: '4px 9px' }}>
+            Brevemente
+          </span>
         </div>
-      </main>
-    </div>
+      ))}
+      <p className="t-app-tenue" style={{ fontSize: 12, lineHeight: 1.6, padding: '6px 2px' }}>
+        Diz-nos em suporte@inread.app que vozes e formatos gostavas de ouvir.
+      </p>
+    </AppShell>
   );
 }

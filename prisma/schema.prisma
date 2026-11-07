@@ -107,3 +107,15 @@ model Tag {
 
   @@map("tags")
 }
+
+model EmailChange {
+  id        String   @id @default(uuid())
+  userId    String
+  novoEmail String
+  token     String   @unique
+  expires   DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("email_changes")
+}

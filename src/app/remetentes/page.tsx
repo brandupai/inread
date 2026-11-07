@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/db';
 import { auth, authEnabled } from '@/auth';
 import { grad, iniciais } from '@/lib/visual';
+import AppShell from '@/components/AppShell';
 
 export const dynamic = 'force-dynamic';
 
@@ -66,48 +67,42 @@ export default async function Remetentes() {
   }
   const remetentes = [...porRemetente.values()].sort((a, b) => b.ultima.getTime() - a.ultima.getTime());
 
+  const porLer = await prisma.newsletter.count({ where: { userId: user.id, isRead: false } });
+
   return (
-    <main style={{ minHeight: '100vh', padding: '24px 16px 64px', maxWidth: 640, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '0 4px 6px' }}>
-        <a href="/caixa" className="glass" title="Voltar à caixa" style={{ width: 38, height: 38, borderRadius: 999, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--brand-light)', fontSize: 18 }}>
-          ‹
-        </a>
-        <h1 style={{ margin: 0, fontSize: 26 }}>Remetentes</h1>
-        <span style={{ fontSize: 12.5, color: 'var(--quiet)' }}>{remetentes.length}</span>
-      </div>
-
-      <div className="glass" style={{ borderRadius: 16, padding: '14px 16px', fontSize: 13, lineHeight: 1.55, color: 'var(--quiet)', border: '1px solid rgba(27,224,60,0.8)' }}>
-        Todas as publicações que escrevem para <strong style={{ color: 'var(--brand-light)' }}>{user.inboxHash}@inread.app</strong>.
-        Quando uma deixa de interessar, cancela a subscrição num clique — sem procurar o link escondido no rodapé.
-      </div>
-
+    <AppShell
+      ativo="remetentes"
+      porLer={porLer}
+      titulo={`Remetentes (${remetentes.length})`}
+      leitor={
+        <div style={{ margin: 'auto', textAlign: 'center', padding: 32, maxWidth: 430, color: 'var(--leitor-txt-fraco)' }}>
+          <div style={{ fontSize: 30, marginBottom: 10 }}>🏢</div>
+          <p style={{ fontWeight: 700, color: 'var(--leitor-txt)', marginBottom: 6 }}>Quem te escreve</p>
+          <p style={{ fontSize: 14, margin: 0, lineHeight: 1.6 }}>
+            Todas as publicações que escrevem para o teu endereço. Escolhe uma à esquerda para veres as edições, ou
+            cancela a subscrição num clique — sem procurar o link escondido no rodapé.
+          </p>
+        </div>
+      }
+    >
       {remetentes.map((r) => (
-        <div key={r.email} className="glass" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '13px 16px', borderRadius: 16 }}>
-          <span style={{ flex: '0 0 auto', width: 44, height: 44, borderRadius: 13, background: grad(r.email), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.95)', boxShadow: '0 6px 14px rgba(12,64,28,0.18)' }}>
+        <div key={r.email} className="m-carta" style={{ alignItems: 'center' }}>
+          <span style={{ flex: '0 0 auto', width: 42, height: 42, borderRadius: 11, background: grad(r.email), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.95)' }}>
             {iniciais(r.nome)}
           </span>
           <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: '1 1 auto' }}>
-            <span style={{ fontSize: 14.5, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.nome}</span>
-            <span style={{ fontSize: 11.5, color: 'var(--faint)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.email}</span>
-            <span style={{ fontSize: 11.5, color: 'var(--quiet)' }}>
-              {r.total} edição{r.total === 1 ? '' : 'es'}{r.porLer > 0 ? ` · ${r.porLer} por ler` : ''} · última a {r.ultima.toLocaleDateString('pt-PT')}
+            <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.nome}</span>
+            <span className="t-app-tenue" style={{ fontSize: 11, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.email}</span>
+            <span className="t-app-tenue" style={{ fontSize: 11 }}>
+              {r.total} edição{r.total === 1 ? '' : 'es'}{r.porLer > 0 ? ` · ${r.porLer} por ler` : ''}
             </span>
           </span>
-          <span style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: '0 0 auto', alignItems: 'flex-end' }}>
-            <a
-              href={`/caixa?q=${encodeURIComponent(r.email)}`}
-              style={{ fontSize: 12, fontWeight: 600, color: 'var(--brand-dark)', border: '1px solid rgba(9,87,44,0.3)', borderRadius: 999, padding: '6px 12px', background: 'rgba(255,255,255,0.7)' }}
-            >
+          <span style={{ display: 'flex', flexDirection: 'column', gap: 5, flex: '0 0 auto', alignItems: 'flex-end' }}>
+            <a href={`/caixa?q=${encodeURIComponent(r.email)}`} className="f-chip" style={{ padding: '5px 10px', fontSize: 11 }}>
               Ver edições
             </a>
             {r.unsubscribe && (
-              <a
-                href={r.unsubscribe}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Cancelar subscrição"
-                style={{ fontSize: 12, fontWeight: 600, color: '#8A3B3B', border: '1px solid rgba(217,160,160,0.7)', borderRadius: 999, padding: '6px 12px', background: 'rgba(255,255,255,0.7)' }}
-              >
+              <a href={r.unsubscribe} target="_blank" rel="noopener noreferrer" className="f-chip" style={{ padding: '5px 10px', fontSize: 11, color: '#e2574f', borderColor: 'rgba(226,87,79,0.4)' }}>
                 Cancelar
               </a>
             )}
@@ -116,11 +111,15 @@ export default async function Remetentes() {
       ))}
 
       {remetentes.length === 0 && (
-        <div className="glass" style={{ borderRadius: 16, padding: '18px 16px', fontSize: 14, lineHeight: 1.6, color: 'var(--quiet)' }}>
-          Ainda não recebeste newsletters. Subscreve com o endereço{' '}
-          <strong style={{ color: 'var(--brand-light)' }}>{user.inboxHash}@inread.app</strong> e os remetentes aparecem aqui.
+        <div style={{ textAlign: 'center', padding: '44px 18px' }} className="t-app-fraco">
+          <div style={{ fontSize: 28, marginBottom: 10 }}>🏢</div>
+          <div className="t-app-forte" style={{ fontWeight: 700, marginBottom: 6 }}>Ainda ninguém te escreve</div>
+          <div style={{ fontSize: 13, lineHeight: 1.6 }}>
+            Subscreve com o endereço <strong style={{ color: '#1BE03C' }}>{user.inboxHash}@inread.app</strong> e os
+            remetentes aparecem aqui.
+          </div>
         </div>
       )}
-    </main>
+    </AppShell>
   );
 }

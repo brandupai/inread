@@ -17,7 +17,7 @@ const ICONES: Record<string, string> = {
   guardados: 'M6 3h12a1 1 0 011 1v17l-7-4-7 4V4a1 1 0 011-1z',
   audio: 'M9 18V6l10-2v12M9 18a3 3 0 11-6 0 3 3 0 016 0zm10-2a3 3 0 11-6 0 3 3 0 016 0z',
   descobrir: 'M12 21a9 9 0 110-18 9 9 0 010 18zm3.5-12.5L14 14l-5.5 1.5L10 10l5.5-1.5z',
-  remetentes: 'M17 20v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1m14-13a4 4 0 11-8 0 4 4 0 018 0zm4 13v-1a4 4 0 00-3-3.87M16 3.13A4 4 0 0116 11',
+  remetentes: 'M3 21h18M5 21V5a2 2 0 012-2h7a2 2 0 012 2v16M16 21V9h3a2 2 0 012 2v10M8 7h3M8 11h3M8 15h3',
 };
 
 function Icone({ d }: { d: string }) {
@@ -62,8 +62,9 @@ export default function SidebarNav({ ativo, porLer }: { ativo: string; porLer: n
     <aside className={aberta ? 'sbar' : 'sbar fechada'} aria-label="Navegação principal">
       <div className="s-topo">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <a href="/caixa" title="inread" style={{ display: 'inline-flex', alignItems: 'center' }}>
-          <img src="/favicon-dark.svg?v=3" alt="inread" style={{ height: 30, width: 30 }} />
+        <a href="/caixa" title="inread" style={{ display: 'inline-flex', alignItems: 'center', minWidth: 0 }}>
+          <img className="s-logo-cheio" src="/logo-lockup-w.svg?v=3" alt="inread" style={{ height: 26, width: 'auto' }} />
+          <img className="s-logo-marca" src="/favicon-dark.svg?v=3" alt="inread" style={{ height: 30, width: 30 }} />
         </a>
         <button type="button" className="s-ico-btn" onClick={alternar} title={aberta ? 'Fechar menu' : 'Manter menu aberto'} aria-label={aberta ? 'Fechar menu' : 'Manter menu aberto'}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

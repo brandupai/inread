@@ -983,3 +983,13 @@ html[data-tema='light'] .col-lista .s-ico-btn:hover { background: rgba(9, 87, 44
 .sbar.fechada:hover .s-rotulo { display: block; }
 .sbar.fechada:hover .s-badge { display: inline-flex; }
 @media (max-width: 1023px) { .sbar-espaco { display: none; } }
+
+/* logo: completo com a aba aberta, marca quando fechada */
+.s-logo-marca { display: none; }
+.sbar.fechada .s-logo-cheio { display: none; }
+.sbar.fechada .s-logo-marca { display: block; }
+.sbar.fechada:hover .s-logo-cheio { display: block; }
+.sbar.fechada:hover .s-logo-marca { display: none; }
+/* o botão de pesquisar tem de ser igual aos restantes itens */
+.s-item { background: transparent; border: none; font-family: inherit; cursor: pointer; width: 100%; text-align: left; }
+button.s-item:hover { background: rgba(255, 255, 255, 0.07); }

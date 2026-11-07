@@ -36,7 +36,7 @@ export default function Busca({ inicial = '', compacto = false }: { inicial?: st
     <>
       <button
         type="button"
-        className={compacto ? 's-ico-btn' : 's-item acao'}
+        className={compacto ? 's-ico-btn' : 's-item'}
         onClick={() => setAberta(true)}
         title="Pesquisar (⌘K)"
         aria-label="Pesquisar"
