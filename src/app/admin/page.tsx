@@ -10,7 +10,7 @@ const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? 'brandup.pt@gmail.com')
   .map((e) => e.trim().toLowerCase())
   .filter(Boolean);
 
-const cartao: CSSProperties = { borderRadius: 18, padding: '18px 20px' };
+const cartao: CSSProperties = { borderRadius: 22, padding: '18px 20px' };
 const kpiNum: CSSProperties = { fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, lineHeight: 1.1 };
 const kpiLabel: CSSProperties = { fontSize: 12, color: 'var(--quiet)' };
 const seccao: CSSProperties = { fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--quiet)', padding: '14px 4px 0' };
@@ -144,7 +144,7 @@ export default async function Admin() {
 
       {/* Clientes */}
       <div id="clientes" style={seccao}>Clientes registados</div>
-      <div className="glass" style={{ borderRadius: 18, padding: '6px 10px', overflowX: 'auto' }}>
+      <div className="glass" style={{ borderRadius: 22, padding: '6px 10px', overflowX: 'auto' }}>
         <table style={{ borderCollapse: 'collapse', width: '100%' }}>
           <thead>
             <tr>

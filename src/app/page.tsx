@@ -13,6 +13,7 @@ const dcard: CSSProperties = {
   border: '1px solid rgba(255,255,255,0.12)',
   backdropFilter: 'blur(16px)',
   WebkitBackdropFilter: 'blur(16px)',
+  boxShadow: '0 10px 28px rgba(0,0,0,0.18)',
 };
 
 const quiet: CSSProperties = { color: 'rgba(232,242,234,0.66)' };
