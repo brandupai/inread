@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import SidebarNav from '@/components/SidebarNav';
+import LogoNewsletter from './LogoNewsletter';
 import { CATEGORIAS, porCategoria, type Categoria, type EntradaDiretorio } from '@/lib/diretorio';
 
 const ICONE: Record<Categoria, string> = {
@@ -81,7 +82,7 @@ export default function DescobrirInterativo({ porLer, alias }: { porLer: number;
                   background: 'var(--app-painel)', border: '1px solid var(--app-borda)',
                 }}
               >
-                <span style={{ width: 42, height: 42, borderRadius: 11, background: n.cor }} />
+                <LogoNewsletter dominio={n.dominio} nome={n.nome} cor={n.cor} />
                 <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--leitor-txt)' }}>{n.nome}</span>
                   <span style={{ fontSize: 11.5, color: 'var(--leitor-txt-fraco)' }}>{n.autor ?? n.categoria}</span>
