@@ -264,7 +264,7 @@ export default async function Caixa({
         <AliasChip alias={meuAlias} />
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 2px 0' }}>
-          <h1 className="t-app-forte" style={{ margin: 0, fontSize: 16, lineHeight: 1, flex: '0 0 auto' }}>{tituloLista}</h1>
+          <h1 className="t-app-forte lista-titulo" style={{ margin: 0, fontSize: 16, lineHeight: 1, flex: '0 0 auto' }}>{tituloLista}</h1>
           <span className="t-app-tenue" style={{ fontSize: 12, flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {pesquisa
               ? `${soHighlights ? meusHighlights.length : todas.length} resultado${(soHighlights ? meusHighlights.length : todas.length) === 1 ? '' : 's'}`

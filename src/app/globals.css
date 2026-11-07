@@ -968,3 +968,6 @@ html[data-tema='light'] .app3 input[type='search'] { color: var(--app-txt); }
 html[data-tema='light'] .s-ico-btn { color: rgba(232, 242, 234, 0.8); }
 html[data-tema='light'] .col-lista .s-ico-btn { color: var(--app-txt-fraco); }
 html[data-tema='light'] .col-lista .s-ico-btn:hover { background: rgba(9, 87, 44, 0.08); }
+
+/* o título da lista é redundante quando a barra lateral mostra a secção ativa */
+@media (min-width: 1024px) { .lista-titulo { display: none; } }
