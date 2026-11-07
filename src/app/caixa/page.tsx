@@ -7,6 +7,7 @@ import Sublinhador from './Sublinhador';
 import Tipografia from './Tipografia';
 import Voz from './Voz';
 import AliasChip from './AliasChip';
+import Quota from './Quota';
 import BotaoTema from '@/components/BotaoTema';
 import PuxarAtualizar from '@/components/PuxarAtualizar';
 import Expandir from './Expandir';
@@ -252,6 +253,8 @@ export default async function Caixa({
 
   const tituloLista = soHighlights ? 'Sublinhados' : soFavoritos ? 'Guardados' : 'Caixa';
   const meuAlias = user.inboxHash ? `${user.inboxHash}@inread.app` : 'nomeapelido@inread.app';
+  const totalCaixa = await prisma.newsletter.count({ where: { userId: user.id } });
+  const limiteFree = Number(process.env.FREE_NEWSLETTER_LIMIT ?? 50);
 
   return (
     <div className="app3">
@@ -262,6 +265,7 @@ export default async function Caixa({
         <PuxarAtualizar alvo=".col-lista" />
 
         <AliasChip alias={meuAlias} />
+        <Quota total={totalCaixa} limite={limiteFree} ehPro={ehPro} />
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 2px 0' }}>
           <h1 className="t-app-forte lista-titulo" style={{ margin: 0, fontSize: 16, lineHeight: 1, flex: '0 0 auto' }}>{tituloLista}</h1>
