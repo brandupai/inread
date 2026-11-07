@@ -4,22 +4,29 @@ import { useState } from 'react';
 import SidebarNav from '@/components/SidebarNav';
 import { CATEGORIAS, porCategoria, type Categoria, type EntradaDiretorio } from '@/lib/diretorio';
 
+const ICONE: Record<Categoria, string> = {
+  Tendências: '🔥',
+  Tecnologia: '💻',
+  Negócios: '💼',
+  Produtividade: '🌱',
+  Marketing: '📣',
+  Finanças: '📈',
+};
+
 export default function DescobrirInterativo({ porLer, alias }: { porLer: number; alias: string }) {
   const [categoria, setCategoria] = useState<Categoria>('Tendências');
-  const [selecionada, setSelecionada] = useState<EntradaDiretorio | null>(null);
-  const [copiado, setCopiado] = useState(false);
+  const [copiadoId, setCopiadoId] = useState<string | null>(null);
 
   const lista = porCategoria(categoria);
 
   async function assinar(n: EntradaDiretorio) {
-    setSelecionada(n);
     try {
       await navigator.clipboard.writeText(alias);
-      setCopiado(true);
-      setTimeout(() => setCopiado(false), 2500);
     } catch {
-      // clipboard pode falhar (sem permissão); o alias continua visível no painel
+      // clipboard pode falhar (sem permissão); o alias fica visível no cartão
     }
+    setCopiadoId(n.id);
+    setTimeout(() => setCopiadoId((atual) => (atual === n.id ? null : atual)), 2500);
     window.open(n.site, '_blank', 'noopener,noreferrer');
   }
 
@@ -27,78 +34,86 @@ export default function DescobrirInterativo({ porLer, alias }: { porLer: number;
     <div className="app3">
       <SidebarNav ativo="descobrir" porLer={porLer} />
 
+      {/* Coluna B — categorias */}
       <section className="col-lista">
-        <div style={{ display: 'flex', gap: 7, overflowX: 'auto', padding: '0 2px 4px' }}>
-          {CATEGORIAS.map((c) => (
-            <button
-              key={c}
-              type="button"
-              onClick={() => setCategoria(c)}
-              className={c === categoria ? 'f-chip on' : 'f-chip'}
-              style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
-            >
-              {c}
-            </button>
-          ))}
-        </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 2px 4px' }}>
           <h1 className="t-app-forte" style={{ margin: 0, fontSize: 16, lineHeight: 1 }}>Descobrir</h1>
         </div>
 
-        {lista.map((n) => (
-          <button
-            key={n.id}
-            type="button"
-            onClick={() => assinar(n)}
-            className={selecionada?.id === n.id ? 'm-carta on' : 'm-carta'}
-            style={{ alignItems: 'center', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
-          >
-            <span style={{ width: 42, height: 42, borderRadius: 11, background: n.cor, flex: '0 0 auto' }} />
-            <span style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0, flex: '1 1 auto' }}>
-              <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700 }}>{n.nome}</span>
-              <span className="t-app-tenue" style={{ fontSize: 11 }}>{n.autor ?? n.categoria}</span>
-            </span>
-            <span style={{ flex: '0 0 auto', fontSize: 10.5, fontWeight: 700, color: '#1BE03C', border: '1px solid rgba(27,224,60,0.45)', borderRadius: 999, padding: '4px 9px', whiteSpace: 'nowrap' }}>
-              Assinar
-            </span>
-          </button>
-        ))}
+        {CATEGORIAS.map((c) => {
+          const n = porCategoria(c).length;
+          return (
+            <button
+              key={c}
+              type="button"
+              onClick={() => setCategoria(c)}
+              className={c === categoria ? 'm-carta on' : 'm-carta'}
+              style={{ alignItems: 'center', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}>
+                {ICONE[c]}
+              </span>
+              <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700, flex: '1 1 auto' }}>{c}</span>
+              <span className="t-app-tenue" style={{ fontSize: 11, flex: '0 0 auto' }}>{n}</span>
+            </button>
+          );
+        })}
 
         <p className="t-app-tenue" style={{ fontSize: 12, lineHeight: 1.6, padding: '6px 2px' }}>
           Diretório em crescimento. Diz-nos em suporte@inread.app que newsletters gostavas de ver aqui.
         </p>
       </section>
 
-      <main className="col-leitor">
-        {selecionada ? (
-          <div style={{ margin: 'auto', textAlign: 'center', padding: 32, maxWidth: 440, color: 'var(--leitor-txt-fraco)' }}>
-            <span style={{ display: 'inline-block', width: 56, height: 56, borderRadius: 14, background: selecionada.cor, marginBottom: 14 }} />
-            <p style={{ fontWeight: 700, fontSize: 17, color: 'var(--leitor-txt)', marginBottom: 4 }}>{selecionada.nome}</p>
-            {selecionada.autor && <p style={{ fontSize: 13, margin: '0 0 10px' }}>{selecionada.autor}</p>}
-            <p style={{ fontSize: 14, margin: '0 0 20px', lineHeight: 1.6 }}>{selecionada.descricao}</p>
+      {/* Coluna C — diretório da categoria escolhida */}
+      <main className="col-leitor" style={{ alignItems: 'stretch', justifyContent: 'flex-start', overflowY: 'auto' }}>
+        <div style={{ width: '100%', maxWidth: 880, margin: '0 auto', padding: '28px 24px 40px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+            <span style={{ fontSize: 22 }}>{ICONE[categoria]}</span>
+            <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: 'var(--leitor-txt)' }}>{categoria}</h2>
+          </div>
 
-            <div style={{ display: 'inline-flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
-              <span style={{ fontSize: 12, fontWeight: 600 }}>
-                {copiado ? 'Alias copiado ✓' : 'O teu alias para subscrever'}
-              </span>
-              <code style={{ fontSize: 13, fontWeight: 700, color: 'var(--leitor-txt)', background: 'rgba(27,224,60,0.12)', border: '1px solid rgba(27,224,60,0.4)', borderRadius: 10, padding: '8px 14px' }}>
-                {alias}
-              </code>
-              <p style={{ fontSize: 12, margin: '2px 0 0', maxWidth: 320 }}>
-                Abrimos o site da {selecionada.nome} numa nova aba — cola este email no formulário de subscrição deles.
-              </p>
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: 12 }}>
+            {lista.map((n) => (
+              <div
+                key={n.id}
+                style={{
+                  display: 'flex', flexDirection: 'column', gap: 10, borderRadius: 16, padding: 16,
+                  background: 'var(--app-painel)', border: '1px solid var(--app-borda)',
+                }}
+              >
+                <span style={{ width: 42, height: 42, borderRadius: 11, background: n.cor }} />
+                <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--leitor-txt)' }}>{n.nome}</span>
+                  <span style={{ fontSize: 11.5, color: 'var(--leitor-txt-fraco)' }}>{n.autor ?? n.categoria}</span>
+                </span>
+                <span style={{ fontSize: 12, lineHeight: 1.5, color: 'var(--leitor-txt-fraco)', flex: '1 1 auto' }}>
+                  {n.descricao}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => assinar(n)}
+                  style={{
+                    alignSelf: 'flex-start', fontSize: 11.5, fontWeight: 700, borderRadius: 999, padding: '6px 13px',
+                    border: '1px solid rgba(27,224,60,0.45)', cursor: 'pointer', fontFamily: 'inherit',
+                    color: copiadoId === n.id ? '#052e16' : '#1BE03C',
+                    background: copiadoId === n.id ? '#1BE03C' : 'transparent',
+                  }}
+                >
+                  {copiadoId === n.id ? 'Alias copiado ✓' : 'Assinar'}
+                </button>
+              </div>
+            ))}
           </div>
-        ) : (
-          <div style={{ margin: 'auto', textAlign: 'center', padding: 32, maxWidth: 420, color: 'var(--leitor-txt-fraco)' }}>
-            <div style={{ fontSize: 30, marginBottom: 10 }}>🧭</div>
-            <p style={{ fontWeight: 700, color: 'var(--leitor-txt)', marginBottom: 6 }}>Descobre a tua próxima leitura</p>
-            <p style={{ fontSize: 14, margin: 0, lineHeight: 1.6 }}>
-              Escolhe uma categoria à esquerda e toca em "Assinar" — copiamos o teu alias @inread.app e abrimos a
-              página de subscrição da newsletter.
-            </p>
-          </div>
-        )}
+
+          {lista.length === 0 && (
+            <p style={{ color: 'var(--leitor-txt-fraco)', fontSize: 14 }}>Ainda sem newsletters nesta categoria.</p>
+          )}
+
+          <p style={{ marginTop: 24, fontSize: 12, lineHeight: 1.6, color: 'var(--leitor-txt-fraco)', maxWidth: 480 }}>
+            Ao tocar em "Assinar" copiamos o teu alias <strong>{alias}</strong> e abrimos o site da newsletter numa
+            nova aba — é só colar no formulário de subscrição deles.
+          </p>
+        </div>
       </main>
     </div>
   );
