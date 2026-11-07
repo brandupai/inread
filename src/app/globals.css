@@ -971,3 +971,15 @@ html[data-tema='light'] .col-lista .s-ico-btn:hover { background: rgba(9, 87, 44
 
 /* o título da lista é redundante quando a barra lateral mostra a secção ativa */
 @media (min-width: 1024px) { .lista-titulo { display: none; } }
+
+/* barra lateral: fechada fica flutuante e abre ao passar o rato */
+.app3 { position: relative; }
+.sbar-espaco { flex: 0 0 68px; }
+.sbar.fechada {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 68px; z-index: 30;
+  transition: width 0.2s ease, box-shadow 0.2s ease;
+}
+.sbar.fechada:hover { width: 236px; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5); }
+.sbar.fechada:hover .s-rotulo { display: block; }
+.sbar.fechada:hover .s-badge { display: inline-flex; }
+@media (max-width: 1023px) { .sbar-espaco { display: none; } }

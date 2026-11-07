@@ -57,16 +57,17 @@ export default function SidebarNav({ ativo, porLer }: { ativo: string; porLer: n
   ];
 
   return (
+    <>
+      {!aberta && <div className="sbar-espaco" aria-hidden="true" />}
     <aside className={aberta ? 'sbar' : 'sbar fechada'} aria-label="Navegação principal">
       <div className="s-topo">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <a href="/caixa" title="inread" style={{ display: 'inline-flex', alignItems: 'center' }}>
           <img src="/favicon-dark.svg?v=3" alt="inread" style={{ height: 30, width: 30 }} />
         </a>
-        <button type="button" className="s-ico-btn" onClick={alternar} title={aberta ? 'Recolher menu' : 'Expandir menu'} aria-label={aberta ? 'Recolher menu' : 'Expandir menu'}>
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="4" width="18" height="16" rx="2" />
-            <path d="M9 4v16" />
+        <button type="button" className="s-ico-btn" onClick={alternar} title={aberta ? 'Fechar menu' : 'Manter menu aberto'} aria-label={aberta ? 'Fechar menu' : 'Manter menu aberto'}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d={aberta ? 'M15 18l-6-6 6-6' : 'M9 18l6-6-6-6'} />
           </svg>
         </button>
       </div>
@@ -90,5 +91,6 @@ export default function SidebarNav({ ativo, porLer }: { ativo: string; porLer: n
         <span className="s-rotulo">Definições</span>
       </a>
     </aside>
+    </>
   );
 }
