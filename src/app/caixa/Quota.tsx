@@ -23,7 +23,7 @@ export default function Quota({ total, limite, ehPro }: { total: number; limite:
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span className="t-app-tenue" style={{ fontSize: 10.5, flex: '1 1 auto' }}>
           {cheio ? (
-            <>Caixa cheia — <strong style={{ color: cor }}>{total}/{limite}</strong></>
+            <>No limite — <strong style={{ color: cor }}>{total}/{limite}</strong></>
           ) : (
             <>
               <strong style={{ color: perto ? cor : 'inherit' }}>{total}</strong> de {limite} newsletters
@@ -52,7 +52,7 @@ export default function Quota({ total, limite, ehPro }: { total: number; limite:
       {perto && (
         <span className="t-app-tenue" style={{ fontSize: 10.5, lineHeight: 1.45 }}>
           {cheio
-            ? 'As novas edições deixam de entrar até libertares espaço. No Pro guardas tudo, para sempre.'
+            ? 'Chegaste ao limite do Free: a cada nova edição, a mais antiga (não guardada) sai. No Pro guardas tudo, para sempre.'
             : 'Estás quase no limite do plano Free. No Pro o armazenamento é ilimitado.'}
         </span>
       )}
