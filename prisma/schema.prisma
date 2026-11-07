@@ -21,6 +21,8 @@ model User {
   newsletters   Newsletter[]
   accounts      Account[]
   sessions      Session[]
+  podcastsFavoritos  PodcastFavorito[]
+  episodiosGuardados EpisodioGuardado[]
 
   @@map("users")
 }
@@ -106,6 +108,40 @@ model Tag {
   newsletters Newsletter[]
 
   @@map("tags")
+}
+
+model PodcastFavorito {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  feedUrl         String    @db.Text
+  nome            String
+  autor           String?
+  imagem          String?   @db.Text
+  ultimaDataVista String? // pubDate (texto RSS) do episódio mais recente já visto — para o aviso de "novo"
+  createdAt       DateTime  @default(now())
+
+  @@unique([userId, feedUrl(length: 255)])
+  @@index([userId])
+  @@map("podcast_favoritos")
+}
+
+model EpisodioGuardado {
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  feedUrl        String   @db.Text
+  podcastNome    String
+  podcastImagem  String?  @db.Text
+  titulo         String
+  audioUrl       String   @db.Text
+  duracao        String?
+  dataPublicacao String?
+  createdAt      DateTime @default(now())
+
+  @@unique([userId, audioUrl(length: 255)])
+  @@index([userId])
+  @@map("episodios_guardados")
 }
 
 model EmailChange {

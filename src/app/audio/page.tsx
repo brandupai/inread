@@ -42,5 +42,28 @@ export default async function Audio() {
     texto: textoLimpo(n),
   }));
 
-  return <AudioInterativo porLer={porLer} apanhado={apanhado} />;
+  const [favoritosDb, guardadosDb] = await Promise.all([
+    prisma.podcastFavorito.findMany({ where: { userId }, orderBy: { createdAt: 'desc' } }),
+    prisma.episodioGuardado.findMany({ where: { userId }, orderBy: { createdAt: 'desc' } }),
+  ]);
+
+  const favoritos = favoritosDb.map((f: (typeof favoritosDb)[number]) => ({
+    feedUrl: f.feedUrl,
+    nome: f.nome,
+    autor: f.autor,
+    imagem: f.imagem,
+    ultimaDataVista: f.ultimaDataVista,
+  }));
+
+  const guardados = guardadosDb.map((g: (typeof guardadosDb)[number]) => ({
+    feedUrl: g.feedUrl,
+    podcastNome: g.podcastNome,
+    podcastImagem: g.podcastImagem,
+    titulo: g.titulo,
+    audioUrl: g.audioUrl,
+    duracao: g.duracao,
+    dataPublicacao: g.dataPublicacao,
+  }));
+
+  return <AudioInterativo porLer={porLer} apanhado={apanhado} favoritosIniciais={favoritos} guardadosIniciais={guardados} />;
 }

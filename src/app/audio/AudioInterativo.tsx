@@ -6,8 +6,14 @@ import SidebarNav from '@/components/SidebarNav';
 type ItemApanhado = { id: string; titulo: string; remetente: string; texto: string };
 type Podcast = { id: string; nome: string; autor: string; imagem: string | null; feedUrl: string };
 type Episodio = { titulo: string; descricao: string; audioUrl: string; duracao: string | null; dataPublicacao: string | null };
+type Favorito = { feedUrl: string; nome: string; autor: string | null; imagem: string | null; ultimaDataVista: string | null };
+type Guardado = {
+  feedUrl: string; podcastNome: string; podcastImagem: string | null; titulo: string;
+  audioUrl: string; duracao: string | null; dataPublicacao: string | null;
+};
 
 type Estado = 'parado' | 'a-ler' | 'pausa';
+type Secao = 'apanhado' | 'podcasts' | 'guardados';
 
 const CATEGORIAS_PODCAST = [
   { label: 'Tecnologia', termo: 'tecnologia' },
@@ -17,8 +23,15 @@ const CATEGORIAS_PODCAST = [
   { label: 'Cultura', termo: 'cultura' },
 ];
 
-export default function AudioInterativo({ porLer, apanhado }: { porLer: number; apanhado: ItemApanhado[] }) {
-  const [secao, setSecao] = useState<'apanhado' | 'podcasts'>('apanhado');
+export default function AudioInterativo({
+  porLer, apanhado, favoritosIniciais, guardadosIniciais,
+}: {
+  porLer: number;
+  apanhado: ItemApanhado[];
+  favoritosIniciais: Favorito[];
+  guardadosIniciais: Guardado[];
+}) {
+  const [secao, setSecao] = useState<Secao>('apanhado');
 
   // --- apanhado pessoal (TTS) ---
   const [estado, setEstado] = useState<Estado>('parado');
@@ -83,6 +96,42 @@ export default function AudioInterativo({ porLer, apanhado }: { porLer: number; 
     if (estado !== 'parado') ler();
   }
 
+  // --- favoritos (podcasts seguidos) e guardados (episódios) ---
+  const [favoritos, setFavoritos] = useState<Favorito[]>(favoritosIniciais);
+  const [guardados, setGuardados] = useState<Guardado[]>(guardadosIniciais);
+  const [temNovo, setTemNovo] = useState(false);
+
+  const ehFavorito = (feedUrl: string) => favoritos.some((f) => f.feedUrl === feedUrl);
+  const ehGuardado = (audioUrl: string) => guardados.some((g) => g.audioUrl === audioUrl);
+
+  async function alternarFavorito(p: Podcast, ultimaDataVista?: string | null) {
+    const seguia = ehFavorito(p.feedUrl);
+    // otimista
+    setFavoritos((f) => (seguia ? f.filter((x) => x.feedUrl !== p.feedUrl) : [{ feedUrl: p.feedUrl, nome: p.nome, autor: p.autor, imagem: p.imagem, ultimaDataVista: ultimaDataVista ?? null }, ...f]));
+    try {
+      await fetch('/api/podcasts/favoritos', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feedUrl: p.feedUrl, nome: p.nome, autor: p.autor, imagem: p.imagem, ultimaDataVista }),
+      });
+    } catch {
+      // reverte em caso de falha
+      setFavoritos((f) => (seguia ? [{ feedUrl: p.feedUrl, nome: p.nome, autor: p.autor, imagem: p.imagem, ultimaDataVista: ultimaDataVista ?? null }, ...f] : f.filter((x) => x.feedUrl !== p.feedUrl)));
+    }
+  }
+
+  async function alternarGuardado(ep: Episodio, podcast: Podcast) {
+    const guardava = ehGuardado(ep.audioUrl);
+    setGuardados((g) => (guardava ? g.filter((x) => x.audioUrl !== ep.audioUrl) : [{ feedUrl: podcast.feedUrl, podcastNome: podcast.nome, podcastImagem: podcast.imagem, titulo: ep.titulo, audioUrl: ep.audioUrl, duracao: ep.duracao, dataPublicacao: ep.dataPublicacao }, ...g]));
+    try {
+      await fetch('/api/podcasts/guardados', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ audioUrl: ep.audioUrl, titulo: ep.titulo, feedUrl: podcast.feedUrl, podcastNome: podcast.nome, podcastImagem: podcast.imagem, duracao: ep.duracao, dataPublicacao: ep.dataPublicacao }),
+      });
+    } catch {
+      setGuardados((g) => (guardava ? [{ feedUrl: podcast.feedUrl, podcastNome: podcast.nome, podcastImagem: podcast.imagem, titulo: ep.titulo, audioUrl: ep.audioUrl, duracao: ep.duracao, dataPublicacao: ep.dataPublicacao }, ...g] : g.filter((x) => x.audioUrl !== ep.audioUrl)));
+    }
+  }
+
   // --- diretório de podcasts (iTunes Search API + RSS público) ---
   const [categoriaAtiva, setCategoriaAtiva] = useState<string>(CATEGORIAS_PODCAST[0].termo);
   const [consultaLivre, setConsultaLivre] = useState('');
@@ -99,7 +148,7 @@ export default function AudioInterativo({ porLer, apanhado }: { porLer: number; 
   const termoAtual = consultaLivre || categoriaAtiva;
 
   useEffect(() => {
-    if (secao !== 'podcasts') return;
+    if (secao !== 'podcasts' || podcastSelecionado) return;
     let cancelado = false;
     setACarregarResultados(true);
     setErroResultados(null);
@@ -113,11 +162,13 @@ export default function AudioInterativo({ porLer, apanhado }: { porLer: number; 
       .catch(() => { if (!cancelado) setErroResultados('Não foi possível pesquisar podcasts agora.'); })
       .finally(() => { if (!cancelado) setACarregarResultados(false); });
     return () => { cancelado = true; };
-  }, [secao, termoAtual]);
+  }, [secao, termoAtual, podcastSelecionado]);
 
   useEffect(() => {
     if (!podcastSelecionado) return;
     let cancelado = false;
+    setEpisodios([]);
+    setTemNovo(false);
     setACarregarEpisodios(true);
     setErroEpisodios(null);
     fetch(`/api/podcasts/episodios?feed=${encodeURIComponent(podcastSelecionado.feedUrl)}`)
@@ -132,6 +183,26 @@ export default function AudioInterativo({ porLer, apanhado }: { porLer: number; 
     return () => { cancelado = true; };
   }, [podcastSelecionado]);
 
+  // deteta episódio novo desde a última visita, e marca como visto
+  useEffect(() => {
+    if (!podcastSelecionado || episodios.length === 0) return;
+    const favoritoAtual = favoritos.find((f) => f.feedUrl === podcastSelecionado.feedUrl);
+    if (!favoritoAtual) return;
+    const maisRecente = episodios[0]?.dataPublicacao;
+    if (!maisRecente) return;
+    const vistoEm = favoritoAtual.ultimaDataVista ? Date.parse(favoritoAtual.ultimaDataVista) : 0;
+    const recenteEm = Date.parse(maisRecente);
+    if (!Number.isNaN(recenteEm) && recenteEm > (Number.isNaN(vistoEm) ? 0 : vistoEm)) {
+      setTemNovo(true);
+      setFavoritos((f) => f.map((x) => (x.feedUrl === podcastSelecionado.feedUrl ? { ...x, ultimaDataVista: maisRecente } : x)));
+      fetch('/api/podcasts/favoritos', {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feedUrl: podcastSelecionado.feedUrl, ultimaDataVista: maisRecente }),
+      }).catch(() => {});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [episodios, podcastSelecionado]);
+
   function pesquisar() {
     const v = campoBusca.trim();
     if (!v) return;
@@ -144,6 +215,11 @@ export default function AudioInterativo({ porLer, apanhado }: { porLer: number; 
     setConsultaLivre('');
     setCampoBusca('');
     setPodcastSelecionado(null);
+  }
+
+  function abrirFavorito(f: Favorito) {
+    setSecao('podcasts');
+    setPodcastSelecionado({ id: f.feedUrl, nome: f.nome, autor: f.autor ?? '', imagem: f.imagem, feedUrl: f.feedUrl });
   }
 
   return (
@@ -168,6 +244,44 @@ export default function AudioInterativo({ porLer, apanhado }: { porLer: number; 
             <span className="t-app-tenue" style={{ fontSize: 11 }}>{apanhado.length} por ler</span>
           </span>
         </button>
+
+        <button
+          type="button"
+          onClick={() => setSecao('guardados')}
+          className={secao === 'guardados' ? 'm-carta on' : 'm-carta'}
+          style={{ alignItems: 'center', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+        >
+          <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}>🔖</span>
+          <span style={{ display: 'flex', flexDirection: 'column', gap: 1, flex: '1 1 auto' }}>
+            <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700 }}>Guardados</span>
+            <span className="t-app-tenue" style={{ fontSize: 11 }}>{guardados.length} episódios</span>
+          </span>
+        </button>
+
+        {favoritos.length > 0 && (
+          <>
+            <div style={{ padding: '14px 2px 4px', fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }} className="t-app-tenue">
+              Favoritos
+            </div>
+            {favoritos.map((f) => (
+              <button
+                key={f.feedUrl}
+                type="button"
+                onClick={() => abrirFavorito(f)}
+                className={secao === 'podcasts' && podcastSelecionado?.feedUrl === f.feedUrl ? 'm-carta on' : 'm-carta'}
+                style={{ alignItems: 'center', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+              >
+                {f.imagem ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={f.imagem} alt="" width={32} height={32} style={{ borderRadius: 8, flex: '0 0 auto' }} />
+                ) : (
+                  <span style={{ width: 32, height: 32, borderRadius: 8, background: 'linear-gradient(135deg, #1BE03C, #09572C)', flex: '0 0 auto' }} />
+                )}
+                <span className="t-app-forte" style={{ fontSize: 13, fontWeight: 700, flex: '1 1 auto', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.nome}</span>
+              </button>
+            ))}
+          </>
+        )}
 
         <div style={{ padding: '14px 2px 4px', fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }} className="t-app-tenue">
           Podcasts
@@ -208,7 +322,7 @@ export default function AudioInterativo({ porLer, apanhado }: { porLer: number; 
 
       {/* Coluna C */}
       <main className="col-leitor" style={{ alignItems: secao === 'apanhado' ? 'center' : 'stretch', justifyContent: 'flex-start', overflowY: 'auto' }}>
-        {secao === 'apanhado' ? (
+        {secao === 'apanhado' && (
           <div style={{ margin: 'auto', textAlign: 'center', padding: 32, maxWidth: 480 }}>
             <div style={{ fontSize: 30, marginBottom: 10 }}>🎧</div>
             <p style={{ fontWeight: 700, fontSize: 18, color: 'var(--leitor-txt)', marginBottom: 6 }}>Apanhado de hoje</p>
@@ -274,7 +388,57 @@ export default function AudioInterativo({ porLer, apanhado }: { porLer: number; 
               </>
             )}
           </div>
-        ) : (
+        )}
+
+        {secao === 'guardados' && (
+          <div style={{ width: '100%', maxWidth: 880, margin: '0 auto', padding: '28px 24px 40px' }}>
+            <h2 style={{ margin: '0 0 16px', fontSize: 18, fontWeight: 700, color: 'var(--leitor-txt)' }}>Guardados</h2>
+
+            {guardados.length === 0 ? (
+              <p style={{ color: 'var(--leitor-txt-fraco)', fontSize: 14 }}>
+                Ainda não guardaste nenhum episódio. Abre um podcast e toca no marcador 🔖 num episódio para o
+                guardares aqui.
+              </p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {guardados.map((g) => (
+                  <div key={g.audioUrl} style={{ display: 'flex', gap: 12, borderRadius: 14, padding: 14, background: 'var(--app-painel)', border: '1px solid var(--app-borda)' }}>
+                    {g.podcastImagem ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={g.podcastImagem} alt="" width={48} height={48} style={{ borderRadius: 10, flex: '0 0 auto' }} />
+                    ) : (
+                      <span style={{ width: 48, height: 48, borderRadius: 10, background: 'linear-gradient(135deg, #1BE03C, #09572C)', flex: '0 0 auto' }} />
+                    )}
+                    <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
+                        <div style={{ minWidth: 0 }}>
+                          <div style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--leitor-txt)' }}>{g.titulo}</div>
+                          <div style={{ fontSize: 11.5, color: 'var(--leitor-txt-fraco)' }}>{g.podcastNome}</div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => alternarGuardado(
+                            { titulo: g.titulo, descricao: '', audioUrl: g.audioUrl, duracao: g.duracao, dataPublicacao: g.dataPublicacao },
+                            { id: g.feedUrl, nome: g.podcastNome, autor: '', imagem: g.podcastImagem, feedUrl: g.feedUrl },
+                          )}
+                          title="Remover dos guardados"
+                          aria-label="Remover dos guardados"
+                          style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 16, flex: '0 0 auto', color: '#1BE03C' }}
+                        >
+                          🔖
+                        </button>
+                      </div>
+                      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                      <audio controls preload="none" src={g.audioUrl} style={{ width: '100%', height: 32, marginTop: 8 }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {secao === 'podcasts' && (
           <div style={{ width: '100%', maxWidth: 880, margin: '0 auto', padding: '28px 24px 40px' }}>
             {podcastSelecionado ? (
               <>
@@ -286,16 +450,34 @@ export default function AudioInterativo({ porLer, apanhado }: { porLer: number; 
                   ‹ Voltar aos resultados
                 </button>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 10 }}>
                   {podcastSelecionado.imagem && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={podcastSelecionado.imagem} alt="" width={64} height={64} style={{ borderRadius: 12, flex: '0 0 auto' }} />
                   )}
-                  <div>
+                  <div style={{ flex: '1 1 auto', minWidth: 0 }}>
                     <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--leitor-txt)' }}>{podcastSelecionado.nome}</h2>
                     <p style={{ margin: '2px 0 0', fontSize: 13, color: 'var(--leitor-txt-fraco)' }}>{podcastSelecionado.autor}</p>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => alternarFavorito(podcastSelecionado, episodios[0]?.dataPublicacao ?? null)}
+                    style={{
+                      flex: '0 0 auto', fontSize: 12, fontWeight: 700, borderRadius: 999, padding: '8px 16px', cursor: 'pointer', fontFamily: 'inherit',
+                      border: '1px solid rgba(27,224,60,0.45)',
+                      color: ehFavorito(podcastSelecionado.feedUrl) ? '#052e16' : '#1BE03C',
+                      background: ehFavorito(podcastSelecionado.feedUrl) ? '#1BE03C' : 'transparent',
+                    }}
+                  >
+                    {ehFavorito(podcastSelecionado.feedUrl) ? '★ A seguir' : '☆ Seguir'}
+                  </button>
                 </div>
+
+                {temNovo && (
+                  <div style={{ display: 'inline-block', fontSize: 11.5, fontWeight: 700, color: '#052e16', background: '#1BE03C', borderRadius: 999, padding: '4px 12px', marginBottom: 16 }}>
+                    ✨ Novo episódio desde a tua última visita
+                  </div>
+                )}
 
                 {aCarregarEpisodios && <p style={{ color: 'var(--leitor-txt-fraco)', fontSize: 14 }}>A carregar episódios…</p>}
                 {erroEpisodios && <p style={{ color: 'var(--leitor-txt-fraco)', fontSize: 14 }}>{erroEpisodios}</p>}
@@ -303,7 +485,18 @@ export default function AudioInterativo({ porLer, apanhado }: { porLer: number; 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {episodios.map((ep, i) => (
                     <div key={i} style={{ borderRadius: 14, padding: 14, background: 'var(--app-painel)', border: '1px solid var(--app-borda)' }}>
-                      <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--leitor-txt)', marginBottom: 4 }}>{ep.titulo}</div>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 4 }}>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--leitor-txt)' }}>{ep.titulo}</div>
+                        <button
+                          type="button"
+                          onClick={() => alternarGuardado(ep, podcastSelecionado)}
+                          title={ehGuardado(ep.audioUrl) ? 'Remover dos guardados' : 'Guardar episódio'}
+                          aria-label={ehGuardado(ep.audioUrl) ? 'Remover dos guardados' : 'Guardar episódio'}
+                          style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 16, flex: '0 0 auto', color: ehGuardado(ep.audioUrl) ? '#1BE03C' : 'var(--leitor-txt-fraco)' }}
+                        >
+                          🔖
+                        </button>
+                      </div>
                       {ep.descricao && <div style={{ fontSize: 12.5, color: 'var(--leitor-txt-fraco)', lineHeight: 1.5, marginBottom: 10 }}>{ep.descricao}</div>}
                       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
                       <audio controls preload="none" src={ep.audioUrl} style={{ width: '100%', height: 34 }} />
