@@ -847,8 +847,8 @@ mark {
 }
 
 html[data-tema='light'] {
-  --app-bg: #f1f0eb;
-  --app-bg-2: #eae8e1;
+  --app-bg: #ece9e0;
+  --app-bg-2: #e3e0d5;
   --app-painel: #ffffff;
   --app-painel-hover: #f6f5f0;
   --app-borda: rgba(20, 21, 15, 0.07);
@@ -858,8 +858,8 @@ html[data-tema='light'] {
   --app-txt-fraco: rgba(21, 22, 15, 0.62);
   --app-txt-tenue: rgba(21, 22, 15, 0.42);
   --app-ativo: rgba(27, 224, 60, 0.14);
-  --app-sombra-sm: 0 1px 2px rgba(20, 21, 15, 0.05), 0 1px 3px rgba(20, 21, 15, 0.06);
-  --app-sombra-md: 0 10px 28px rgba(20, 21, 15, 0.09), 0 2px 6px rgba(20, 21, 15, 0.05);
+  --app-sombra-sm: 0 2px 6px rgba(20, 21, 15, 0.07), 0 1px 2px rgba(20, 21, 15, 0.07);
+  --app-sombra-md: 0 14px 32px rgba(20, 21, 15, 0.12), 0 3px 8px rgba(20, 21, 15, 0.07);
   --leitor-bg: #ffffff;
   --leitor-txt: #15160f;
   --leitor-txt-fraco: rgba(21, 22, 15, 0.62);
@@ -899,14 +899,17 @@ html[data-tema='dark'] .artigo mark { background: rgba(27, 224, 60, 0.3) !import
 .col-leitor .lt-btn { color: var(--leitor-txt); }
 .col-leitor a { color: var(--brand-dark); }
 html[data-tema='dark'] .col-leitor a { color: #5eea7a; }
-.m-carta { background: var(--app-painel); border-color: var(--app-borda); box-shadow: var(--app-sombra-sm); }
+.m-carta { background: var(--app-painel); border-color: var(--app-borda); }
 .m-carta:hover { background: var(--app-painel-hover); }
 .m-carta.on { background: var(--app-ativo); border-color: rgba(27, 224, 60, 0.45); }
-html[data-tema='light'] .m-carta { border-radius: 17px; }
-html[data-tema='light'] .m-carta.on { box-shadow: 0 0 0 3px rgba(27, 224, 60, 0.18), var(--app-sombra-sm); }
+html[data-tema='light'] .m-carta { border-radius: 18px; border-color: transparent; box-shadow: var(--app-sombra-md); }
+html[data-tema='light'] .m-carta:hover { box-shadow: var(--app-sombra-md), 0 0 0 1px var(--app-borda-forte); }
+html[data-tema='light'] .m-carta.on { background: #fff; border-color: transparent; box-shadow: 0 0 0 2px #1be03c, var(--app-sombra-md); }
 .f-chip { color: var(--app-txt-fraco); border-color: var(--app-borda-forte); }
 .f-chip.on { background: #1be03c; border-color: #1be03c; color: #052e16; }
-html[data-tema='light'] .f-chip { background: var(--app-painel); }
+html[data-tema='light'] .f-chip { background: var(--app-painel); border-color: transparent; box-shadow: var(--app-sombra-sm); }
+html[data-tema='light'] .f-chip.on { box-shadow: none; }
+html[data-tema='light'] .ddown > summary.f-chip { box-shadow: var(--app-sombra-sm); }
 .ddown-menu { background: var(--app-painel); border-color: var(--app-borda-forte); }
 html[data-tema='light'] .ddown-menu { box-shadow: var(--app-sombra-md); border-radius: 18px; }
 .ddown-menu .ddown-item, .ddown-menu a.ddown-item { color: var(--app-txt); }
@@ -922,9 +925,10 @@ html[data-tema='light'] .ddown-menu { box-shadow: var(--app-sombra-md); border-r
 .alias-chip {
   display: flex; align-items: center; gap: 8px; width: 100%;
   border: 1px dashed rgba(27, 224, 60, 0.45); background: rgba(27, 224, 60, 0.07);
-  border-radius: 12px; padding: 9px 11px; cursor: pointer; font-family: inherit;
+  border-radius: 14px; padding: 9px 11px; cursor: pointer; font-family: inherit;
   text-align: left; transition: background 0.18s ease;
 }
+html[data-tema='light'] .alias-chip { box-shadow: var(--app-sombra-sm); }
 .alias-chip:hover { background: rgba(27, 224, 60, 0.13); }
 .alias-chip .alias-txt {
   flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
