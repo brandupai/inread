@@ -500,42 +500,42 @@ export default async function Caixa({
                 <span style={{ flex: '0 0 auto', width: 36, height: 36, borderRadius: 10, background: grad(selected.senderEmail), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.95)' }}>
                   {iniciais(selected.senderName ?? selected.senderEmail)}
                 </span>
-                <span style={{ fontSize: 13, color: 'rgba(33,48,42,0.65)' }}>
+                <span style={{ fontSize: 13, color: 'var(--leitor-txt-fraco)' }}>
                   {selected.senderName ?? selected.senderEmail} · {selected.createdAt.toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' })} · {selected.readingTime ?? 1} min
                   {selected.contextTag ? ` · ${selected.contextTag}` : ''}
                 </span>
               </div>
-              <h1 style={{ fontSize: 30, lineHeight: 1.22, margin: '0 0 22px', color: '#141a16' }}>{selected.subject}</h1>
+              <h1 style={{ fontSize: 30, lineHeight: 1.22, margin: '0 0 22px', color: 'var(--leitor-txt)' }}>{selected.subject}</h1>
               <div id="artigo-corpo" className="artigo" dangerouslySetInnerHTML={{ __html: selected.contentHtml }} />
               <Sublinhador newsletterId={selected.id} assunto={selected.subject} />
 
               {selected.highlights.length > 0 && (
-                <div style={{ marginTop: 32, borderTop: '1px solid rgba(9,87,44,0.15)', paddingTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <div style={{ marginTop: 32, borderTop: '1px solid var(--leitor-borda)', paddingTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
                   <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--brand-dark)' }}>
                     ✦ Os teus sublinhados ({selected.highlights.length})
                   </div>
                   {selected.highlights.map((h: { id: string; text: string }) => (
-                    <div key={h.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: 'rgba(255,255,255,0.75)', border: '1px solid rgba(27,224,60,0.7)', borderRadius: 12, padding: '10px 14px' }}>
-                      <span style={{ flex: '1 1 auto', fontSize: 14, lineHeight: 1.6, color: '#262A26' }}>
+                    <div key={h.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: 'var(--leitor-btn)', border: '1px solid rgba(27,224,60,0.7)', borderRadius: 12, padding: '10px 14px' }}>
+                      <span style={{ flex: '1 1 auto', fontSize: 14, lineHeight: 1.6, color: 'var(--leitor-txt)' }}>
                         <mark>{h.text}</mark>
                       </span>
                       <form action={apagarHighlight}>
                         <input type="hidden" name="id" value={h.id} />
                         <input type="hidden" name="voltar" value={linkPara(selected.id)} />
-                        <button type="submit" title="Apagar sublinhado" style={{ border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 14, color: 'rgba(33,48,42,0.45)', cursor: 'pointer', padding: 2 }}>
+                        <button type="submit" title="Apagar sublinhado" style={{ border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 14, color: 'var(--leitor-txt-fraco)', cursor: 'pointer', padding: 2 }}>
                           ✕
                         </button>
                       </form>
                     </div>
                   ))}
-                  <div style={{ fontSize: 12, color: 'rgba(33,48,42,0.5)' }}>Incluídos no Exportar .md — prontos para Obsidian e Notion.</div>
+                  <div style={{ fontSize: 12, color: 'var(--leitor-txt-fraco)' }}>Incluídos no Exportar .md — prontos para Obsidian e Notion.</div>
                 </div>
               )}
             </article>
           </>
         ) : (
-          <div style={{ margin: 'auto', textAlign: 'center', padding: 32, color: 'rgba(33,48,42,0.55)' }}>
-            <p style={{ fontWeight: 700, color: '#21302a', marginBottom: 6 }}>
+          <div style={{ margin: 'auto', textAlign: 'center', padding: 32, color: 'var(--leitor-txt-fraco)' }}>
+            <p style={{ fontWeight: 700, color: 'var(--leitor-txt)', marginBottom: 6 }}>
               {soHighlights ? 'Os teus sublinhados' : 'Nenhuma newsletter selecionada'}
             </p>
             <p style={{ fontSize: 14, margin: 0 }}>

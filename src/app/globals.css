@@ -727,6 +727,25 @@ mark {
 }
 .lt-btn:hover { background: rgba(11, 20, 15, 0.12); }
 .lt-btn[aria-disabled='true'] { opacity: 0.35; pointer-events: none; }
+.lt-btn:focus-visible, .tema-switch:focus-visible { outline: 2px solid #1BE03C; outline-offset: 2px; }
+.lt-btn:focus:not(:focus-visible), .tema-switch:focus:not(:focus-visible) { outline: none; }
+
+/* Switch tema claro/escuro — só ícone, sem texto */
+.tema-switch {
+  display: inline-flex; align-items: center; flex: 0 0 auto;
+  width: 44px; height: 26px; padding: 3px; border: none; border-radius: 999px; cursor: pointer;
+  background: var(--leitor-btn); transition: background 0.2s ease;
+}
+.tema-switch:hover { background: var(--leitor-btn-hover); }
+.tema-switch-trilho { position: relative; width: 100%; height: 100%; }
+.tema-switch-bola {
+  position: absolute; top: 0; left: 0; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--leitor-bg); color: var(--leitor-txt);
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transform: translateX(0); transition: transform 0.2s ease;
+}
+.tema-switch[aria-checked='true'] .tema-switch-bola { transform: translateX(18px); }
 .lt-grupo {
   display: inline-flex; align-items: center; gap: 2px;
   background: #0A4424; border-radius: 999px; padding: 3px;
