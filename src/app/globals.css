@@ -842,8 +842,8 @@ mark {
   --leitor-btn: rgba(11, 20, 15, 0.05);
   --leitor-btn-hover: rgba(11, 20, 15, 0.12);
   --leitor-ilha: transparent;
-  --app-sombra-sm: none;
-  --app-sombra-md: none;
+  --app-sombra-sm: 0 1px 0 0 rgba(255, 255, 255, 0.05) inset, 0 4px 10px rgba(0, 0, 0, 0.3);
+  --app-sombra-md: 0 1px 0 0 rgba(255, 255, 255, 0.06) inset, 0 16px 36px rgba(0, 0, 0, 0.42);
 }
 
 html[data-tema='light'] {
@@ -868,7 +868,7 @@ html[data-tema='light'] {
   --leitor-btn: #ffffff;
   --leitor-btn-hover: #f6f5f0;
 }
-html[data-tema='light'] .lt-btn { border: 1px solid var(--app-borda); box-shadow: var(--app-sombra-sm); }
+.lt-btn { border: 1px solid var(--leitor-borda); box-shadow: var(--app-sombra-sm); }
 
 /* dark mode: superfície de leitura escura (verde profundo) */
 html[data-tema='dark'] {
@@ -899,17 +899,25 @@ html[data-tema='dark'] .artigo mark { background: rgba(27, 224, 60, 0.3) !import
 .col-leitor .lt-btn { color: var(--leitor-txt); }
 .col-leitor a { color: var(--brand-dark); }
 html[data-tema='dark'] .col-leitor a { color: #5eea7a; }
-.m-carta { background: var(--app-painel); border-color: var(--app-borda); }
+.m-carta { background: var(--app-painel); border-color: transparent; border-radius: 18px; box-shadow: var(--app-sombra-md); }
 .m-carta:hover { background: var(--app-painel-hover); }
 .m-carta.on { background: var(--app-ativo); border-color: rgba(27, 224, 60, 0.45); }
-html[data-tema='light'] .m-carta { border-radius: 18px; border-color: transparent; box-shadow: var(--app-sombra-md); }
-html[data-tema='light'] .m-carta:hover { box-shadow: var(--app-sombra-md), 0 0 0 1px var(--app-borda-forte); }
 html[data-tema='light'] .m-carta.on { background: #fff; border-color: transparent; box-shadow: 0 0 0 2px #1be03c, var(--app-sombra-md); }
-.f-chip { color: var(--app-txt-fraco); border-color: var(--app-borda-forte); }
-.f-chip.on { background: #1be03c; border-color: #1be03c; color: #052e16; }
-html[data-tema='light'] .f-chip { background: var(--app-painel); border-color: transparent; box-shadow: var(--app-sombra-sm); }
-html[data-tema='light'] .f-chip.on { box-shadow: none; }
-html[data-tema='light'] .ddown > summary.f-chip { box-shadow: var(--app-sombra-sm); }
+html[data-tema='dark'] .m-carta.on { box-shadow: 0 0 0 2px rgba(27, 224, 60, 0.55), var(--app-sombra-md); }
+.f-chip { color: var(--app-txt-fraco); border-color: transparent; background: var(--app-painel); box-shadow: var(--app-sombra-sm); }
+.f-chip.on { background: #1be03c; border-color: #1be03c; color: #052e16; box-shadow: none; }
+
+/* ---- controlo segmentado (ex: Sempre / Por ler) ---- */
+.seg-trilho {
+  display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: 999px;
+  background: var(--app-painel-hover); border: 1px solid var(--app-borda);
+}
+.seg-item {
+  display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 6px 12px;
+  font-size: 12.5px; font-weight: 600; color: var(--app-txt-fraco); background: transparent;
+  border: none; cursor: pointer; white-space: nowrap; text-decoration: none; font-family: inherit;
+}
+.seg-item.on { background: var(--app-painel); color: var(--app-txt-forte); box-shadow: var(--app-sombra-sm); }
 .ddown-menu { background: var(--app-painel); border-color: var(--app-borda-forte); }
 html[data-tema='light'] .ddown-menu { box-shadow: var(--app-sombra-md); border-radius: 18px; }
 .ddown-menu .ddown-item, .ddown-menu a.ddown-item { color: var(--app-txt); }
@@ -928,7 +936,7 @@ html[data-tema='light'] .ddown-menu { box-shadow: var(--app-sombra-md); border-r
   border-radius: 14px; padding: 9px 11px; cursor: pointer; font-family: inherit;
   text-align: left; transition: background 0.18s ease;
 }
-html[data-tema='light'] .alias-chip { box-shadow: var(--app-sombra-sm); }
+.alias-chip { box-shadow: var(--app-sombra-sm); }
 .alias-chip:hover { background: rgba(27, 224, 60, 0.13); }
 .alias-chip .alias-txt {
   flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;

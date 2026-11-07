@@ -294,14 +294,14 @@ export default async function Caixa({
         {/* filtros */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '4px 2px 6px', flexWrap: 'wrap' }}>
           {emGuardados ? (
-            <>
-              <a href="/caixa?f=fav" className={soFavoritos ? 'f-chip on' : 'f-chip'}>Edições</a>
-              <a href="/caixa?f=high" className={soHighlights ? 'f-chip on' : 'f-chip'}>Sublinhados</a>
-            </>
+            <div className="seg-trilho">
+              <a href="/caixa?f=fav" className={soFavoritos ? 'seg-item on' : 'seg-item'}>Edições</a>
+              <a href="/caixa?f=high" className={soHighlights ? 'seg-item on' : 'seg-item'}>Sublinhados</a>
+            </div>
           ) : (
-            <>
+            <div className="seg-trilho">
               <details className="ddown">
-                <summary className="f-chip" style={{ gap: 7 }}>
+                <summary className="seg-item" style={{ gap: 7 }}>
                   <LtIcone d="M12 8v4l2.5 2.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" s={13} />
                   {PERIODOS[periodo].rotulo}
                   <LtIcone d="M6 9l6 6 6-6" s={12} />
@@ -314,11 +314,11 @@ export default async function Caixa({
                   ))}
                 </div>
               </details>
-              <a href={linkCom({ u: soPorLer ? null : '1', n: null })} className={soPorLer ? 'f-chip on' : 'f-chip'}>
+              <a href={linkCom({ u: soPorLer ? null : '1', n: null })} className={soPorLer ? 'seg-item on' : 'seg-item'}>
                 <LtIcone d="M22 11.08V12a10 10 0 11-5.93-9.14" s={13} />
                 Por ler
               </a>
-            </>
+            </div>
           )}
         </div>
 
