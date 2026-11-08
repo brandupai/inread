@@ -1,21 +1,28 @@
 'use client';
 
 import { useState } from 'react';
+import { useSessao } from '@/lib/useSessao';
 
 const ACID_LIGHT = '#1BE03C';
 const ACID = '#15B832';
 const INK = '#15160F';
 
 type Props = {
-  hrefMensal: string;
-  hrefAnual: string;
-  /** texto do botão quando o utilizador já tem sessão */
-  entrou: boolean;
   billing: boolean;
+  /** Página estática: a sessão é lida no cliente. */
+  authEnabled?: boolean;
+  /** Página dinâmica (ex.: /pro): estado e links vêm do servidor. */
+  entrou?: boolean;
+  hrefMensal?: string;
+  hrefAnual?: string;
 };
 
 /** Cartão do plano Pro com escolha mensal/anual (anual pré-selecionado). */
-export default function PlanoPro({ hrefMensal, hrefAnual, entrou, billing }: Props) {
+export default function PlanoPro({ authEnabled = false, billing, entrou: entrouServidor, hrefMensal: hm, hrefAnual: ha }: Props) {
+  const entrouCliente = useSessao(authEnabled && entrouServidor === undefined);
+  const entrou = entrouServidor ?? entrouCliente;
+  const hrefMensal = hm ?? (entrou && billing ? '/api/stripe/checkout?p=mensal' : entrou ? '/caixa' : '/login');
+  const hrefAnual = ha ?? (entrou && billing ? '/api/stripe/checkout?p=anual' : entrou ? '/caixa' : '/login');
   const [anual, setAnual] = useState(true);
   const href = anual ? hrefAnual : hrefMensal;
   const rotulo = !entrou ? (anual ? 'Começar com o anual' : 'Começar com o mensal') : billing ? (anual ? 'Ativar o Pro anual' : 'Ativar o Pro mensal') : 'Brevemente';

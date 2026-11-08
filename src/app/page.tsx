@@ -1,12 +1,11 @@
 import type { CSSProperties } from 'react';
-import { auth, authEnabled } from '@/auth';
+import { authEnabled } from '@/auth';
 import { billingEnabled } from '@/lib/stripe';
 import RodapeSite from '@/components/RodapeSite';
 import PainelInstalar from '@/components/Instalar';
 import SiteHeader from '@/components/SiteHeader';
 import PlanoPro from '@/components/PlanoPro';
-
-export const dynamic = 'force-dynamic';
+import CtaSessao from '@/components/CtaSessao';
 
 const ACID = '#15B832';
 const ACID_LIGHT = '#1BE03C';
@@ -75,11 +74,8 @@ const barra = (w: string, forte = false): CSSProperties => ({
   background: forte ? 'rgba(20,21,15,0.4)' : 'rgba(20,21,15,0.1)',
 });
 
-export default async function Home() {
-  const session = authEnabled ? await auth() : null;
-  const entrou = Boolean(session?.user);
-  const cta = entrou ? '/caixa' : '/login';
-  const ctaLabel = entrou ? 'Abrir a minha caixa' : 'Criar o meu endereço grátis';
+export default function Home() {
+  const cta = '/login';
 
   return (
     <div className="sd" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -111,7 +107,7 @@ export default async function Home() {
           Uma box privada para as newsletters, podcasts e feeds que acompanhas — organizados sozinhos, sem rastreio, com highlights que levas contigo.
         </p>
         <div className="h-seq" style={{ animationDelay: '0.36s', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 14 }}>
-          <a href={cta} style={ctaAcid}>{ctaLabel}</a>
+          <CtaSessao authEnabled={authEnabled} style={ctaAcid} />
           <a href="#instalar" style={{ border: `1px solid ${BORDER}`, background: SURFACE, borderRadius: 999, padding: '15px 24px', fontSize: 15.5, fontWeight: 600, color: INK, boxShadow: '0 2px 6px rgba(20,21,15,0.06)' }}>
             Instalar a app
           </a>
@@ -353,7 +349,7 @@ export default async function Home() {
               Começar grátis
             </a>
           </div>
-          <PlanoPro entrou={entrou} billing={billingEnabled} hrefMensal={entrou && billingEnabled ? '/api/stripe/checkout?p=mensal' : cta} hrefAnual={entrou && billingEnabled ? '/api/stripe/checkout?p=anual' : cta} />
+          <PlanoPro authEnabled={authEnabled} billing={billingEnabled} />
         </div>
         <p style={{ margin: 0, textAlign: 'center', fontSize: 13, ...faint }}>IVA incluído. Cancela quando quiseres — exportas tudo antes de sair.</p>
       </section>
@@ -367,7 +363,7 @@ export default async function Home() {
               O teu conhecimento merece <span className="voz" style={{ color: ACID, fontWeight: 400 }}>uma casa melhor.</span>
             </h2>
             <p style={{ margin: 0, fontSize: 15.5, ...quiet }}>Demora menos de um minuto: escolhes o endereço e começas a acompanhar.</p>
-            <a href={cta} style={ctaAcid}>{ctaLabel}</a>
+            <CtaSessao authEnabled={authEnabled} style={ctaAcid} />
           </div>
         </div>
       </section>
