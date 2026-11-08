@@ -23,6 +23,7 @@ model User {
   sessions      Session[]
   podcastsFavoritos  PodcastFavorito[]
   episodiosGuardados EpisodioGuardado[]
+  pushSubs      PushSub[]
 
   @@map("users")
 }
@@ -154,4 +155,28 @@ model EmailChange {
 
   @@index([userId])
   @@map("email_changes")
+}
+
+/// Subscrição de notificações push (um registo por dispositivo/browser).
+model PushSub {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique @db.VarChar(700)
+  p256dh    String   @db.VarChar(255)
+  auth      String   @db.VarChar(100)
+  userAgent String?  @db.VarChar(255)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("push_subs")
+}
+
+/// Chaves VAPID (geradas uma vez, no primeiro uso) — evita configurar variáveis de ambiente.
+model PushConfig {
+  id         String @id
+  publicKey  String @db.VarChar(255)
+  privateKey String @db.VarChar(255)
+
+  @@map("push_config")
 }

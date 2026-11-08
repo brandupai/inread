@@ -5,12 +5,14 @@ import SidebarNav from '@/components/SidebarNav';
 import VoltarMobile from '@/components/VoltarMobile';
 import TrocarEmail from './TrocarEmail';
 import PainelInstalar from '@/components/Instalar';
+import Notificacoes from '@/components/Notificacoes';
 
-type Categoria = 'plano' | 'instalar' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
+type Categoria = 'plano' | 'instalar' | 'notificacoes' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
 
 const CATEGORIAS: { id: Categoria; rotulo: string; icone: string }[] = [
   { id: 'plano', rotulo: 'Plano', icone: '✦' },
   { id: 'instalar', rotulo: 'Instalar app', icone: '📲' },
+  { id: 'notificacoes', rotulo: 'Notificações', icone: '🔔' },
   { id: 'conta', rotulo: 'Conta', icone: '👤' },
   { id: 'ligacoes', rotulo: 'Ligações', icone: '🔗' },
   { id: 'organizacao', rotulo: 'Organização', icone: '🏷️' },
@@ -100,6 +102,7 @@ export default function DefinicoesInterativo({
         <PainelInstalar />
       </>
     ),
+    notificacoes: <Notificacoes />,
     conta: (
       <>
         <Linha

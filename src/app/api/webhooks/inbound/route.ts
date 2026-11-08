@@ -3,6 +3,7 @@ import PostalMime from 'postal-mime';
 import { prisma } from '@/lib/db';
 import { cleanEmailHtml, detectContext, detectFormat, estimateReadingTime, htmlToPlainText } from '@/lib/clean';
 import { enforceQuota } from '@/lib/quota';
+import { enviarPush } from '@/lib/push';
 
 export const dynamic = 'force-dynamic';
 
@@ -79,6 +80,14 @@ export async function POST(req: NextRequest) {
       listUnsubscribe: listUnsubscribe ?? null,
       readingTime: estimateReadingTime(plain),
     },
+  });
+
+  // aviso no telemóvel/desktop (best-effort; só o remetente e o assunto)
+  await enviarPush(user.id, {
+    titulo: fromName?.trim() || from,
+    corpo: subject,
+    url: `/caixa?n=${newsletter.id}`,
+    tag: 'nl-' + newsletter.id,
   });
 
   return NextResponse.json({ ok: true, id: newsletter.id });
