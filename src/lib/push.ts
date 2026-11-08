@@ -1,5 +1,8 @@
-import webpush from 'web-push';
+import * as webpushNs from 'web-push';
 import { prisma } from '@/lib/db';
+
+// interop CJS/ESM: o bundler pode expor a API em .default ou diretamente
+const webpush = ((webpushNs as unknown as { default?: typeof webpushNs }).default ?? webpushNs) as typeof webpushNs;
 
 let pronto: Promise<string> | null = null;
 
