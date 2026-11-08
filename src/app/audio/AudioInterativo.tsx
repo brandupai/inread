@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import SidebarNav from '@/components/SidebarNav';
+import VoltarMobile from '@/components/VoltarMobile';
 
 type ItemApanhado = { id: string; titulo: string; remetente: string; texto: string };
 type Podcast = { id: string; nome: string; autor: string; imagem: string | null; feedUrl: string };
@@ -229,6 +230,7 @@ export default function AudioInterativo({
       {/* Coluna B */}
       <section className="col-lista">
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 2px 4px' }}>
+          <VoltarMobile />
           <h1 className="t-app-forte" style={{ margin: 0, fontSize: 16, lineHeight: 1 }}>Áudio</h1>
         </div>
 

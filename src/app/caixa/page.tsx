@@ -12,6 +12,7 @@ import BotaoTema from '@/components/BotaoTema';
 import PuxarAtualizar from '@/components/PuxarAtualizar';
 import Expandir from './Expandir';
 import SidebarNav from '@/components/SidebarNav';
+import LogoRemetente from '@/components/LogoRemetente';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,22 +27,6 @@ type ListItem = {
   contextTag: string | null;
   format: string;
   createdAt: Date;
-};
-
-function DockIcon({ d }: { d: string }) {
-  return (
-    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-      <path d={d} />
-    </svg>
-  );
-}
-
-const ICONS = {
-  caixa: 'M3 8l9-5 9 5v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm0 1l9 6 9-6',
-  guardados: 'M6 3h12a1 1 0 011 1v17l-7-4-7 4V4a1 1 0 011-1z',
-  audio: 'M9 18V6l10-2v12M9 18a3 3 0 11-6 0 3 3 0 016 0zm10-2a3 3 0 11-6 0 3 3 0 016 0z',
-  descobrir: 'M12 21a9 9 0 110-18 9 9 0 010 18zm3.5-12.5L14 14l-5.5 1.5L10 10l5.5-1.5z',
-  remetentes: 'M17 20v-1a4 4 0 00-4-4H7a4 4 0 00-4 4v1m14-13a4 4 0 11-8 0 4 4 0 018 0zm4 13v-1a4 4 0 00-3-3.87M16 3.13A4 4 0 0116 11',
 };
 
 const PERIODOS: Record<string, { rotulo: string; horas: number | null }> = {
@@ -257,14 +242,18 @@ export default async function Caixa({
   const limiteFree = Number(process.env.FREE_NEWSLETTER_LIMIT ?? 50);
 
   return (
-    <div className="app3">
+    <div className={n ? 'app3 m-leitor' : 'app3 m-lista'}>
       <SidebarNav ativo={emGuardados ? 'guardados' : 'caixa'} porLer={porLer} />
 
       {/* ===== coluna da lista ===== */}
       <section className="col-lista">
         <PuxarAtualizar alvo=".col-lista" />
 
-        <AliasChip alias={meuAlias} />
+        <div className="alias-linha">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="alias-logo" src="/favicon-dark.svg?v=3" alt="inread" />
+          <AliasChip alias={meuAlias} />
+        </div>
         <Quota total={totalCaixa} limite={limiteFree} ehPro={ehPro} />
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 2px 0' }}>
@@ -360,9 +349,7 @@ export default async function Caixa({
               const nome = item.senderName ?? item.senderEmail;
               return (
                 <a key={item.id} href={linkPara(item.id)} className={item.id === selected?.id ? 'm-carta on' : 'm-carta'}>
-                  <span style={{ flex: '0 0 auto', width: 42, height: 42, borderRadius: 11, background: grad(item.senderEmail), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.95)' }}>
-                    {iniciais(nome)}
-                  </span>
+                  <LogoRemetente email={item.senderEmail} iniciais={iniciais(nome)} fundo={grad(item.senderEmail)} />
                   <span style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0, flex: '1 1 auto' }}>
                     <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 500, color: item.isRead ? 'var(--app-txt-tenue)' : 'var(--app-txt-fraco)' }}>
                       {!item.isRead && <span style={{ width: 7, height: 7, borderRadius: 999, background: '#1BE03C', flex: '0 0 auto' }} />}
@@ -423,6 +410,9 @@ export default async function Caixa({
         {selected ? (
           <>
             <div className="leitor-toolbar">
+              <a href={base} className="lt-btn so-mobile" title="Voltar à lista" aria-label="Voltar à lista">
+                <LtIcone d="M15 18l-6-6 6-6" s={16} />
+              </a>
               <Expandir />
               <a href={anterior ? linkPara(anterior.id) : '#'} className="lt-btn" aria-disabled={!anterior} title="Anterior" aria-label="Anterior">
                 <LtIcone d="M12 19V5m-7 7l7-7 7 7" s={15} />
@@ -497,9 +487,7 @@ export default async function Caixa({
 
             <article className="artigo-ilha">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
-                <span style={{ flex: '0 0 auto', width: 36, height: 36, borderRadius: 10, background: grad(selected.senderEmail), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.95)' }}>
-                  {iniciais(selected.senderName ?? selected.senderEmail)}
-                </span>
+                <LogoRemetente email={selected.senderEmail} iniciais={iniciais(selected.senderName ?? selected.senderEmail)} fundo={grad(selected.senderEmail)} tamanho={36} />
                 <span style={{ fontSize: 13, color: 'var(--leitor-txt-fraco)' }}>
                   {selected.senderName ?? selected.senderEmail} · {selected.createdAt.toLocaleDateString('pt-PT', { day: 'numeric', month: 'long', year: 'numeric' })} · {selected.readingTime ?? 1} min
                   {selected.contextTag ? ` · ${selected.contextTag}` : ''}
@@ -545,34 +533,6 @@ export default async function Caixa({
         )}
       </main>
 
-      {/* dock mobile */}
-      <nav aria-label="Navegação principal" className="glass dock-mobile" style={{ position: 'fixed', left: '50%', bottom: 18, transform: 'translateX(-50%)', zIndex: 20, gap: 10, padding: 10, borderRadius: 26, boxShadow: '0 18px 44px rgba(0,0,0,0.4)' }}>
-        <a href="/caixa" className="gicon" title="Caixa" aria-current={!emGuardados ? 'page' : undefined} style={{ width: 52, height: 52, borderRadius: 17, color: !emGuardados ? '#fff' : 'var(--brand-light)' }}>
-          <span className={!emGuardados ? 'gi-blob gi-on' : 'gi-blob'} />
-          <span className="gi-glass" style={{ background: !emGuardados ? 'rgba(9,87,44,0.28)' : undefined }} />
-          <DockIcon d={ICONS.caixa} />
-        </a>
-        <a href="/caixa?f=fav" className="gicon" title="Guardados" aria-current={emGuardados ? 'page' : undefined} style={{ width: 52, height: 52, borderRadius: 17, color: emGuardados ? '#fff' : 'var(--brand-light)' }}>
-          <span className={emGuardados ? 'gi-blob gi-on' : 'gi-blob'} />
-          <span className="gi-glass" style={{ background: emGuardados ? 'rgba(9,87,44,0.28)' : undefined }} />
-          <DockIcon d={ICONS.guardados} />
-        </a>
-        <a href="/audio" className="gicon" title="Áudio" style={{ width: 52, height: 52, borderRadius: 17, color: 'var(--brand-light)' }}>
-          <span className="gi-blob" />
-          <span className="gi-glass" />
-          <DockIcon d={ICONS.audio} />
-        </a>
-        <a href="/descobrir" className="gicon" title="Descobrir" style={{ width: 52, height: 52, borderRadius: 17, color: 'var(--brand-light)' }}>
-          <span className="gi-blob" />
-          <span className="gi-glass" />
-          <DockIcon d={ICONS.descobrir} />
-        </a>
-        <a href="/remetentes" className="gicon" title="Remetentes" style={{ width: 52, height: 52, borderRadius: 17, color: 'var(--brand-light)' }}>
-          <span className="gi-blob" />
-          <span className="gi-glass" />
-          <DockIcon d={ICONS.remetentes} />
-        </a>
-      </nav>
     </div>
   );
 }

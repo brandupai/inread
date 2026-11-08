@@ -3,6 +3,7 @@ import { prisma } from '@/lib/db';
 import { auth, authEnabled } from '@/auth';
 import { grad, iniciais } from '@/lib/visual';
 import AppShell from '@/components/AppShell';
+import LogoRemetente from '@/components/LogoRemetente';
 
 export const dynamic = 'force-dynamic';
 
@@ -87,9 +88,7 @@ export default async function Remetentes() {
     >
       {remetentes.map((r) => (
         <div key={r.email} className="m-carta" style={{ alignItems: 'center' }}>
-          <span style={{ flex: '0 0 auto', width: 42, height: 42, borderRadius: 11, background: grad(r.email), display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.95)' }}>
-            {iniciais(r.nome)}
-          </span>
+          <LogoRemetente email={r.email} iniciais={iniciais(r.nome)} fundo={grad(r.email)} />
           <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: '1 1 auto' }}>
             <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.nome}</span>
             <span className="t-app-tenue" style={{ fontSize: 11, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.email}</span>

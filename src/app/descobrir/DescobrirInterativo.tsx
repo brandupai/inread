@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import SidebarNav from '@/components/SidebarNav';
+import VoltarMobile from '@/components/VoltarMobile';
 import LogoNewsletter from './LogoNewsletter';
 import { CATEGORIAS, porCategoria, type Categoria, type EntradaDiretorio } from '@/lib/diretorio';
 
@@ -38,6 +39,7 @@ export default function DescobrirInterativo({ porLer, alias }: { porLer: number;
       {/* Coluna B — categorias */}
       <section className="col-lista">
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 2px 4px' }}>
+          <VoltarMobile />
           <h1 className="t-app-forte" style={{ margin: 0, fontSize: 16, lineHeight: 1 }}>Descobrir</h1>
         </div>
 

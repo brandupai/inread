@@ -3,8 +3,7 @@
 import { useState } from 'react';
 
 /**
- * Logo real da newsletter via Clearbit Logo API (grátis, sem chave,
- * só precisa do domínio do site). Se falhar, cai para o bloco de cor
+ * Logo real da newsletter via /api/logo (servido pelo nosso servidor). Se falhar, cai para o bloco de cor
  * com a inicial do nome — nunca fica em branco.
  */
 export default function LogoNewsletter({
@@ -37,7 +36,7 @@ export default function LogoNewsletter({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={`https://logo.clearbit.com/${dominio}?size=128`}
+      src={`/api/logo?d=${encodeURIComponent(dominio)}`}
       alt=""
       width={tamanho}
       height={tamanho}

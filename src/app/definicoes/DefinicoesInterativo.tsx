@@ -2,6 +2,7 @@
 
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import SidebarNav from '@/components/SidebarNav';
+import VoltarMobile from '@/components/VoltarMobile';
 import TrocarEmail from './TrocarEmail';
 
 type Categoria = 'plano' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
@@ -167,6 +168,7 @@ export default function DefinicoesInterativo({
       {/* Coluna B */}
       <section className="col-lista">
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 2px 4px' }}>
+          <VoltarMobile />
           <h1 className="t-app-forte" style={{ margin: 0, fontSize: 16, lineHeight: 1 }}>Definições</h1>
         </div>
 
@@ -184,6 +186,11 @@ export default function DefinicoesInterativo({
             <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700, flex: '1 1 auto' }}>{c.rotulo}</span>
           </button>
         ))}
+
+        <a href="/remetentes" className="m-carta so-mobile" style={{ alignItems: 'center' }}>
+          <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}>🏢</span>
+          <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700, flex: '1 1 auto' }}>Remetentes</span>
+        </a>
 
         <p className="t-app-tenue" style={{ fontSize: 12, lineHeight: 1.6, padding: '14px 2px 2px' }}>
           inread.app · as tuas newsletters, fora da caixa de entrada

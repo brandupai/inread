@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 /** 🔍 — abre uma caixa de pesquisa em overlay (substitui o campo fixo na lista). */
-export default function Busca({ inicial = '', compacto = false }: { inicial?: string; compacto?: boolean }) {
+export default function Busca({ inicial = '', compacto = false, dock = false }: { inicial?: string; compacto?: boolean; dock?: boolean }) {
   const router = useRouter();
   const [aberta, setAberta] = useState(false);
   const campo = useRef<HTMLInputElement>(null);
@@ -36,7 +36,7 @@ export default function Busca({ inicial = '', compacto = false }: { inicial?: st
     <>
       <button
         type="button"
-        className={compacto ? 's-ico-btn' : 's-item'}
+        className={dock ? 'dock-ic' : compacto ? 's-ico-btn' : 's-item'}
         onClick={() => setAberta(true)}
         title="Pesquisar (⌘K)"
         aria-label="Pesquisar"
@@ -45,7 +45,7 @@ export default function Busca({ inicial = '', compacto = false }: { inicial?: st
           <circle cx="11" cy="11" r="7" />
           <path d="M20 20l-3.5-3.5" />
         </svg>
-        {!compacto && <span className="s-rotulo">Pesquisar</span>}
+        {!compacto && !dock && <span className="s-rotulo">Pesquisar</span>}
       </button>
 
       {aberta && (

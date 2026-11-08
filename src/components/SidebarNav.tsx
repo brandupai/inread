@@ -20,6 +20,9 @@ const ICONES: Record<string, string> = {
   remetentes: 'M3 21h18M5 21V5a2 2 0 012-2h7a2 2 0 012 2v16M16 21V9h3a2 2 0 012 2v10M8 7h3M8 11h3M8 15h3',
 };
 
+const ICONES_DEF =
+  'M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33h.01a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51h.01a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.01a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z';
+
 function Icone({ d }: { d: string }) {
   return (
     <svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
@@ -92,6 +95,22 @@ export default function SidebarNav({ ativo, porLer }: { ativo: string; porLer: n
         <span className="s-rotulo">Definições</span>
       </a>
     </aside>
+      {/* barra de baixo — telemóvel (sempre presente) */}
+      <nav className="dock-app" aria-label="Navegação principal">
+        {itens.filter((i) => i.chave !== 'remetentes').map((item) => (
+          <a key={item.chave} href={item.href} className={ativo === item.chave ? 'dock-ic on' : 'dock-ic'} aria-current={ativo === item.chave ? 'page' : undefined} aria-label={item.rotulo} title={item.rotulo}>
+            <Icone d={item.icone} />
+            {item.badge ? <span className="dock-badge">{item.badge > 99 ? '99+' : item.badge}</span> : null}
+          </a>
+        ))}
+        <Busca dock />
+        <a href="/definicoes" className={ativo === 'definicoes' ? 'dock-ic on' : 'dock-ic'} aria-current={ativo === 'definicoes' ? 'page' : undefined} aria-label="Definições" title="Definições">
+          <svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="3" />
+            <path d={ICONES_DEF} />
+          </svg>
+        </a>
+      </nav>
     </>
   );
 }

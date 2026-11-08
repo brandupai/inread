@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import SidebarNav from './SidebarNav';
+import VoltarMobile from './VoltarMobile';
 
 /** Shell de 3 colunas: menu (A) · lista (B) · leitor (C). */
 export default function AppShell({
@@ -24,6 +25,7 @@ export default function AppShell({
       <section className="col-lista">
         {acima}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 2px 4px' }}>
+          <VoltarMobile />
           <h1 className="t-app-forte" style={{ margin: 0, fontSize: 16, lineHeight: 1 }}>{titulo}</h1>
         </div>
         {children}
