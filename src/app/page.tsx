@@ -43,7 +43,7 @@ function MiniRow({ delay, img, sender, subject }: { delay?: string; img: string;
       style={{ animationDelay: delay, display: 'flex', gap: 10, alignItems: 'center', background: SURFACE_SUNK, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '10px 12px' }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={img} alt="" style={{ width: 34, height: 34, borderRadius: 9, flex: '0 0 auto', objectFit: 'cover', boxShadow: '0 4px 10px rgba(20,21,15,0.12)' }} />
+      <img src={img} alt="" width={34} height={34} loading="lazy" decoding="async" style={{ width: 34, height: 34, borderRadius: 9, flex: '0 0 auto', objectFit: 'cover', boxShadow: '0 4px 10px rgba(20,21,15,0.12)' }} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0 }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: INK }}>{sender}</span>
         <span style={{ fontSize: 11, ...quiet, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{subject}</span>
@@ -99,7 +99,7 @@ export default async function Home() {
       <SiteHeader />
 
       {/* hero */}
-      <section style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '76px 24px 30px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 26, textAlign: 'center' }}>
+      <section className="hero-sec" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '76px 24px 30px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 26, textAlign: 'center' }}>
         <div className="h-seq" style={{ fontSize: 13, fontWeight: 600, color: ACID_INK, border: '1px solid rgba(21,184,50,0.35)', borderRadius: 999, padding: '7px 16px', background: 'rgba(21,184,50,0.08)' }}>
           A box de conhecimento que não pede acesso ao teu email
         </div>
@@ -134,9 +134,9 @@ export default async function Home() {
               <span style={{ fontFamily: 'var(--font-display)', fontSize: 19, fontWeight: 700, color: INK }}>Caixa</span>
               <span style={{ fontSize: 12, ...faint }}>3 por ler</span>
             </div>
-            <MiniRow img="/demo/nl-tech.png" sender="Semana Tech" subject="Nº 142 — O regresso da web calma" />
-            <MiniRow delay="0.5s" img="/demo/nl-design.png" sender="Café com Design" subject="Tipografia que respira" />
-            <MiniRow delay="1s" img="/demo/nl-produto.png" sender="Produto & Co" subject="Como definir preços em SaaS" />
+            <MiniRow img="/demo/nl-tech.webp" sender="Semana Tech" subject="Nº 142 — O regresso da web calma" />
+            <MiniRow delay="0.5s" img="/demo/nl-design.webp" sender="Café com Design" subject="Tipografia que respira" />
+            <MiniRow delay="1s" img="/demo/nl-produto.webp" sender="Produto & Co" subject="Como definir preços em SaaS" />
           </div>
         </div>
 
@@ -219,8 +219,8 @@ export default async function Home() {
             <div style={{ alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(21,184,50,0.08)', border: '1px solid rgba(21,184,50,0.35)', borderRadius: 999, padding: '7px 14px', fontSize: 14, fontWeight: 600, color: ACID_INK }}>
               sofia@inread.app
             </div>
-            <MiniRow img="/demo/nl-tech.png" sender="Semana Tech" subject="Nº 142 — O regresso da web calma" />
-            <MiniRow delay="0.7s" img="/demo/nl-news.png" sender="Manhãs de Notícias" subject="O que importa esta terça-feira" />
+            <MiniRow img="/demo/nl-tech.webp" sender="Semana Tech" subject="Nº 142 — O regresso da web calma" />
+            <MiniRow delay="0.7s" img="/demo/nl-news.webp" sender="Manhãs de Notícias" subject="O que importa esta terça-feira" />
           </div>
 
           {/* leitura limpa */}
@@ -300,7 +300,7 @@ export default async function Home() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, background: SURFACE_SUNK, border: `1px solid ${BORDER}`, borderRadius: 14, padding: '10px 14px' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/demo/nl-produto.png" alt="" style={{ width: 30, height: 30, borderRadius: 9, flex: '0 0 auto', objectFit: 'cover' }} />
+                <img src="/demo/nl-produto.webp" alt="" width={30} height={30} loading="lazy" decoding="async" style={{ width: 30, height: 30, borderRadius: 9, flex: '0 0 auto', objectFit: 'cover' }} />
                 <span style={{ fontSize: 13.5, fontWeight: 600, color: INK, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Produto & Co</span>
               </span>
               <span style={{ fontSize: 12, fontWeight: 600, color: '#B23A3A', border: '1px solid rgba(178,58,58,0.35)', borderRadius: 999, padding: '6px 12px', flex: '0 0 auto' }}>

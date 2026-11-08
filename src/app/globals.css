@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Stang';
-  src: url('/fonts/Stang-Light.otf') format('opentype');
+  src: url('/fonts/Stang-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'Stang';
-  src: url('/fonts/Stang-Regular.otf') format('opentype');
+  src: url('/fonts/Stang-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: 'Stang';
-  src: url('/fonts/Stang-Bold.otf') format('opentype');
+  src: url('/fonts/Stang-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -24,7 +24,7 @@
 
 @font-face {
   font-family: 'Belgates Script';
-  src: url('/fonts/BelgatesScript.woff2') format('woff2'), url('/fonts/BelgatesScript.ttf') format('truetype');
+  src: url('/fonts/BelgatesScript.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -424,7 +424,6 @@ a:hover {
 .sd-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(90px);
   animation: orbDrift 24s ease-in-out infinite alternate;
 }
 
@@ -1091,3 +1090,49 @@ html[data-tema='light'] .dock-ic.on { background: #14150f; color: #fff; }
 .sd.luz .docs-prosa a { color: var(--brand-dark); }
 .sd.luz .docs-prosa code { background: rgba(20, 21, 15, 0.07); }
 .sd.luz h1, .sd.luz h2, .sd.luz h3 { color: var(--ink); }
+
+/* ---- cabeçalho do site (SiteHeader) ---- */
+.sd-shell { min-height: 100vh; min-height: 100dvh; }
+.site-header { position: sticky; top: 14px; z-index: 30; width: calc(100% - 32px); max-width: 1120px; margin: 18px auto 0; padding: 10px 14px 10px 22px; background: rgba(255,255,255,0.86); border: 1px solid rgba(20,21,15,0.08); border-radius: 999px; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: 0 18px 40px rgba(20,21,15,0.08); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.sh-links { display: flex; align-items: center; gap: 22px; font-size: 14px; font-weight: 500; margin-left: auto; }
+.sh-conta { display: flex; align-items: center; gap: 18px; font-size: 14px; font-weight: 500; }
+.sh-cta-short { display: none; }
+.sh-menu { display: none; position: relative; }
+.sh-menu summary { list-style: none; cursor: pointer; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; -webkit-tap-highlight-color: transparent; }
+.sh-menu summary::-webkit-details-marker { display: none; }
+.sh-painel { position: absolute; right: -6px; top: calc(100% + 14px); width: min(260px, calc(100vw - 32px)); background: #fff; border: 1px solid rgba(20,21,15,0.08); border-radius: 22px; box-shadow: 0 24px 60px rgba(20,21,15,0.16); padding: 8px; display: flex; flex-direction: column; }
+.sh-painel a { padding: 13px 14px; border-radius: 14px; font-size: 15.5px; font-weight: 500; }
+.sh-painel a:active { background: #F1F0EB; }
+
+@media (max-width: 860px) {
+  .sh-links { display: none; }
+  .sh-menu { display: block; }
+  .sh-conta { margin-left: auto; gap: 6px; }
+  .sh-entrar { display: none; }
+  .sh-cta-long { display: none; }
+  .sh-cta-short { display: inline; }
+  .site-header { top: 8px; margin-top: 10px; padding: 6px 8px 6px 18px; backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255,255,255,0.97); box-shadow: 0 8px 22px rgba(20,21,15,0.08); }
+}
+
+/* ---- telemóvel: menos peso, mais fluidez ---- */
+@media (max-width: 860px) {
+  .sd-orb, .blob { animation: none !important; }
+  .bg-blobs { display: none; }
+  .hero-sec { padding: 44px 20px 20px !important; gap: 22px !important; }
+  .hero-sec h1 { letter-spacing: -0.025em; }
+  .sd a, .sd button { -webkit-tap-highlight-color: transparent; }
+  .rodape-cols { display: grid !important; grid-template-columns: 1fr 1fr; gap: 28px 20px !important; }
+  .rodape-cols > div:first-child { grid-column: 1 / -1; }
+  .rodape-cols a { padding: 3px 0; }
+  .docs-nav { flex: 1 1 100% !important; flex-direction: row !important; flex-wrap: wrap; gap: 14px 22px !important; }
+  .docs-nav > div { flex: 1 1 200px; }
+  .docs-prosa { max-width: 100% !important; }
+}
+@media (max-width: 480px) {
+  .sd { font-size: 15.5px; }
+  .site-header { width: calc(100% - 20px); }
+}
+/* o fundo animado do leitor não corre atrás das páginas do site */
+body:has(.sd) .bg-blobs { display: none; }
+/* conteúdo fora do ecrã não é pintado até ser preciso */
+.sd section:not(.hero-sec) { content-visibility: auto; contain-intrinsic-size: auto 600px; }

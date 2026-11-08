@@ -27,7 +27,7 @@ export default function RodapeSite() {
   return (
     <footer className="luz" style={{ width: '100%', margin: '48px auto 0', padding: '32px 24px 28px', background: 'linear-gradient(165deg, #E4F0E5 0%, #EFF3EE 60%, #E9F1EC 100%)', borderRadius: '34px 34px 0 0' }}>
       <div style={{ maxWidth: 1120, margin: '0 auto' }}>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 36, justifyContent: 'space-between' }}>
+      <div className="rodape-cols" style={{ display: 'flex', flexWrap: 'wrap', gap: 36, justifyContent: 'space-between' }}>
         <div style={{ flex: '1 1 220px', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.svg?v=2" alt="inread" style={{ height: 24, width: 'auto', alignSelf: 'flex-start' }} />
