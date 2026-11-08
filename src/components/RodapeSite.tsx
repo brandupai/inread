@@ -73,6 +73,7 @@ export default function RodapeSite() {
           <div style={colTitulo}>Legal</div>
           <a href="/legal/privacidade" style={colLink}>Política de privacidade</a>
           <a href="/legal/termos" style={colLink}>Termos de utilização</a>
+          <a href="https://www.livroreclamacoes.pt/inicio" target="_blank" rel="noopener noreferrer" style={colLink}>Livro de Reclamações</a>
         </div>
       </div>
       </div>

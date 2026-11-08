@@ -14,7 +14,7 @@
     "@prisma/client": "^6.2.1",
     "next": "^15.1.6",
     "next-auth": "^5.0.0-beta.32",
-    "nodemailer": "^8.0.11",
+    "nodemailer": "^10.4.0",
     "postal-mime": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -33,5 +33,9 @@
     "@types/web-push": "^3.6.4",
     "prisma": "^6.2.1",
     "typescript": "^5.7.2"
+  },
+  "overrides": {
+    "nodemailer": "$nodemailer",
+    "deepmerge-ts": "^8.0.0"
   }
 }

@@ -43,7 +43,18 @@ export default async function Admin() {
   if (authEnabled) {
     const session = await auth();
     if (!session?.user?.email) redirect('/login');
-    if (!ADMIN_EMAILS.includes(session.user.email.toLowerCase())) redirect('/caixa');
+    if (!ADMIN_EMAILS.includes(session.user.email.toLowerCase())) {
+      return (
+        <main style={{ maxWidth: 520, margin: '0 auto', padding: '64px 24px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <h1 style={{ margin: 0, fontSize: 26 }}>Sem acesso ao painel</h1>
+          <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: 'var(--quiet)' }}>
+            A sessão atual é <strong>{session.user.email}</strong>, que não está na lista de administradores (variável <code>ADMIN_EMAILS</code>).
+            Entra com o email de administrador ou adiciona este à variável no alojamento.
+          </p>
+          <a href="/caixa" style={{ color: 'var(--brand-light)', fontWeight: 600 }}>‹ Voltar à caixa</a>
+        </main>
+      );
+    }
   }
 
   const agora = Date.now();
