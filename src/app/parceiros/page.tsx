@@ -1,12 +1,11 @@
-import RodapeSite from '@/components/RodapeSite';
+import SiteShell from '@/components/SiteShell';
 
 export const metadata = { title: 'Programa de parceiros — inread' };
 
 export default function Parceiros() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <SiteShell>
       <main style={{ width: '100%', maxWidth: 720, margin: '0 auto', padding: '40px 24px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-light)' }}>‹ inread.app</a>
         <h1 style={{ margin: '4px 0 0', fontSize: 'clamp(30px, 5vw, 42px)' }}>Programa de parceiros</h1>
         <p style={{ margin: 0, fontSize: 16, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
           Escreves uma newsletter? O inread é onde os teus leitores mais dedicados a vão ler — sem anúncios à volta, sem disputar a caixa de entrada. Queremos crescer contigo.
@@ -40,7 +39,6 @@ export default function Parceiros() {
           Parcerias e imprensa: <a href="mailto:suporte@inread.app" style={{ fontWeight: 600 }}>suporte@inread.app</a>
         </p>
       </main>
-      <RodapeSite />
-    </div>
+    </SiteShell>
   );
 }

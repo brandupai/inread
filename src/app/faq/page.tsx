@@ -1,4 +1,4 @@
-import RodapeSite from '@/components/RodapeSite';
+import SiteShell from '@/components/SiteShell';
 
 export const metadata = { title: 'Perguntas frequentes — inread' };
 
@@ -43,9 +43,8 @@ const FAQS: Array<{ p: string; r: string }> = [
 
 export default function FAQ() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <SiteShell>
       <main style={{ width: '100%', maxWidth: 760, margin: '0 auto', padding: '40px 24px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-light)' }}>‹ inread.app</a>
         <h1 style={{ margin: '4px 0 6px', fontSize: 'clamp(30px, 5vw, 42px)' }}>Perguntas frequentes</h1>
         {FAQS.map((f) => (
           <details key={f.p} className="glass" style={{ borderRadius: 16, padding: '4px 18px' }}>
@@ -57,7 +56,6 @@ export default function FAQ() {
           Não encontraste a resposta? <a href="/contactos" style={{ fontWeight: 600 }}>Fala connosco</a>.
         </p>
       </main>
-      <RodapeSite />
-    </div>
+    </SiteShell>
   );
 }

@@ -1,4 +1,4 @@
-import RodapeSite from '@/components/RodapeSite';
+import SiteShell from '@/components/SiteShell';
 
 export const metadata = { title: 'Ajuda — inread' };
 
@@ -75,9 +75,8 @@ const GRUPOS: Array<{ titulo: string; artigos: Array<{ p: string; r: string }> }
 
 export default function Ajuda() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <SiteShell>
       <main style={{ width: '100%', maxWidth: 760, margin: '0 auto', padding: '40px 24px 0', display: 'flex', flexDirection: 'column', gap: 14 }}>
-        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-light)' }}>‹ inread.app</a>
         <h1 style={{ margin: '4px 0 0', fontSize: 'clamp(30px, 5vw, 42px)' }}>Ajuda</h1>
         <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.6, color: 'var(--ink-soft)' }}>
           Guias curtos para tirares tudo do inread. Não encontras o que procuras? <a href="/contactos" style={{ fontWeight: 600 }}>Fala connosco</a>.
@@ -97,7 +96,6 @@ export default function Ajuda() {
           Vê também as <a href="/faq" style={{ fontWeight: 600 }}>perguntas frequentes</a> e o <a href="/changelog" style={{ fontWeight: 600 }}>changelog</a>.
         </p>
       </main>
-      <RodapeSite />
-    </div>
+    </SiteShell>
   );
 }

@@ -3,6 +3,7 @@ import { auth, authEnabled } from '@/auth';
 import { billingEnabled } from '@/lib/stripe';
 import RodapeSite from '@/components/RodapeSite';
 import PainelInstalar from '@/components/Instalar';
+import SiteHeader from '@/components/SiteHeader';
 
 export const dynamic = 'force-dynamic';
 
@@ -95,23 +96,7 @@ export default async function Home() {
         Novo: highlights exportáveis para Obsidian e Notion, em Markdown limpo
       </a>
 
-      {/* navegação */}
-      <header
-        style={{ position: 'sticky', top: 14, zIndex: 30, width: 'calc(100% - 32px)', maxWidth: 1120, margin: '18px auto 0', padding: '12px 22px', background: 'rgba(255,255,255,0.86)', border: `1px solid ${BORDER}`, borderRadius: 999, backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', boxShadow: '0 18px 40px rgba(20,21,15,0.08)', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo.svg?v=2" alt="inread" style={{ height: 26, width: 'auto' }} />
-        <nav aria-label="Navegação" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 20, fontSize: 14, fontWeight: 500, color: INK }}>
-          <a href="#funcionalidades" style={{ color: INK }}>Funcionalidades</a>
-          <a href="#instalar" style={{ color: INK }}>Instalar</a>
-          <a href="#precos" style={{ color: INK }}>Preços</a>
-          <a href="/faq" style={{ color: INK }}>FAQ</a>
-          {!entrou && <a href="/login" style={{ color: INK }}>Entrar</a>}
-          <a href={cta} style={{ background: INK, color: '#fff', borderRadius: 999, padding: '9px 18px', fontWeight: 600 }}>
-            {entrou ? 'A minha caixa' : 'Criar endereço grátis'}
-          </a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       {/* hero */}
       <section style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '76px 24px 30px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 26, textAlign: 'center' }}>

@@ -23,13 +23,13 @@ export default async function PaginaDocs({ params }: { params: Promise<{ slug: s
 
   return (
     <article>
-      <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: '#1BE03C', marginBottom: 8 }}>{pag.seccao}</div>
-      <h1 style={{ margin: '0 0 18px', fontSize: 'clamp(26px, 4vw, 34px)', lineHeight: 1.2, color: '#F4FAF5' }}>{pag.titulo}</h1>
+      <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase', color: 'var(--brand-dark)', marginBottom: 8 }}>{pag.seccao}</div>
+      <h1 style={{ margin: '0 0 18px', fontSize: 'clamp(26px, 4vw, 34px)', lineHeight: 1.2, color: 'var(--ink)' }}>{pag.titulo}</h1>
       <div dangerouslySetInnerHTML={{ __html: pag.html }} />
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginTop: 40, paddingTop: 20, borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: 13.5, fontWeight: 600 }}>
-        <span>{anterior && <a href={`/docs/${anterior.slug}`} style={{ color: 'rgba(232,242,234,0.75)' }}>← {anterior.titulo}</a>}</span>
-        <span>{seguinte && <a href={`/docs/${seguinte.slug}`} style={{ color: '#1BE03C' }}>{seguinte.titulo} →</a>}</span>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginTop: 40, paddingTop: 20, borderTop: '1px solid rgba(20,21,15,0.1)', fontSize: 13.5, fontWeight: 600 }}>
+        <span>{anterior && <a href={`/docs/${anterior.slug}`} style={{ color: 'var(--ink-soft)' }}>← {anterior.titulo}</a>}</span>
+        <span>{seguinte && <a href={`/docs/${seguinte.slug}`} style={{ color: 'var(--brand-dark)' }}>{seguinte.titulo} →</a>}</span>
       </div>
     </article>
   );

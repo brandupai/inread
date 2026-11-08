@@ -1,4 +1,4 @@
-import RodapeSite from '@/components/RodapeSite';
+import SiteShell from '@/components/SiteShell';
 
 export const metadata = { title: 'Política de privacidade — inread' };
 
@@ -7,9 +7,8 @@ const p = { margin: 0, fontSize: 14.5, lineHeight: 1.7, color: 'var(--ink-soft)'
 
 export default function Privacidade() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <SiteShell>
       <main style={{ width: '100%', maxWidth: 720, margin: '0 auto', padding: '40px 24px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <a href="/" style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--brand-light)' }}>‹ inread.app</a>
         <h1 style={{ margin: '4px 0 0', fontSize: 'clamp(28px, 5vw, 38px)' }}>Política de privacidade</h1>
         <p style={{ ...p, color: 'var(--quiet)' }}>Última atualização: 3 de novembro de 2026</p>
 
@@ -50,7 +49,6 @@ export default function Privacidade() {
           Se esta política mudar de forma relevante, avisamos-te por email ou na app antes de a alteração entrar em vigor.
         </p>
       </main>
-      <RodapeSite />
-    </div>
+    </SiteShell>
   );
 }
