@@ -4,6 +4,7 @@ import { billingEnabled } from '@/lib/stripe';
 import RodapeSite from '@/components/RodapeSite';
 import PainelInstalar from '@/components/Instalar';
 import SiteHeader from '@/components/SiteHeader';
+import PlanoPro from '@/components/PlanoPro';
 
 export const dynamic = 'force-dynamic';
 
@@ -79,8 +80,6 @@ export default async function Home() {
   const entrou = Boolean(session?.user);
   const cta = entrou ? '/caixa' : '/login';
   const ctaLabel = entrou ? 'Abrir a minha caixa' : 'Criar o meu endereço grátis';
-  const proHref = entrou && billingEnabled ? '/pro' : cta;
-  const proLabel = entrou && billingEnabled ? 'Ativar o Pro' : 'Começar grátis';
 
   return (
     <div className="sd" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -354,27 +353,7 @@ export default async function Home() {
               Começar grátis
             </a>
           </div>
-          <div style={{ flex: '1 1 300px', minWidth: 0, borderRadius: 26, padding: 30, display: 'flex', flexDirection: 'column', gap: 14, background: `linear-gradient(160deg, ${ACID_LIGHT}, ${ACID})`, color: INK, boxShadow: '0 0 50px rgba(21,184,50,0.22), 0 20px 48px rgba(20,21,15,0.14)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: 15, fontWeight: 700 }}>Pro</span>
-              <span style={{ fontSize: 11.5, fontWeight: 700, color: ACID_LIGHT, background: INK, borderRadius: 999, padding: '4px 11px' }}>Preço de lançamento</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 20, fontWeight: 600, color: 'rgba(21,22,15,0.5)', textDecoration: 'line-through' }}>€7,99</span>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: 46, fontWeight: 700, lineHeight: 1 }}>€4,99</span>
-              <span style={{ fontSize: 14, color: 'rgba(21,22,15,0.65)' }}>/mês · ou €49,99/ano</span>
-            </div>
-            <div style={{ fontSize: 12.5, fontWeight: 600, color: 'rgba(21,22,15,0.7)' }}>Garante este preço até ao final do ano — fica teu para sempre.</div>
-            <ul style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 9, fontSize: 14, lineHeight: 1.5, color: 'rgba(21,22,15,0.85)' }}>
-              <li>Armazenamento ilimitado</li>
-              <li>Resumos com IA e áudio diário</li>
-              <li>Alias personalizado à tua escolha</li>
-              <li>Exportações avançadas (Notion, Obsidian)</li>
-            </ul>
-            <a href={proHref} style={{ marginTop: 'auto', textAlign: 'center', background: INK, borderRadius: 999, padding: '13px 18px', fontSize: 15, fontWeight: 700, color: ACID_LIGHT }}>
-              {proLabel}
-            </a>
-          </div>
+          <PlanoPro entrou={entrou} billing={billingEnabled} hrefMensal={entrou && billingEnabled ? '/api/stripe/checkout?p=mensal' : cta} hrefAnual={entrou && billingEnabled ? '/api/stripe/checkout?p=anual' : cta} />
         </div>
         <p style={{ margin: 0, textAlign: 'center', fontSize: 13, ...faint }}>IVA incluído. Cancela quando quiseres — exportas tudo antes de sair.</p>
       </section>
