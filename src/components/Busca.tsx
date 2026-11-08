@@ -2,12 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { createPortal } from 'react-dom';
 
 /** 🔍 — abre uma caixa de pesquisa em overlay (substitui o campo fixo na lista). */
 export default function Busca({ inicial = '', compacto = false, dock = false }: { inicial?: string; compacto?: boolean; dock?: boolean }) {
   const router = useRouter();
   const [aberta, setAberta] = useState(false);
   const campo = useRef<HTMLInputElement>(null);
+  const [montado, setMontado] = useState(false);
+  useEffect(() => setMontado(true), []);
 
   useEffect(() => {
     function tecla(e: KeyboardEvent) {
@@ -22,7 +25,13 @@ export default function Busca({ inicial = '', compacto = false, dock = false }: 
   }, [aberta]);
 
   useEffect(() => {
-    if (aberta) setTimeout(() => campo.current?.focus(), 30);
+    if (!aberta) return;
+    campo.current?.focus();
+    const antes = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = antes;
+    };
   }, [aberta]);
 
   function pesquisar(e: React.FormEvent) {
@@ -48,10 +57,10 @@ export default function Busca({ inicial = '', compacto = false, dock = false }: 
         {!compacto && !dock && <span className="s-rotulo">Pesquisar</span>}
       </button>
 
-      {aberta && (
+      {aberta && montado && createPortal(
         <div className="busca-fundo" onMouseDown={(e) => e.target === e.currentTarget && setAberta(false)}>
           <form className="busca-cx" onSubmit={pesquisar}>
-            <input ref={campo} name="q" type="search" defaultValue={inicial} placeholder="Pesquisar em assuntos, remetentes e texto…" aria-label="Pesquisar newsletters" />
+            <input ref={campo} autoFocus name="q" type="search" enterKeyHint="search" autoComplete="off" autoCorrect="off" defaultValue={inicial} placeholder="Pesquisar em assuntos, remetentes e texto…" aria-label="Pesquisar newsletters" />
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
               <span className="t-app-tenue" style={{ fontSize: 11.5 }}>Enter para procurar · Esc para fechar</span>
               <button type="submit" style={{ border: 'none', borderRadius: 999, background: '#1be03c', color: '#052e16', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, padding: '9px 18px', cursor: 'pointer' }}>
@@ -59,7 +68,8 @@ export default function Busca({ inicial = '', compacto = false, dock = false }: 
               </button>
             </div>
           </form>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

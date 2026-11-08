@@ -951,7 +951,7 @@ html[data-tema='light'] .alias-chip .alias-txt { color: #09572c; }
 /* ---- pesquisa em overlay ---- */
 .busca-fundo {
   position: fixed; inset: 0; z-index: 60; display: flex; align-items: flex-start; justify-content: center;
-  padding: 12vh 20px 20px; background: rgba(5, 12, 8, 0.6); backdrop-filter: blur(6px);
+  padding: 12vh 20px 20px; background: rgba(5, 12, 8, 0.6); backdrop-filter: blur(6px); overscroll-behavior: contain;
 }
 .busca-cx {
   width: 100%; max-width: 520px; border-radius: 18px; padding: 16px;
@@ -962,8 +962,9 @@ html[data-tema='light'] .busca-cx { background: #fff; box-shadow: 0 30px 70px rg
 .busca-cx input {
   width: 100%; height: 46px; border-radius: 12px; padding: 0 14px; outline: none;
   background: var(--app-painel); border: 1px solid var(--app-borda-forte);
-  font-family: inherit; font-size: 15px; color: var(--app-txt);
+  font-family: inherit; font-size: 16px; color: var(--app-txt);
 }
+@media (max-width: 1023px) { .busca-fundo { padding-top: max(16px, env(safe-area-inset-top, 0px)); } .busca-cx { margin-top: 8px; } }
 .busca-cx input:focus { border-color: #1be03c; }
 
 /* ---- puxar para atualizar ---- */
