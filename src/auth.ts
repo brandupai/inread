@@ -76,7 +76,7 @@ if (process.env.EMAIL_SERVER && process.env.EMAIL_FROM) {
           text: `Entra na tua caixa de leitura do inread:\n\n${url}\n\nOu escreve o código ${token} na página de verificação.\n\nVálido durante 15 minutos e só funciona uma vez.\nSe não pediste este email, ignora-o.`,
           html: magicLinkHtml(url, token),
         });
-        const failed = result.rejected.concat(result.pending).filter(Boolean);
+        const failed = [...(result.rejected ?? []), ...(result.pending ?? [])].map(String).filter(Boolean);
         if (failed.length) {
           throw new Error(`Email (${failed.join(', ')}) não pôde ser enviado`);
         }
