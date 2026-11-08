@@ -4,11 +4,13 @@ import { useState, type CSSProperties, type ReactNode } from 'react';
 import SidebarNav from '@/components/SidebarNav';
 import VoltarMobile from '@/components/VoltarMobile';
 import TrocarEmail from './TrocarEmail';
+import PainelInstalar from '@/components/Instalar';
 
-type Categoria = 'plano' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
+type Categoria = 'plano' | 'instalar' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
 
 const CATEGORIAS: { id: Categoria; rotulo: string; icone: string }[] = [
   { id: 'plano', rotulo: 'Plano', icone: '✦' },
+  { id: 'instalar', rotulo: 'Instalar app', icone: '📲' },
   { id: 'conta', rotulo: 'Conta', icone: '👤' },
   { id: 'ligacoes', rotulo: 'Ligações', icone: '🔗' },
   { id: 'organizacao', rotulo: 'Organização', icone: '🏷️' },
@@ -88,6 +90,14 @@ export default function DefinicoesInterativo({
             No plano anual poupas o equivalente a 2 meses face ao mensal.
           </p>
         )}
+      </>
+    ),
+    instalar: (
+      <>
+        <p style={{ margin: '0 4px 4px', fontSize: 13.5, lineHeight: 1.6, color: 'var(--leitor-txt-fraco)' }}>
+          Instala o inread como uma app: abre em janela própria, com o seu ícone, sem a barra do browser.
+        </p>
+        <PainelInstalar />
       </>
     ),
     conta: (

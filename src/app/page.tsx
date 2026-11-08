@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { auth, authEnabled } from '@/auth';
 import { billingEnabled } from '@/lib/stripe';
 import RodapeSite from '@/components/RodapeSite';
+import PainelInstalar from '@/components/Instalar';
 
 export const dynamic = 'force-dynamic';
 
@@ -102,6 +103,7 @@ export default async function Home() {
         <img src="/logo.svg?v=2" alt="inread" style={{ height: 26, width: 'auto' }} />
         <nav aria-label="Navegação" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 20, fontSize: 14, fontWeight: 500, color: INK }}>
           <a href="#funcionalidades" style={{ color: INK }}>Funcionalidades</a>
+          <a href="#instalar" style={{ color: INK }}>Instalar</a>
           <a href="#precos" style={{ color: INK }}>Preços</a>
           <a href="/faq" style={{ color: INK }}>FAQ</a>
           {!entrou && <a href="/login" style={{ color: INK }}>Entrar</a>}
@@ -126,7 +128,10 @@ export default async function Home() {
         </p>
         <div className="h-seq" style={{ animationDelay: '0.36s', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 14 }}>
           <a href={cta} style={ctaAcid}>{ctaLabel}</a>
-          <span style={{ fontSize: 13.5, ...faint }}>Grátis até 50 fontes · sem cartão</span>
+          <a href="#instalar" style={{ border: `1px solid ${BORDER}`, background: SURFACE, borderRadius: 999, padding: '15px 24px', fontSize: 15.5, fontWeight: 600, color: INK, boxShadow: '0 2px 6px rgba(20,21,15,0.06)' }}>
+            Instalar a app
+          </a>
+          <span style={{ fontSize: 13.5, ...faint, flexBasis: '100%' }}>Grátis até 50 fontes · sem cartão</span>
         </div>
 
         {/* produto com chips em órbita */}
@@ -170,6 +175,20 @@ export default async function Home() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* instalar a app */}
+      <section id="instalar" className="reveal" style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1060, margin: '0 auto', padding: '92px 24px 10px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 26, textAlign: 'center' }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: ACID_INK, border: '1px solid rgba(21,184,50,0.35)', borderRadius: 999, padding: '7px 16px', background: 'rgba(21,184,50,0.08)' }}>
+          Web app · macOS · Windows · iPhone · Android
+        </div>
+        <h2 className="t-rise" style={{ margin: 0, fontSize: 'clamp(32px, 5vw, 50px)', fontWeight: 700, letterSpacing: '-0.015em', color: INK }}>
+          Instala o inread. <span className="voz" style={{ color: ACID, fontWeight: 400 }}>Em segundos.</span>
+        </h2>
+        <p style={{ margin: 0, fontSize: 16.5, lineHeight: 1.6, maxWidth: 520, ...quiet }}>
+          Abre numa janela própria, com o seu ícone, sem a barra do browser — no computador e no telemóvel. Sem lojas de apps, sem registos extra.
+        </p>
+        <PainelInstalar claro />
       </section>
 
       {/* percurso */}

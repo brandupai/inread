@@ -1,5 +1,6 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { RegistarPWA } from '@/components/Instalar';
 
 export const metadata: Metadata = {
   title: 'inread — as tuas newsletters, fora da caixa de entrada',
@@ -10,8 +11,13 @@ export const metadata: Metadata = {
       { url: '/favicon.svg?v=3', type: 'image/svg+xml' },
       { url: '/icon.png?v=3', sizes: '512x512', type: 'image/png' },
     ],
-    apple: '/icon.png?v=3',
+    apple: '/apple-touch-icon.png',
   },
+  appleWebApp: { capable: true, title: 'inread', statusBarStyle: 'black' },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#0b140f',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -34,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="blob blobB" style={{ width: 520, height: 520, right: '-14%', top: '24%', background: 'radial-gradient(circle at 50% 50%, rgba(27,224,60,0.22) 0%, rgba(11,20,15,0) 70%)' }} />
           <div className="blob blobC" style={{ width: 560, height: 560, left: '-16%', bottom: '-18%', background: 'radial-gradient(circle at 50% 40%, rgba(30,122,48,0.35) 0%, rgba(11,20,15,0) 70%)' }} />
         </div>
+        <RegistarPWA />
         <div className="app-content">{children}</div>
       </body>
     </html>
