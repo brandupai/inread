@@ -189,7 +189,7 @@ export default async function Admin() {
       {/* Analytics */}
       <div id="analytics" style={seccao}>Analytics do site</div>
       <div className="glass" style={{ ...cartao, fontSize: 14, lineHeight: 1.65, color: 'var(--ink-soft)' }}>
-        <strong>Por ligar.</strong> Para visitas, origens de tráfego e conversão recomendo o <strong>Plausible</strong> ou o <strong>Umami</strong> — analytics sem cookies, alinhados com o posicionamento de privacidade do inread (e sem banner de cookies). Liga-se com um script de uma linha no site e dá: visitas, fontes (Google, redes, direto), países, páginas mais vistas e conversões no funil registo → alias → 1.ª newsletter. Diz-me qual preferes e eu integro.
+        <strong>Ligado ao Umami</strong> (sem cookies, sem banner). Visitas, fontes de tráfego, países, páginas e conversões estão no <a href="https://cloud.umami.is" target="_blank" rel="noopener noreferrer" style={{ color: '#1BE03C', textDecoration: 'underline' }}>painel do Umami ↗</a>.
       </div>
 
       {/* Financeiro */}

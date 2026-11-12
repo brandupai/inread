@@ -7,7 +7,7 @@ import { useSessao } from '@/lib/useSessao';
 export default function CtaSessao({ authEnabled, style }: { authEnabled: boolean; style?: CSSProperties }) {
   const entrou = useSessao(authEnabled);
   return (
-    <a href={entrou ? '/caixa' : '/login'} style={style}>
+    <a href={entrou ? '/caixa' : '/login'} style={style} data-umami-event="cta-registo">
       {entrou ? 'Abrir a minha caixa' : 'Criar o meu endereço grátis'}
     </a>
   );

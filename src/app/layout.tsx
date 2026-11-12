@@ -33,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "(function(){try{var t=localStorage.getItem('inread-tema');document.documentElement.dataset.tema=(t==='light'||t==='dark')?t:'dark'}catch(e){}})();",
           }}
         />
+        <script defer src="https://cloud.umami.is/script.js" data-website-id="b9f0b8f7-dff6-488d-bbad-2573f5c7d837" />
         <link rel="preload" href="/fonts/Stang-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/Stang-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>

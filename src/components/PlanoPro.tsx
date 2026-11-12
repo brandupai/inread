@@ -86,7 +86,7 @@ export default function PlanoPro({ authEnabled = false, billing, entrou: entrouS
         <li>Alias personalizado à tua escolha</li>
         <li>Exportações avançadas (Notion, Obsidian)</li>
       </ul>
-      <a href={href} style={{ marginTop: 'auto', textAlign: 'center', background: INK, borderRadius: 999, padding: '14px 18px', fontSize: 15, fontWeight: 700, color: ACID_LIGHT }}>
+      <a href={href} data-umami-event="clique-pro" style={{ marginTop: 'auto', textAlign: 'center', background: INK, borderRadius: 999, padding: '14px 18px', fontSize: 15, fontWeight: 700, color: ACID_LIGHT }}>
         {rotulo}
       </a>
     </div>
