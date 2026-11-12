@@ -20,7 +20,13 @@ export default function Contactos() {
         </a>
         <div className="glass" style={{ borderRadius: 18, padding: '20px 22px', display: 'flex', flexDirection: 'column', gap: 4 }}>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--quiet)' }}>Redes sociais</span>
-          <span style={{ fontSize: 14.5, lineHeight: 1.6, color: 'var(--ink-soft)' }}>Brevemente no X, Instagram e LinkedIn.</span>
+          <span style={{ fontSize: 14.5, lineHeight: 1.6, color: 'var(--ink-soft)' }}>
+            Acompanha o inread no{' '}
+            <a href="https://www.linkedin.com/company/inread/" target="_blank" rel="noopener noreferrer" data-umami-event="contactos-linkedin" style={{ fontWeight: 600 }}>
+              LinkedIn ↗
+            </a>{' '}
+            — novidades, funcionalidades e bastidores.
+          </span>
         </div>
         <p style={{ margin: 0, fontSize: 13.5, color: 'var(--quiet)' }}>
           Antes de escreveres, espreita as <a href="/faq" style={{ fontWeight: 600 }}>perguntas frequentes</a> — a resposta pode já lá estar.
