@@ -139,11 +139,7 @@ export default function DefinicoesInterativo({
           titulo="Obsidian, Notion e outros"
           detalhe="Em qualquer newsletter, no menu ⋯: «Abrir no Obsidian» cria a nota com o artigo e os teus sublinhados; «Copiar em Markdown» cola-se direto no Notion, Evernote ou Bear; «Exportar .md» descarrega o ficheiro. Ligação direta ao Notion a caminho."
         />
-        <Linha
-          titulo="API e webhooks"
-          detalhe="Acesso programático à tua caixa, mesmo nos planos baratos. Em desenho — diz-nos o que queres construir."
-          extra="Brevemente"
-        />
+        
       </>
     ),
     organizacao: (
