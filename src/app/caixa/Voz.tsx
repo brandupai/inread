@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Ico from '@/components/Ico';
 
 type Estado = 'parado' | 'a-ler' | 'pausa';
 
@@ -99,7 +100,7 @@ export default function Voz({ titulo }: { titulo: string }) {
             onClick={alternar}
             style={{ flex: '1 1 auto', border: 'none', borderRadius: 999, background: '#1be03c', color: '#052e16', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, padding: '10px 14px', cursor: 'pointer' }}
           >
-            {estado === 'a-ler' ? '⏸ Pausar' : estado === 'pausa' ? '▶ Continuar' : '▶ Ouvir'}
+            {estado === 'a-ler' ? <><Ico n="pause" s={13} fill /> Pausar</> : estado === 'pausa' ? <><Ico n="play" s={13} fill /> Continuar</> : <><Ico n="play" s={13} fill /> Ouvir</>}
           </button>
           {estado !== 'parado' && (
             <button type="button" onClick={parar} className="lt-btn" title="Parar" aria-label="Parar" style={{ flex: '0 0 auto' }}>

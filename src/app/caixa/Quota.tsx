@@ -1,3 +1,4 @@
+import Ico from '@/components/Ico';
 /** Barra discreta: quantas newsletters estão na caixa face ao limite do plano Free. */
 export default function Quota({ total, limite, ehPro }: { total: number; limite: number; ehPro: boolean }) {
   if (ehPro) return null;
@@ -44,7 +45,7 @@ export default function Quota({ total, limite, ehPro }: { total: number; limite:
               whiteSpace: 'nowrap',
             }}
           >
-            Passar ao Pro ✦
+            Passar ao Pro <Ico n="sparkle" s={11} />
           </a>
         )}
       </div>

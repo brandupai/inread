@@ -30,9 +30,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var t=localStorage.getItem('inread-tema');document.documentElement.dataset.tema=(t==='light'||t==='dark')?t:'dark'}catch(e){}})();",
+              "(function(){try{var t=localStorage.getItem('inread-tema');var m=(t==='light')?'light':'dark';document.documentElement.dataset.tema=m;document.documentElement.style.background=m==='light'?'#f1f0eb':'#0b140f'}catch(e){}})();",
           }}
         />
+        <style dangerouslySetInnerHTML={{ __html: "html{background:#0b140f}" }} />
         <script defer src="https://cloud.umami.is/script.js" data-website-id="b9f0b8f7-dff6-488d-bbad-2573f5c7d837" />
         <link rel="preload" href="/fonts/Stang-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/Stang-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />

@@ -33,7 +33,7 @@ export default function AliasChip({ alias }: { alias: string }) {
         </>
       )}
       <span className="alias-txt">{alias}</span>
-      <span className="alias-dica">{copiado ? 'copiado ✓' : 'copiar'}</span>
+      <span className="alias-dica">{copiado ? 'copiado' : 'copiar'}</span>
     </button>
   );
 }

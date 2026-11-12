@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
+import Ico from '@/components/Ico';
 
 type PromptInstalar = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
 declare global {
@@ -146,7 +147,7 @@ export default function PainelInstalar({ claro = false }: { claro?: boolean }) {
             </div>
 
             {instalada && k.meu ? (
-              <div style={{ fontSize: 14, fontWeight: 600, color: c.chipTxt }}>✓ Já estás a usar a app instalada.</div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: c.chipTxt }}><Ico n="check" s={14} /> Já estás a usar a app instalada.</div>
             ) : (
               <>
                 {podeClicar && (

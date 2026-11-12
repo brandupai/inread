@@ -6,18 +6,19 @@ import VoltarMobile from '@/components/VoltarMobile';
 import TrocarEmail from './TrocarEmail';
 import PainelInstalar from '@/components/Instalar';
 import Notificacoes from '@/components/Notificacoes';
+import Ico from '@/components/Ico';
 
 type Categoria = 'plano' | 'instalar' | 'notificacoes' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
 
 const CATEGORIAS: { id: Categoria; rotulo: string; icone: string }[] = [
-  { id: 'plano', rotulo: 'Plano', icone: '✦' },
-  { id: 'instalar', rotulo: 'Instalar app', icone: '📲' },
-  { id: 'notificacoes', rotulo: 'Notificações', icone: '🔔' },
-  { id: 'conta', rotulo: 'Conta', icone: '👤' },
-  { id: 'ligacoes', rotulo: 'Ligações', icone: '🔗' },
-  { id: 'organizacao', rotulo: 'Organização', icone: '🏷️' },
-  { id: 'estatisticas', rotulo: 'Estatísticas', icone: '📊' },
-  { id: 'sessao', rotulo: 'Sessão', icone: '🚪' },
+  { id: 'plano', rotulo: 'Plano', icone: 'sparkle' },
+  { id: 'instalar', rotulo: 'Instalar app', icone: 'phone' },
+  { id: 'notificacoes', rotulo: 'Notificações', icone: 'bell' },
+  { id: 'conta', rotulo: 'Conta', icone: 'user' },
+  { id: 'ligacoes', rotulo: 'Ligações', icone: 'link' },
+  { id: 'organizacao', rotulo: 'Organização', icone: 'tag' },
+  { id: 'estatisticas', rotulo: 'Estatísticas', icone: 'chart' },
+  { id: 'sessao', rotulo: 'Sessão', icone: 'logout' },
 ];
 
 function Linha({ titulo, detalhe, extra, href }: { titulo: string; detalhe?: string; extra?: string; href?: string }) {
@@ -78,7 +79,7 @@ export default function DefinicoesInterativo({
     plano: (
       <>
         <Linha
-          titulo={ehPro ? 'Plano Pro ✦' : 'Passar ao inread Pro'}
+          titulo={ehPro ? 'Plano Pro' : 'Passar ao inread Pro'}
           detalhe={
             ehPro
               ? 'Armazenamento ilimitado, resumos IA e áudio (em rollout). Gerir pagamento, faturas ou cancelar.'
@@ -194,14 +195,14 @@ export default function DefinicoesInterativo({
             style={{ alignItems: 'center', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
           >
             <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}>
-              {c.icone}
+              <Ico n={c.icone} s={17} />
             </span>
             <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700, flex: '1 1 auto' }}>{c.rotulo}</span>
           </button>
         ))}
 
         <a href="/remetentes" className="m-carta so-mobile" style={{ alignItems: 'center' }}>
-          <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}>🏢</span>
+          <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}><Ico n="building" s={17} /></span>
           <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700, flex: '1 1 auto' }}>Remetentes</span>
         </a>
 

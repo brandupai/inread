@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import SidebarNav from '@/components/SidebarNav';
 import VoltarMobile from '@/components/VoltarMobile';
+import Ico from '@/components/Ico';
 
 type ItemApanhado = { id: string; titulo: string; remetente: string; texto: string };
 type Podcast = { id: string; nome: string; autor: string; imagem: string | null; feedUrl: string };
@@ -240,7 +241,7 @@ export default function AudioInterativo({
           className={secao === 'apanhado' ? 'm-carta on' : 'm-carta'}
           style={{ alignItems: 'center', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
         >
-          <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}>🎧</span>
+          <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}><Ico n="headphones" s={17} /></span>
           <span style={{ display: 'flex', flexDirection: 'column', gap: 1, flex: '1 1 auto' }}>
             <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700 }}>Apanhado de hoje</span>
             <span className="t-app-tenue" style={{ fontSize: 11 }}>{apanhado.length} por ler</span>
@@ -253,7 +254,7 @@ export default function AudioInterativo({
           className={secao === 'guardados' ? 'm-carta on' : 'm-carta'}
           style={{ alignItems: 'center', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
         >
-          <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}>🔖</span>
+          <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}><Ico n="bookmark" s={17} /></span>
           <span style={{ display: 'flex', flexDirection: 'column', gap: 1, flex: '1 1 auto' }}>
             <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700 }}>Guardados</span>
             <span className="t-app-tenue" style={{ fontSize: 11 }}>{guardados.length} episódios</span>
@@ -326,7 +327,7 @@ export default function AudioInterativo({
       <main className="col-leitor" style={{ alignItems: secao === 'apanhado' ? 'center' : 'stretch', justifyContent: 'flex-start', overflowY: 'auto' }}>
         {secao === 'apanhado' && (
           <div style={{ margin: 'auto', textAlign: 'center', padding: 32, maxWidth: 480 }}>
-            <div style={{ fontSize: 30, marginBottom: 10 }}>🎧</div>
+            <div style={{ marginBottom: 10 }}><Ico n="headphones" s={30} /></div>
             <p style={{ fontWeight: 700, fontSize: 18, color: 'var(--leitor-txt)', marginBottom: 6 }}>Apanhado de hoje</p>
 
             {apanhado.length === 0 ? (
@@ -350,7 +351,7 @@ export default function AudioInterativo({
                         onClick={alternar}
                         style={{ border: 'none', borderRadius: 999, background: '#1be03c', color: '#052e16', fontFamily: 'inherit', fontSize: 14, fontWeight: 700, padding: '12px 26px', cursor: 'pointer' }}
                       >
-                        {estado === 'a-ler' ? '⏸ Pausar' : estado === 'pausa' ? '▶ Continuar' : '▶ Ouvir apanhado'}
+                        {estado === 'a-ler' ? <><Ico n="pause" s={13} fill /> Pausar</> : estado === 'pausa' ? <><Ico n="play" s={13} fill /> Continuar</> : <><Ico n="play" s={13} fill /> Ouvir apanhado</>}
                       </button>
                       {estado !== 'parado' && (
                         <button type="button" onClick={parar} className="lt-btn" title="Parar" aria-label="Parar">
@@ -398,7 +399,7 @@ export default function AudioInterativo({
 
             {guardados.length === 0 ? (
               <p style={{ color: 'var(--leitor-txt-fraco)', fontSize: 14 }}>
-                Ainda não guardaste nenhum episódio. Abre um podcast e toca no marcador 🔖 num episódio para o
+                Ainda não guardaste nenhum episódio. Abre um podcast e toca no marcador <Ico n="bookmark" s={13} /> num episódio para o
                 guardares aqui.
               </p>
             ) : (
@@ -427,7 +428,7 @@ export default function AudioInterativo({
                           aria-label="Remover dos guardados"
                           style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 16, flex: '0 0 auto', color: '#1BE03C' }}
                         >
-                          🔖
+                          <Ico n="bookmark" s={15} />
                         </button>
                       </div>
                       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
@@ -471,13 +472,13 @@ export default function AudioInterativo({
                       background: ehFavorito(podcastSelecionado.feedUrl) ? '#1BE03C' : 'transparent',
                     }}
                   >
-                    {ehFavorito(podcastSelecionado.feedUrl) ? '★ A seguir' : '☆ Seguir'}
+                    {ehFavorito(podcastSelecionado.feedUrl) ? <><Ico n="star" s={13} fill /> A seguir</> : <><Ico n="star" s={13} /> Seguir</>}
                   </button>
                 </div>
 
                 {temNovo && (
                   <div style={{ display: 'inline-block', fontSize: 11.5, fontWeight: 700, color: '#052e16', background: '#1BE03C', borderRadius: 999, padding: '4px 12px', marginBottom: 16 }}>
-                    ✨ Novo episódio desde a tua última visita
+                    <Ico n="sparkle" s={13} /> Novo episódio desde a tua última visita
                   </div>
                 )}
 
@@ -496,7 +497,7 @@ export default function AudioInterativo({
                           aria-label={ehGuardado(ep.audioUrl) ? 'Remover dos guardados' : 'Guardar episódio'}
                           style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 16, flex: '0 0 auto', color: ehGuardado(ep.audioUrl) ? '#1BE03C' : 'var(--leitor-txt-fraco)' }}
                         >
-                          🔖
+                          <Ico n="bookmark" s={15} />
                         </button>
                       </div>
                       {ep.descricao && <div style={{ fontSize: 12.5, color: 'var(--leitor-txt-fraco)', lineHeight: 1.5, marginBottom: 10 }}>{ep.descricao}</div>}

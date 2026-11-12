@@ -13,6 +13,7 @@ import PuxarAtualizar from '@/components/PuxarAtualizar';
 import Expandir from './Expandir';
 import SidebarNav from '@/components/SidebarNav';
 import LogoRemetente from '@/components/LogoRemetente';
+import Ico from '@/components/Ico';
 
 export const dynamic = 'force-dynamic';
 
@@ -267,7 +268,7 @@ export default async function Caixa({
           </span>
           {pesquisa && (
             <a href={linkCom({ q: null, n: null })} className="f-chip" style={{ padding: '4px 9px', fontSize: 11.5 }}>
-              “{pesquisa.length > 14 ? `${pesquisa.slice(0, 14)}…` : pesquisa}” ✕
+              “{pesquisa.length > 14 ? `${pesquisa.slice(0, 14)}…` : pesquisa}” <Ico n="x" s={11} />
             </a>
           )}
           {!emGuardados && porLer > 0 && (
@@ -337,7 +338,7 @@ export default async function Caixa({
             ))}
             {meusHighlights.length === 0 && (
               <div style={{ textAlign: 'center', padding: '48px 18px', color: 'var(--app-txt-fraco)' }}>
-                <div style={{ fontSize: 30, marginBottom: 10 }}>✦</div>
+                <div style={{ marginBottom: 10 }}><Ico n="sparkle" s={30} /></div>
                 <div style={{ fontWeight: 700, color: 'var(--app-txt-forte)', marginBottom: 6 }}>Ainda não há sublinhados</div>
                 <div style={{ fontSize: 13, lineHeight: 1.6 }}>Abre uma newsletter e seleciona um trecho para o sublinhares.</div>
               </div>
@@ -354,7 +355,7 @@ export default async function Caixa({
                     <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 500, color: item.isRead ? 'var(--app-txt-tenue)' : 'var(--app-txt-fraco)' }}>
                       {!item.isRead && <span style={{ width: 7, height: 7, borderRadius: 999, background: '#1BE03C', flex: '0 0 auto' }} />}
                       <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{nome}</span>
-                      {item.isStarred && <span aria-label="Guardada" style={{ color: '#1BE03C', flex: '0 0 auto' }}>★</span>}
+                      {item.isStarred && <span aria-label="Guardada" style={{ color: '#1BE03C', flex: '0 0 auto' }}><Ico n="star" s={12} fill /></span>}
                     </span>
                     <span
                       style={{
@@ -379,15 +380,15 @@ export default async function Caixa({
             })}
             {todas.length === 0 && (
               <div style={{ textAlign: 'center', padding: '48px 18px', color: 'var(--app-txt-fraco)' }}>
-                <div style={{ fontSize: 30, marginBottom: 10 }}>{pesquisa ? '🔍' : soFavoritos ? '🔖' : '📭'}</div>
+                <div style={{ marginBottom: 10 }}>{pesquisa ? <Ico n="search" s={30} /> : soFavoritos ? <Ico n="bookmark" s={30} /> : <Ico n="inbox" s={30} />}</div>
                 <div style={{ fontWeight: 700, color: 'var(--app-txt-forte)', marginBottom: 6 }}>
-                  {pesquisa ? 'Nada encontrado' : soFavoritos ? 'Nada guardado ainda' : soPorLer ? 'Tudo lido ✓' : 'Nada por aqui…'}
+                  {pesquisa ? 'Nada encontrado' : soFavoritos ? 'Nada guardado ainda' : soPorLer ? 'Tudo lido' : 'Nada por aqui…'}
                 </div>
                 <div style={{ fontSize: 13, lineHeight: 1.6 }}>
                   {pesquisa ? (
                     <>Nenhum resultado para “{pesquisa}”.</>
                   ) : soFavoritos ? (
-                    <>Abre uma newsletter e toca em 🔖 para a guardares aqui.</>
+                    <>Abre uma newsletter e toca em <Ico n="bookmark" s={13} /> para a guardares aqui.</>
                   ) : soPorLer ? (
                     <>Não tens newsletters por ler{periodo !== 'tudo' ? ' neste período' : ''}.</>
                   ) : periodo !== 'tudo' ? (
@@ -425,7 +426,7 @@ export default async function Caixa({
                   <LtIcone d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3zM19 15l.9 2.6L22.5 18l-2.6.9L19 21.5l-.9-2.6L15.5 18l2.6-.9L19 15z" s={15} />
                 </summary>
                 <div className="ddown-menu claro" style={{ left: 0, right: 'auto', minWidth: 250, padding: 14, gap: 10 }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#21302a' }}>✦ Resumo</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#21302a' }}><Ico n="sparkle" s={13} /> Resumo</div>
                   <div style={{ fontSize: 12.5, lineHeight: 1.55, color: 'rgba(33,48,42,0.7)' }}>
                     {ehPro
                       ? 'Resumos com IA estão quase prontos para o teu plano Pro — em rollout.'
@@ -500,7 +501,7 @@ export default async function Caixa({
               {selected.highlights.length > 0 && (
                 <div style={{ marginTop: 32, borderTop: '1px solid var(--leitor-borda)', paddingTop: 20, display: 'flex', flexDirection: 'column', gap: 10 }}>
                   <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--brand-dark)' }}>
-                    ✦ Os teus sublinhados ({selected.highlights.length})
+                    <Ico n="sparkle" s={13} /> Os teus sublinhados ({selected.highlights.length})
                   </div>
                   {selected.highlights.map((h: { id: string; text: string }) => (
                     <div key={h.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, background: 'var(--leitor-btn)', border: '1px solid rgba(27,224,60,0.7)', borderRadius: 12, padding: '10px 14px' }}>
@@ -511,7 +512,7 @@ export default async function Caixa({
                         <input type="hidden" name="id" value={h.id} />
                         <input type="hidden" name="voltar" value={linkPara(selected.id)} />
                         <button type="submit" title="Apagar sublinhado" style={{ border: 'none', background: 'none', fontFamily: 'inherit', fontSize: 14, color: 'var(--leitor-txt-fraco)', cursor: 'pointer', padding: 2 }}>
-                          ✕
+                          <Ico n="x" s={14} />
                         </button>
                       </form>
                     </div>

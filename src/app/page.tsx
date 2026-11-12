@@ -6,6 +6,7 @@ import PainelInstalar from '@/components/Instalar';
 import SiteHeader from '@/components/SiteHeader';
 import PlanoPro from '@/components/PlanoPro';
 import CtaSessao from '@/components/CtaSessao';
+import Ico from '@/components/Ico';
 
 const ACID = '#15B832';
 const ACID_LIGHT = '#1BE03C';
@@ -230,10 +231,10 @@ export default function Home() {
             <div style={{ height: 52, borderRadius: 12, background: `linear-gradient(135deg, ${ACID_LIGHT}, ${ACID})` }} />
             <div style={barra('88%')} />
             <div className="vanish" style={{ position: 'absolute', top: 88, right: 16, background: SURFACE, border: '1px solid rgba(178,58,58,0.3)', borderRadius: 10, padding: '7px 11px', fontSize: 11, fontWeight: 600, color: '#B23A3A', boxShadow: '0 6px 16px rgba(20,21,15,0.08)' }}>
-              Popup de subscrição ✕
+              Popup de subscrição <Ico n="x" s={10} />
             </div>
             <div className="vanish" style={{ animationDelay: '0.7s', position: 'absolute', bottom: 46, right: 30, background: SURFACE, border: '1px solid rgba(156,107,26,0.3)', borderRadius: 10, padding: '7px 11px', fontSize: 11, fontWeight: 600, color: '#9C6B1A', boxShadow: '0 6px 16px rgba(20,21,15,0.08)' }}>
-              Pixel de rastreio ✕
+              Pixel de rastreio <Ico n="x" s={10} />
             </div>
           </div>
 
@@ -241,7 +242,7 @@ export default function Home() {
           <div style={{ ...dcard, gridColumn: 'span 5', padding: 24, display: 'flex', flexDirection: 'column', gap: 10 }}>
             <h3 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: INK }}>Resumo em três linhas, áudio em sete minutos</h3>
             <div className="sumIn" style={{ background: 'rgba(21,184,50,0.07)', border: '1px solid rgba(21,184,50,0.3)', borderRadius: 14, padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <span style={{ fontSize: 11.5, fontWeight: 700, color: ACID_INK }}>✦ Resumo</span>
+              <span style={{ fontSize: 11.5, fontWeight: 700, color: ACID_INK }}><Ico n="sparkle" s={12} /> Resumo</span>
               <div style={{ height: 7, width: '96%', borderRadius: 999, background: 'rgba(21,184,50,0.35)' }} />
               <div style={{ height: 7, width: '74%', borderRadius: 999, background: 'rgba(21,184,50,0.35)' }} />
             </div>

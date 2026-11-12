@@ -1,7 +1,8 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
+import Ico from '@/components/Ico';
 
 /**
  * Sublinhador: observa a seleção de texto dentro do artigo (#artigo-corpo)
@@ -95,7 +96,7 @@ export default function Sublinhador({ newsletterId, assunto }: { newsletterId: s
   if (!pos) return null;
   const larg = Math.min(340, window.innerWidth - 16);
 
-  const botao = (rotulo: string, onClick: () => void, forte = false, title?: string) => (
+  const botao = (rotulo: ReactNode, onClick: () => void, forte = false, title?: string) => (
     <button
       type="button"
       onMouseDown={(e) => e.preventDefault()}
@@ -105,7 +106,7 @@ export default function Sublinhador({ newsletterId, assunto }: { newsletterId: s
         setTimeout(() => { emToque.current = false; }, 600);
       }}
       onClick={onClick}
-      title={title ?? rotulo}
+      title={title ?? (typeof rotulo === 'string' ? rotulo : undefined)}
       style={{
         border: 'none',
         borderRadius: 999,
@@ -147,8 +148,8 @@ export default function Sublinhador({ newsletterId, assunto }: { newsletterId: s
         boxShadow: '0 14px 34px rgba(0,0,0,0.45)',
       }}
     >
-      {botao(aGuardar ? 'A guardar…' : '✦ Sublinhar', guardar, true)}
-      {botao(copiado ? 'Copiado ✓' : 'Copiar', copiar)}
+      {botao(aGuardar ? 'A guardar…' : <><Ico n="sparkle" s={13} /> Sublinhar</>, guardar, true, 'Sublinhar')}
+      {botao(copiado ? 'Copiado' : 'Copiar', copiar)}
       {botao('WhatsApp', () => abrirPartilha('wa'), false, 'Partilhar no WhatsApp')}
       {botao('Email', () => abrirPartilha('mail'), false, 'Partilhar por email')}
       {botao('X', () => abrirPartilha('x'), false, 'Partilhar no X')}

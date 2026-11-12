@@ -4,6 +4,7 @@ import { auth, authEnabled } from '@/auth';
 import { grad, iniciais } from '@/lib/visual';
 import AppShell from '@/components/AppShell';
 import LogoRemetente from '@/components/LogoRemetente';
+import Ico from '@/components/Ico';
 
 export const dynamic = 'force-dynamic';
 
@@ -77,7 +78,7 @@ export default async function Remetentes() {
       titulo={`Remetentes (${remetentes.length})`}
       leitor={
         <div style={{ margin: 'auto', textAlign: 'center', padding: 32, maxWidth: 430, color: 'var(--leitor-txt-fraco)' }}>
-          <div style={{ fontSize: 30, marginBottom: 10 }}>🏢</div>
+          <div style={{ marginBottom: 10 }}><Ico n="building" s={30} /></div>
           <p style={{ fontWeight: 700, color: 'var(--leitor-txt)', marginBottom: 6 }}>Quem te escreve</p>
           <p style={{ fontSize: 14, margin: 0, lineHeight: 1.6 }}>
             Todas as publicações que escrevem para o teu endereço. Escolhe uma à esquerda para veres as edições, ou
@@ -111,7 +112,7 @@ export default async function Remetentes() {
 
       {remetentes.length === 0 && (
         <div style={{ textAlign: 'center', padding: '44px 18px' }} className="t-app-fraco">
-          <div style={{ fontSize: 28, marginBottom: 10 }}>🏢</div>
+          <div style={{ marginBottom: 10 }}><Ico n="building" s={28} /></div>
           <div className="t-app-forte" style={{ fontWeight: 700, marginBottom: 6 }}>Ainda ninguém te escreve</div>
           <div style={{ fontSize: 13, lineHeight: 1.6 }}>
             Subscreve com o endereço <strong style={{ color: '#1BE03C' }}>{user.inboxHash}@inread.app</strong> e os

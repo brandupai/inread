@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const AVISOS: Record<string, { texto: string; cor: string }> = {
   enviado: { texto: 'Enviámos um link de confirmação para o novo endereço. A troca só acontece depois de o abrires.', cor: '#1BE03C' },
-  trocado: { texto: 'Email de acesso alterado ✓', cor: '#1BE03C' },
+  trocado: { texto: 'Email de acesso alterado', cor: '#1BE03C' },
   invalido: { texto: 'Esse endereço não parece válido.', cor: '#e2574f' },
   ocupado: { texto: 'Já existe uma conta com esse email.', cor: '#e2574f' },
   igual: { texto: 'Esse já é o teu email de acesso.', cor: '#e2574f' },

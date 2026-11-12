@@ -5,14 +5,15 @@ import SidebarNav from '@/components/SidebarNav';
 import VoltarMobile from '@/components/VoltarMobile';
 import LogoNewsletter from './LogoNewsletter';
 import { CATEGORIAS, porCategoria, type Categoria, type EntradaDiretorio } from '@/lib/diretorio';
+import Ico from '@/components/Ico';
 
 const ICONE: Record<Categoria, string> = {
-  Tendências: '🔥',
-  Tecnologia: '💻',
-  Negócios: '💼',
-  Produtividade: '🌱',
-  Marketing: '📣',
-  Finanças: '📈',
+  Tendências: 'trend',
+  Tecnologia: 'monitor',
+  Negócios: 'briefcase',
+  Produtividade: 'zap',
+  Marketing: 'send',
+  Finanças: 'finance',
 };
 
 export default function DescobrirInterativo({ porLer, alias }: { porLer: number; alias: string }) {
@@ -54,7 +55,7 @@ export default function DescobrirInterativo({ porLer, alias }: { porLer: number;
               style={{ alignItems: 'center', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
             >
               <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}>
-                {ICONE[c]}
+                <Ico n={ICONE[c]} s={18} />
               </span>
               <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700, flex: '1 1 auto' }}>{c}</span>
               <span className="t-app-tenue" style={{ fontSize: 11, flex: '0 0 auto' }}>{n}</span>
@@ -71,7 +72,7 @@ export default function DescobrirInterativo({ porLer, alias }: { porLer: number;
       <main className="col-leitor" style={{ alignItems: 'stretch', justifyContent: 'flex-start', overflowY: 'auto' }}>
         <div style={{ width: '100%', maxWidth: 880, margin: '0 auto', padding: '28px 24px 40px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
-            <span style={{ fontSize: 22 }}>{ICONE[categoria]}</span>
+            <span style={{ fontSize: 22, display: 'inline-flex' }}><Ico n={ICONE[categoria]} s={22} /></span>
             <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: 'var(--leitor-txt)' }}>{categoria}</h2>
           </div>
 
@@ -102,7 +103,7 @@ export default function DescobrirInterativo({ porLer, alias }: { porLer: number;
                     background: copiadoId === n.id ? '#1BE03C' : 'transparent',
                   }}
                 >
-                  {copiadoId === n.id ? 'Alias copiado ✓' : 'Assinar'}
+                  {copiadoId === n.id ? 'Alias copiado' : 'Assinar'}
                 </button>
               </div>
             ))}
