@@ -48,6 +48,17 @@ export default function RodapeSite() {
             </svg>
             inread no Product Hunt
           </a>
+          <a
+            href="https://alternativeto.net/software/inread/"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-umami-event="rodape-alternativeto"
+            style={{ alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: 10, borderRadius: 999, padding: '7px 14px 7px 7px', border: '1px solid rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, color: 'var(--ink-soft)' }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/alternativeto.svg" alt="" width={28} height={28} style={{ width: 28, height: 28, flex: '0 0 auto' }} />
+            inread no AlternativeTo
+          </a>
         </div>
 
         <div style={{ flex: '0 1 auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
