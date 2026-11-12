@@ -136,9 +136,8 @@ export default function DefinicoesInterativo({
           extra="Brevemente"
         />
         <Linha
-          titulo="Integrações: Notion · Obsidian · Zapier"
-          detalhe="Exportação direta dos teus highlights. Para já, usa o Exportar .md em qualquer newsletter — Markdown limpo que o Obsidian e o Notion importam na perfeição."
-          extra="Brevemente"
+          titulo="Obsidian, Notion e outros"
+          detalhe="Em qualquer newsletter, no menu ⋯: «Abrir no Obsidian» cria a nota com o artigo e os teus sublinhados; «Copiar em Markdown» cola-se direto no Notion, Evernote ou Bear; «Exportar .md» descarrega o ficheiro. Ligação direta ao Notion a caminho."
         />
         <Linha
           titulo="API e webhooks"
