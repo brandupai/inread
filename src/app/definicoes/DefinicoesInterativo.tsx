@@ -9,14 +9,16 @@ import Notificacoes from '@/components/Notificacoes';
 import Ico from '@/components/Ico';
 import EscolherTema from '@/components/EscolherTema';
 import MigrarEmail from './MigrarEmail';
+import Partilhar from '@/components/Partilhar';
 import Ligacoes from './Ligacoes';
 import VoltarLista from '@/components/VoltarLista';
 
-type Categoria = 'plano' | 'migrar' | 'aparencia' | 'instalar' | 'notificacoes' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
+type Categoria = 'plano' | 'migrar' | 'partilhar' | 'aparencia' | 'instalar' | 'notificacoes' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
 
 const CATEGORIAS: { id: Categoria; rotulo: string; icone: string }[] = [
   { id: 'plano', rotulo: 'Plano', icone: 'sparkle' },
   { id: 'migrar', rotulo: 'Migrar do Gmail / Outlook', icone: 'inbox' },
+  { id: 'partilhar', rotulo: 'Partilhar o inread', icone: 'send' },
   { id: 'aparencia', rotulo: 'Aparência', icone: 'sun' },
   { id: 'instalar', rotulo: 'Instalar app', icone: 'phone' },
   { id: 'notificacoes', rotulo: 'Notificações', icone: 'bell' },
@@ -108,6 +110,14 @@ export default function DefinicoesInterativo({
       </>
     ),
     migrar: <MigrarEmail alias={alias} codigoGmail={codigoGmail} />,
+    partilhar: (
+      <>
+        <p style={{ margin: '0 4px 4px', fontSize: 13.5, lineHeight: 1.6, color: 'var(--leitor-txt-fraco)' }}>
+          Gostas do inread? Envia-o a quem também anda afogado em newsletters. O link leva à página inicial — não partilha nada da tua conta.
+        </p>
+        <Partilhar />
+      </>
+    ),
     aparencia: <EscolherTema />,
     instalar: (
       <>

@@ -6,6 +6,7 @@ import PainelInstalar from '@/components/Instalar';
 import SiteHeader from '@/components/SiteHeader';
 import PlanoPro from '@/components/PlanoPro';
 import CtaSessao from '@/components/CtaSessao';
+import Partilhar from '@/components/Partilhar';
 import Ico from '@/components/Ico';
 
 const ACID = '#15B832';
@@ -380,6 +381,9 @@ export default function Home() {
             </h2>
             <p style={{ margin: 0, fontSize: 15.5, ...quiet }}>Demora menos de um minuto: escolhes o endereço e começas a acompanhar.</p>
             <CtaSessao authEnabled={authEnabled} style={ctaAcid} />
+            <div style={{ marginTop: 26 }}>
+              <Partilhar claro titulo="Conheces alguém que lê newsletters? Partilha o inread." />
+            </div>
           </div>
         </div>
       </section>

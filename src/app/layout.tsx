@@ -4,8 +4,8 @@ import { RegistarPWA } from '@/components/Instalar';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://inread.app'),
-  openGraph: { type: 'website', siteName: 'inread', locale: 'pt_PT', url: '/', title: 'inread — as tuas newsletters, fora da caixa de entrada', description: 'Uma box privada para as newsletters, podcasts e feeds que acompanhas — sem rastreio, com highlights que levas contigo.', images: [{ url: '/icon.png', width: 512, height: 512 }] },
-  twitter: { card: 'summary', title: 'inread', description: 'As tuas newsletters, fora da caixa de entrada.' },
+  openGraph: { type: 'website', siteName: 'inread', locale: 'pt_PT', url: '/', title: 'inread — as tuas newsletters, fora da caixa de entrada', description: 'Uma box privada para as newsletters, podcasts e feeds que acompanhas — sem rastreio, com highlights que levas contigo.', images: [{ url: '/og.png', width: 1200, height: 630, alt: 'inread — as tuas newsletters, fora da caixa de entrada' }] },
+  twitter: { card: 'summary_large_image', title: 'inread', description: 'As tuas newsletters, fora da caixa de entrada.', images: ['/og.png'] },
   title: 'inread — as tuas newsletters, fora da caixa de entrada',
   description:
     'Leitor minimalista de newsletters com alias privado @inread.app, leitura limpa e highlights exportáveis em Markdown.',
