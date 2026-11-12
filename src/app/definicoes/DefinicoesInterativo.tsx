@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { useState, type CSSProperties, type ReactNode, useEffect } from 'react';
 import SidebarNav from '@/components/SidebarNav';
 import VoltarMobile from '@/components/VoltarMobile';
 import TrocarEmail from './TrocarEmail';
 import PainelInstalar from '@/components/Instalar';
 import Notificacoes from '@/components/Notificacoes';
 import Ico from '@/components/Ico';
+import VoltarLista from '@/components/VoltarLista';
 
 type Categoria = 'plano' | 'instalar' | 'notificacoes' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
 
@@ -74,6 +75,8 @@ export default function DefinicoesInterativo({
   porLer: number;
 }) {
   const [categoria, setCategoria] = useState<Categoria>('plano');
+  const [aberto, setAberto] = useState(false);
+  useEffect(() => { if (aberto) window.scrollTo(0, 0); }, [aberto]);
 
   const conteudo: Record<Categoria, ReactNode> = {
     plano: (
@@ -176,11 +179,11 @@ export default function DefinicoesInterativo({
   };
 
   return (
-    <div className="app3">
+    <div className={aberto ? 'app3 m-leitor' : 'app3 m-lista'}>
       <SidebarNav ativo="definicoes" porLer={porLer} />
 
       {/* Coluna B */}
-      <section className="col-lista">
+      <section className="col-lista" onClickCapture={(e) => { if ((e.target as HTMLElement).closest('button, a, .f-chip')) setAberto(true); }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 2px 4px' }}>
           <VoltarMobile />
           <h1 className="t-app-forte" style={{ margin: 0, fontSize: 16, lineHeight: 1 }}>Definições</h1>
@@ -194,7 +197,7 @@ export default function DefinicoesInterativo({
             className={categoria === c.id ? 'm-carta on' : 'm-carta'}
             style={{ alignItems: 'center', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
           >
-            <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}>
+            <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', color: 'var(--ico-cor)', flex: '0 0 auto' }}>
               <Ico n={c.icone} s={17} />
             </span>
             <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700, flex: '1 1 auto' }}>{c.rotulo}</span>
@@ -202,7 +205,7 @@ export default function DefinicoesInterativo({
         ))}
 
         <a href="/remetentes" className="m-carta so-mobile" style={{ alignItems: 'center' }}>
-          <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}><Ico n="building" s={17} /></span>
+          <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, background: 'rgba(27,224,60,0.12)', color: 'var(--ico-cor)', flex: '0 0 auto' }}><Ico n="building" s={17} /></span>
           <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700, flex: '1 1 auto' }}>Remetentes</span>
         </a>
 
@@ -213,6 +216,7 @@ export default function DefinicoesInterativo({
 
       {/* Coluna C */}
       <main className="col-leitor" style={{ alignItems: 'stretch', justifyContent: 'flex-start', overflowY: 'auto' }}>
+        <VoltarLista onClick={() => setAberto(false)} />
         <div style={{ width: '100%', maxWidth: 560, margin: '0 auto', padding: '28px 24px 40px', display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Titulo texto={CATEGORIAS.find((c) => c.id === categoria)?.rotulo ?? ''} />
           {conteudo[categoria]}

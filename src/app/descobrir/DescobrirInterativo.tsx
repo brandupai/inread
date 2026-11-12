@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SidebarNav from '@/components/SidebarNav';
 import VoltarMobile from '@/components/VoltarMobile';
 import LogoNewsletter from './LogoNewsletter';
 import { CATEGORIAS, porCategoria, type Categoria, type EntradaDiretorio } from '@/lib/diretorio';
 import Ico from '@/components/Ico';
+import VoltarLista from '@/components/VoltarLista';
 
 const ICONE: Record<Categoria, string> = {
   Tendências: 'trend',
@@ -18,6 +19,8 @@ const ICONE: Record<Categoria, string> = {
 
 export default function DescobrirInterativo({ porLer, alias }: { porLer: number; alias: string }) {
   const [categoria, setCategoria] = useState<Categoria>('Tendências');
+  const [aberto, setAberto] = useState(false);
+  useEffect(() => { if (aberto) window.scrollTo(0, 0); }, [aberto]);
   const [copiadoId, setCopiadoId] = useState<string | null>(null);
 
   const lista = porCategoria(categoria);
@@ -34,11 +37,11 @@ export default function DescobrirInterativo({ porLer, alias }: { porLer: number;
   }
 
   return (
-    <div className="app3">
+    <div className={aberto ? 'app3 m-leitor' : 'app3 m-lista'}>
       <SidebarNav ativo="descobrir" porLer={porLer} />
 
       {/* Coluna B — categorias */}
-      <section className="col-lista">
+      <section className="col-lista" onClickCapture={(e) => { if ((e.target as HTMLElement).closest('button, a, .f-chip')) setAberto(true); }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 2px 4px' }}>
           <VoltarMobile />
           <h1 className="t-app-forte" style={{ margin: 0, fontSize: 16, lineHeight: 1 }}>Descobrir</h1>
@@ -54,7 +57,7 @@ export default function DescobrirInterativo({ porLer, alias }: { porLer: number;
               className={c === categoria ? 'm-carta on' : 'm-carta'}
               style={{ alignItems: 'center', width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
             >
-              <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, background: 'rgba(27,224,60,0.12)', flex: '0 0 auto' }}>
+              <span style={{ width: 36, height: 36, borderRadius: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, background: 'rgba(27,224,60,0.12)', color: 'var(--ico-cor)', flex: '0 0 auto' }}>
                 <Ico n={ICONE[c]} s={18} />
               </span>
               <span className="t-app-forte" style={{ fontSize: 13.5, fontWeight: 700, flex: '1 1 auto' }}>{c}</span>
@@ -70,6 +73,7 @@ export default function DescobrirInterativo({ porLer, alias }: { porLer: number;
 
       {/* Coluna C — diretório da categoria escolhida */}
       <main className="col-leitor" style={{ alignItems: 'stretch', justifyContent: 'flex-start', overflowY: 'auto' }}>
+        <VoltarLista onClick={() => setAberto(false)} />
         <div style={{ width: '100%', maxWidth: 880, margin: '0 auto', padding: '28px 24px 40px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
             <span style={{ fontSize: 22, display: 'inline-flex' }}><Ico n={ICONE[categoria]} s={22} /></span>
