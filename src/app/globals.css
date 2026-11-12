@@ -1180,3 +1180,10 @@ html .col-leitor a.lt-btn { color: var(--leitor-txt); }
   .faixa-pista { display: none; }
   .faixa-fixa { display: block; }
 }
+
+/* menus do leitor: fundo opaco no modo escuro (o painel translúcido deixava ver o texto por baixo) e cor única nos itens */
+html[data-tema='dark'] .ddown-menu { background: #16211a; border-color: rgba(255, 255, 255, 0.14); box-shadow: 0 18px 44px rgba(0, 0, 0, 0.6); }
+html[data-tema='dark'] .ddown-menu.claro { background: #14241b; }
+html .col-leitor .ddown-menu .ddown-item, html .col-leitor .ddown-menu a.ddown-item { color: var(--app-txt); }
+html .col-leitor .ddown-menu.claro .ddown-item, html .col-leitor .ddown-menu.claro a.ddown-item { color: var(--leitor-txt); }
+html .col-leitor .ddown-menu .ddown-item.perigo, html .col-leitor .ddown-menu a.ddown-item.perigo { color: #e2574f; }
