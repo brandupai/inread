@@ -36,6 +36,7 @@
   },
   "overrides": {
     "nodemailer": "$nodemailer",
-    "deepmerge-ts": "^8.0.0"
+    "deepmerge-ts": "^8.0.0",
+    "postcss": "^8.5.23"
   }
 }
