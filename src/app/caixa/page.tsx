@@ -14,6 +14,7 @@ import SidebarNav from '@/components/SidebarNav';
 import LogoRemetente from '@/components/LogoRemetente';
 import Ico from '@/components/Ico';
 import ExportarNotas from './ExportarNotas';
+import { PartilharCompacto } from '@/components/Partilhar';
 
 export const dynamic = 'force-dynamic';
 
@@ -404,6 +405,8 @@ export default async function Caixa({
             )}
           </>
         )}
+
+        <PartilharCompacto origem="caixa" />
       </section>
 
       {/* ===== coluna do leitor ===== */}

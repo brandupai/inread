@@ -45,6 +45,68 @@ const CANAIS: Canal[] = [
 const url = (canal: string) => `${BASE}?utm_source=partilha&utm_medium=${canal}`;
 
 /**
+ * Convite compacto para a lista da app e para a pesquisa: uma linha "Partilhar o inread".
+ * No telemóvel abre a partilha do dispositivo; onde não existe, mostra os canais em ícones.
+ */
+export function PartilharCompacto({ origem }: { origem: string }) {
+  const [aberto, setAberto] = useState(false);
+  const [copiado, setCopiado] = useState(false);
+
+  async function abrir() {
+    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+      try {
+        await navigator.share({ title: 'inread', text: TEXTO, url: url('nativo') });
+        return;
+      } catch (err) {
+        if ((err as Error)?.name === 'AbortError') return; // o utilizador fechou a folha de partilha
+      }
+    }
+    setAberto((a) => !a);
+  }
+
+  async function copiar() {
+    try {
+      await navigator.clipboard.writeText(url('link'));
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 1600);
+    } catch {}
+  }
+
+  const bola = (cor: string): CSSProperties => ({
+    width: 34, height: 34, borderRadius: 999, background: cor, color: '#fff', border: 'none', cursor: 'pointer',
+    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flex: '0 0 auto',
+  });
+
+  return (
+    <div className="partilha-c">
+      <button type="button" className="partilha-c-btn" onClick={abrir} data-umami-event={`partilhar-abrir-${origem}`} aria-expanded={aberto}>
+        <span className="partilha-c-ico">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v7a2 2 0 002 2h12a2 2 0 002-2v-7M16 6l-4-4-4 4M12 2v13" /></svg>
+        </span>
+        <span style={{ display: 'flex', flexDirection: 'column', gap: 1, minWidth: 0, textAlign: 'left' }}>
+          <span className="partilha-c-t">Gostas do inread?</span>
+          <span className="partilha-c-s">Partilha com quem lê newsletters</span>
+        </span>
+      </button>
+      {aberto && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, padding: '10px 4px 2px' }}>
+          {CANAIS.map((k) => (
+            <a key={k.id} href={k.href(url(k.id))} target="_blank" rel="noopener noreferrer" data-umami-event={`partilhar-${k.id}`} style={bola(k.cor)} aria-label={`Partilhar no ${k.nome}`} title={k.nome}>
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d={k.d} /></svg>
+            </a>
+          ))}
+          <button type="button" onClick={copiar} data-umami-event="partilhar-copiar" style={bola('#15B832')} aria-label="Copiar link" title={copiado ? 'Link copiado' : 'Copiar link'}>
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              {copiado ? <path d="M20 6L9 17l-5-5" /> : <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" />}
+            </svg>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
  * Partilhar o inread: WhatsApp, email, redes sociais, copiar link e a partilha nativa do dispositivo.
  * claro=true → site público; false → dentro da app (tokens do leitor).
  */

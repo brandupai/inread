@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
+import { PartilharCompacto } from './Partilhar';
 
 /** 🔍 — abre uma caixa de pesquisa em overlay (substitui o campo fixo na lista). */
 export default function Busca({ inicial = '', compacto = false, dock = false }: { inicial?: string; compacto?: boolean; dock?: boolean }) {
@@ -73,6 +74,7 @@ export default function Busca({ inicial = '', compacto = false, dock = false }: 
                 Procurar
               </button>
             </div>
+            <PartilharCompacto origem="pesquisa" />
           </form>
         </div>,
         document.body,

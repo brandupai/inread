@@ -1187,3 +1187,10 @@ html[data-tema='dark'] .ddown-menu.claro { background: #14241b; }
 html .col-leitor .ddown-menu .ddown-item, html .col-leitor .ddown-menu a.ddown-item { color: var(--app-txt); }
 html .col-leitor .ddown-menu.claro .ddown-item, html .col-leitor .ddown-menu.claro a.ddown-item { color: var(--leitor-txt); }
 html .col-leitor .ddown-menu .ddown-item.perigo, html .col-leitor .ddown-menu a.ddown-item.perigo { color: #e2574f; }
+
+/* ---- convite compacto para partilhar (lista da app e pesquisa) ---- */
+.partilha-c { margin-top: 6px; border-radius: 14px; padding: 8px; background: var(--app-ativo); border: 1px dashed rgba(27, 224, 60, 0.45); }
+.partilha-c-btn { display: flex; align-items: center; gap: 11px; width: 100%; border: none; background: transparent; cursor: pointer; font-family: inherit; padding: 4px; color: var(--app-txt); }
+.partilha-c-ico { width: 36px; height: 36px; border-radius: 10px; background: #1be03c; color: #052e16; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.partilha-c-t { font-size: 13.5px; font-weight: 700; color: var(--app-txt-forte); }
+.partilha-c-s { font-size: 11.5px; color: var(--app-txt-fraco); }
