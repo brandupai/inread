@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Busca from './Busca';
 
 type Item = {
@@ -77,11 +78,11 @@ export default function SidebarNav({ ativo, porLer }: { ativo: string; porLer: n
       </div>
 
       {itens.map((item) => (
-        <a key={item.chave} href={item.href} className={ativo === item.chave ? 's-item on' : 's-item'} aria-current={ativo === item.chave ? 'page' : undefined} title={item.rotulo}>
+        <Link key={item.chave} href={item.href} prefetch={false} className={ativo === item.chave ? 's-item on' : 's-item'} aria-current={ativo === item.chave ? 'page' : undefined} title={item.rotulo}>
           <Icone d={item.icone} />
           <span className="s-rotulo">{item.rotulo}</span>
           {item.badge ? <span className="s-badge">{item.badge > 99 ? '99+' : item.badge}</span> : null}
-        </a>
+        </Link>
       ))}
 
       <Busca />
@@ -98,18 +99,18 @@ export default function SidebarNav({ ativo, porLer }: { ativo: string; porLer: n
       {/* barra de baixo — telemóvel (sempre presente) */}
       <nav className="dock-app" aria-label="Navegação principal">
         {itens.filter((i) => i.chave !== 'remetentes').map((item) => (
-          <a key={item.chave} href={item.href} className={ativo === item.chave ? 'dock-ic on' : 'dock-ic'} aria-current={ativo === item.chave ? 'page' : undefined} aria-label={item.rotulo} title={item.rotulo}>
+          <Link key={item.chave} href={item.href} prefetch={false} className={ativo === item.chave ? 'dock-ic on' : 'dock-ic'} aria-current={ativo === item.chave ? 'page' : undefined} aria-label={item.rotulo} title={item.rotulo}>
             <Icone d={item.icone} />
             {item.badge ? <span className="dock-badge">{item.badge > 99 ? '99+' : item.badge}</span> : null}
-          </a>
+          </Link>
         ))}
         <Busca dock />
-        <a href="/definicoes" className={ativo === 'definicoes' ? 'dock-ic on' : 'dock-ic'} aria-current={ativo === 'definicoes' ? 'page' : undefined} aria-label="Definições" title="Definições">
+        <Link href="/definicoes" prefetch={false} className={ativo === 'definicoes' ? 'dock-ic on' : 'dock-ic'} aria-current={ativo === 'definicoes' ? 'page' : undefined} aria-label="Definições" title="Definições">
           <svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="3" />
             <path d={ICONES_DEF} />
           </svg>
-        </a>
+        </Link>
       </nav>
     </>
   );
