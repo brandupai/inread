@@ -39,8 +39,10 @@ export async function POST(req: NextRequest) {
       subject = subject ?? parsed.subject ?? '(sem assunto)';
       html = parsed.html ?? (parsed.text ? `<pre>${parsed.text}</pre>` : undefined);
       text = parsed.text ?? undefined;
+      // o From do cabeçalho é o remetente real; o do envelope pode ser um endereço de bounce
+      // ou, num reencaminhamento automático (Gmail/Outlook), o email de quem reencaminha
       fromName = fromName ?? parsed.from?.name ?? undefined;
-      from = from ?? parsed.from?.address ?? undefined;
+      from = parsed.from?.address ?? from ?? undefined;
       to = to ?? parsed.to?.[0]?.address ?? undefined;
       listUnsubscribe =
         listUnsubscribe ??

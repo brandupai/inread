@@ -78,6 +78,13 @@ export default async function Definicoes({ searchParams }: { searchParams: Promi
   const ehPro = user.plan === 'pro';
 
   const porLer = await prisma.newsletter.count({ where: { userId: user.id, isRead: false } });
+  // código de confirmação do reencaminhamento do Gmail (chega à caixa como um email normal)
+  const confirmacao = await prisma.newsletter.findFirst({
+    where: { userId: user.id, senderEmail: { contains: 'forwarding-noreply@google.com' }, createdAt: { gte: new Date(Date.now() - 86400_000) } },
+    orderBy: { createdAt: 'desc' },
+    select: { subject: true, contentText: true },
+  });
+  const codigoGmail = confirmacao ? (`${confirmacao.subject} ${confirmacao.contentText ?? ''}`.match(/#?\b(\d{8,10})\b/)?.[1] ?? null) : null;
   const limiteFree = Number(process.env.FREE_NEWSLETTER_LIMIT ?? 50);
 
   return (
@@ -98,6 +105,7 @@ export default async function Definicoes({ searchParams }: { searchParams: Promi
       sair={sair}
       authEnabled={authEnabled}
       porLer={porLer}
+      codigoGmail={codigoGmail}
     />
   );
 }

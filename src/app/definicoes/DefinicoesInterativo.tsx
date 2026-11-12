@@ -8,12 +8,14 @@ import PainelInstalar from '@/components/Instalar';
 import Notificacoes from '@/components/Notificacoes';
 import Ico from '@/components/Ico';
 import EscolherTema from '@/components/EscolherTema';
+import MigrarEmail from './MigrarEmail';
 import VoltarLista from '@/components/VoltarLista';
 
-type Categoria = 'plano' | 'aparencia' | 'instalar' | 'notificacoes' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
+type Categoria = 'plano' | 'migrar' | 'aparencia' | 'instalar' | 'notificacoes' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
 
 const CATEGORIAS: { id: Categoria; rotulo: string; icone: string }[] = [
   { id: 'plano', rotulo: 'Plano', icone: 'sparkle' },
+  { id: 'migrar', rotulo: 'Migrar do Gmail / Outlook', icone: 'inbox' },
   { id: 'aparencia', rotulo: 'Aparência', icone: 'sun' },
   { id: 'instalar', rotulo: 'Instalar app', icone: 'phone' },
   { id: 'notificacoes', rotulo: 'Notificações', icone: 'bell' },
@@ -57,7 +59,7 @@ export default function DefinicoesInterativo({
   alias, ehPro, billingEnabled, total, limiteFree,
   emailAtual, aviso, pedirTrocaEmail,
   lidas, favoritas, highlights, minutosTotais, mediaDiaria,
-  sair, authEnabled, porLer,
+  sair, authEnabled, porLer, codigoGmail,
 }: {
   alias: string;
   ehPro: boolean;
@@ -75,6 +77,7 @@ export default function DefinicoesInterativo({
   sair: () => void;
   authEnabled: boolean;
   porLer: number;
+  codigoGmail: string | null;
 }) {
   const [categoria, setCategoria] = useState<Categoria>('plano');
   const [aberto, setAberto] = useState(false);
@@ -100,6 +103,7 @@ export default function DefinicoesInterativo({
         )}
       </>
     ),
+    migrar: <MigrarEmail alias={alias} codigoGmail={codigoGmail} />,
     aparencia: <EscolherTema />,
     instalar: (
       <>
@@ -128,7 +132,7 @@ export default function DefinicoesInterativo({
       <>
         <Linha
           titulo="Ligar Gmail / Outlook (leitura)"
-          detalhe="Importa as newsletters que já recebes, com acesso apenas de leitura. Opcional — o alias continua a ser o caminho mais privado."
+          detalhe="Importar o histórico com acesso apenas de leitura. Para já, usa «Migrar do Gmail / Outlook» — passa as newsletters para o inread sem dar acesso à tua caixa."
           extra="Brevemente"
         />
         <Linha
