@@ -8,7 +8,6 @@ import Tipografia from './Tipografia';
 import Voz from './Voz';
 import AliasChip from './AliasChip';
 import Quota from './Quota';
-import BotaoTema from '@/components/BotaoTema';
 import PuxarAtualizar from '@/components/PuxarAtualizar';
 import Expandir from './Expandir';
 import SidebarNav from '@/components/SidebarNav';
@@ -440,7 +439,6 @@ export default async function Caixa({
                   )}
                 </div>
               </details>
-              <BotaoTema />
               <Tipografia />
               <Voz titulo={selected.subject} />
 
@@ -460,7 +458,7 @@ export default async function Caixa({
                   <input type="hidden" name="id" value={selected.id} />
                   <input type="hidden" name="voltar" value={selected.isRead ? base : linkPara(selected.id)} />
                   <button type="submit" className="lt-btn" title={selected.isRead ? 'Marcar como não lida' : 'Marcar como lida'} aria-label={selected.isRead ? 'Marcar como não lida' : 'Marcar como lida'}>
-                    <LtIcone d={selected.isRead ? 'M3 12h18M12 3v18' : 'M20 6L9 17l-5-5'} s={15} />
+                    <LtIcone d={selected.isRead ? 'M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zM22 6l-10 7L2 6' : 'M20 6L9 17l-5-5'} s={15} />
                   </button>
                 </form>
                 <details className="ddown">
