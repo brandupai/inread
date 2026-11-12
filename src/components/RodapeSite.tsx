@@ -35,6 +35,19 @@ export default function RodapeSite() {
             </span>
             Acompanha o inread no LinkedIn
           </a>
+          <a
+            href="https://www.producthunt.com/products/inread-app"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-umami-event="rodape-producthunt"
+            style={{ alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: 10, borderRadius: 999, padding: '7px 14px 7px 7px', border: '1px solid rgba(255,255,255,0.85)', background: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 600, color: 'var(--ink-soft)' }}
+          >
+            <svg aria-hidden="true" width="28" height="28" viewBox="0 0 40 40" style={{ flex: '0 0 auto' }}>
+              <circle cx="20" cy="20" r="20" fill="#DA552F" />
+              <path fill="#fff" d="M22.667 20H17v-6h5.667a3 3 0 010 6m0-10H13v20h4v-6h5.667a7 7 0 000-14" />
+            </svg>
+            inread no Product Hunt
+          </a>
         </div>
 
         <div style={{ flex: '0 1 auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
