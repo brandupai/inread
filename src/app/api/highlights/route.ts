@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { auth, authEnabled } from '@/auth';
+import { lerLigacoes } from '@/lib/ligacoes';
+import { enviarReadwise } from '@/lib/readwise';
+import { baseUrl } from '@/lib/stripe';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,6 +42,16 @@ export async function POST(req: NextRequest) {
   const h = await prisma.highlight.create({
     data: { newsletterId: dona.id, text, note: body.note?.trim() || null },
   });
+  // Readwise ligado → envia o sublinhado (melhor esforço; não atrasa nem falha a gravação)
+  try {
+    const { readwiseToken } = await lerLigacoes(uid);
+    if (readwiseToken) {
+      await enviarReadwise(readwiseToken, [
+        { text, note: h.note, title: dona.subject, author: dona.senderName ?? dona.senderEmail, url: `${baseUrl()}/caixa?n=${dona.id}`, quando: h.createdAt },
+      ]);
+    }
+  } catch {}
+
   return NextResponse.json({ ok: true, id: h.id });
 }
 

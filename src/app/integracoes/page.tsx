@@ -12,19 +12,17 @@ const PILL: Record<Estado, { t: string; bg: string; c: string }> = {
 
 const ENTRADA: Array<{ n: string; d: string; e: Estado }> = [
   { n: 'Endereço @inread.app', d: 'O teu email privado de newsletters — a forma mais limpa de receber.', e: 'ativo' },
-  { n: 'Gmail', d: 'Ligação de leitura para importar as newsletters que já recebes. Opcional, só leitura.', e: 'brevemente' },
-  { n: 'Microsoft Outlook', d: 'Ligação de leitura para importar as newsletters que já recebes. Opcional, só leitura.', e: 'brevemente' },
+  { n: 'Gmail', d: 'Passa as newsletters que já recebes com um filtro de reencaminhamento — sem dar acesso à tua caixa.', e: 'ativo' },
+  { n: 'Microsoft Outlook', d: 'Uma regra de redirecionamento envia as newsletters para o inread e tira-as da caixa de entrada.', e: 'ativo' },
+  { n: 'iCloud, Proton e outros', d: 'Regras de reencaminhamento ou troca do email da subscrição, com guia passo a passo.', e: 'ativo' },
 ];
 
 const SAIDA: Array<{ n: string; d: string; e: Estado }> = [
   { n: 'Markdown (.md)', d: 'Qualquer newsletter exporta com os teus highlights no fim. A base de tudo.', e: 'ativo' },
-  { n: 'Obsidian', d: 'Abre os .md diretamente no teu vault — funciona hoje, integração direta a caminho.', e: 'via-md' },
-  { n: 'Notion', d: 'Importar → Markdown funciona hoje; sincronização direta dos highlights a caminho.', e: 'via-md' },
-  { n: 'Evernote', d: 'Envio direto dos teus highlights e artigos.', e: 'brevemente' },
-  { n: 'Google Keep', d: 'Envio direto dos teus highlights.', e: 'brevemente' },
-  { n: 'Apple Notes', d: 'Envio direto dos teus highlights e artigos.', e: 'brevemente' },
-  { n: 'Zapier', d: 'Liga o inread a milhares de apps com automações.', e: 'brevemente' },
-  { n: 'API e webhooks', d: 'Acesso programático à tua caixa, mesmo nos planos baratos.', e: 'brevemente' },
+  { n: 'Obsidian', d: '«Abrir no Obsidian» cria a nota com o artigo e os teus sublinhados.', e: 'ativo' },
+  { n: 'Feed RSS privado', d: 'Lê a tua caixa em qualquer leitor de RSS, com um endereço secreto só teu.', e: 'ativo' },
+  { n: 'Readwise', d: 'Os teus sublinhados seguem automaticamente para o Readwise.', e: 'ativo' },
+  { n: 'Notion', d: '«Copiar em Markdown» cola-se direto no Notion; ligação direta à tua conta a caminho.', e: 'via-md' },
 ];
 
 function Cartao({ n, d, e }: { n: string; d: string; e: Estado }) {

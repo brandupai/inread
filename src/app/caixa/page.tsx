@@ -469,7 +469,7 @@ export default async function Caixa({
                     <a href={`/api/export/${selected.id}`} className="ddown-item">
                       <LtIcone d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16" s={14} /> Exportar .md
                     </a>
-                    <ExportarNotas id={selected.id} titulo={selected.subject} />
+                    <ExportarNotas id={selected.id} titulo={selected.subject} notion={Boolean((user as unknown as { notionToken?: string | null }).notionToken)} />
                     <a href={`mailto:${selected.senderEmail}?subject=${encodeURIComponent(`Re: ${selected.subject}`)}`} className="ddown-item">
                       <LtIcone d="M9 17l-5-5 5-5m-5 5h11a5 5 0 015 5v2" s={14} /> Responder
                     </a>

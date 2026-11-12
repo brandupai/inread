@@ -75,6 +75,16 @@ const barra = (w: string, forte = false): CSSProperties => ({
   background: forte ? 'rgba(20,21,15,0.4)' : 'rgba(20,21,15,0.1)',
 });
 
+const FAIXA = [
+  'A tua caixa de email só para newsletters',
+  'O teu sítio para ouvires os teus podcasts',
+  'Descobre novos conteúdos das áreas de que gostas',
+  'Novo: migra do Gmail e do Outlook em minutos',
+  'Novo: abre no Obsidian e envia sublinhados para o Readwise',
+  'Novo: feed RSS privado da tua caixa',
+  'Sem rastreio, sem anúncios',
+];
+
 export default function Home() {
   const cta = '/login';
 
@@ -87,9 +97,14 @@ export default function Home() {
         <div className="sd-orb" style={{ width: 560, height: 560, bottom: 420, left: -220, opacity: 0.4, background: 'radial-gradient(circle at 50% 50%, rgba(21,184,50,0.18) 0%, rgba(241,240,235,0) 70%)' }} />
       </div>
 
-      {/* faixa de anúncio (acento ácido) */}
-      <a href="/faq" style={{ position: 'relative', zIndex: 1, display: 'block', textAlign: 'center', background: ACID, color: '#fff', fontSize: 13, fontWeight: 600, padding: '9px 16px' }}>
-        Novo: highlights exportáveis para Obsidian e Notion, em Markdown limpo
+      {/* faixa de anúncio (acento ácido): no desktop as mensagens passam; no telemóvel fica a primeira */}
+      <a href="/integracoes" className="faixa" style={{ background: ACID, color: '#fff' }} aria-label={FAIXA.join(' · ')}>
+        <span className="faixa-fixa">{FAIXA[0]}</span>
+        <span className="faixa-pista" aria-hidden="true">
+          {[...FAIXA, ...FAIXA].map((t, i) => (
+            <span key={i} className="faixa-item">{t}</span>
+          ))}
+        </span>
       </a>
 
       <SiteHeader />

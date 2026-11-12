@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type CSSProperties, type ReactNode, useEffect } from 'react';
+import { useState, type CSSProperties, type ReactNode, type ComponentProps, useEffect } from 'react';
 import SidebarNav from '@/components/SidebarNav';
 import VoltarMobile from '@/components/VoltarMobile';
 import TrocarEmail from './TrocarEmail';
@@ -9,6 +9,7 @@ import Notificacoes from '@/components/Notificacoes';
 import Ico from '@/components/Ico';
 import EscolherTema from '@/components/EscolherTema';
 import MigrarEmail from './MigrarEmail';
+import Ligacoes from './Ligacoes';
 import VoltarLista from '@/components/VoltarLista';
 
 type Categoria = 'plano' | 'migrar' | 'aparencia' | 'instalar' | 'notificacoes' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
@@ -59,7 +60,7 @@ export default function DefinicoesInterativo({
   alias, ehPro, billingEnabled, total, limiteFree,
   emailAtual, aviso, pedirTrocaEmail,
   lidas, favoritas, highlights, minutosTotais, mediaDiaria,
-  sair, authEnabled, porLer, codigoGmail,
+  sair, authEnabled, porLer, codigoGmail, categoriaInicial, ligacoes,
 }: {
   alias: string;
   ehPro: boolean;
@@ -78,9 +79,12 @@ export default function DefinicoesInterativo({
   authEnabled: boolean;
   porLer: number;
   codigoGmail: string | null;
+  categoriaInicial?: string;
+  ligacoes: ComponentProps<typeof Ligacoes>;
 }) {
-  const [categoria, setCategoria] = useState<Categoria>('plano');
-  const [aberto, setAberto] = useState(false);
+  const inicial = CATEGORIAS.find((c) => c.id === categoriaInicial)?.id;
+  const [categoria, setCategoria] = useState<Categoria>(inicial ?? 'plano');
+  const [aberto, setAberto] = useState(Boolean(inicial));
   useEffect(() => { if (aberto) window.scrollTo(0, 0); }, [aberto]);
 
   const conteudo: Record<Categoria, ReactNode> = {
@@ -135,11 +139,11 @@ export default function DefinicoesInterativo({
           detalhe="Importar o histórico com acesso apenas de leitura. Para já, usa «Migrar do Gmail / Outlook» — passa as newsletters para o inread sem dar acesso à tua caixa."
           extra="Brevemente"
         />
+        <Ligacoes {...ligacoes} />
         <Linha
-          titulo="Obsidian, Notion e outros"
-          detalhe="Em qualquer newsletter, no menu ⋯: «Abrir no Obsidian» cria a nota com o artigo e os teus sublinhados; «Copiar em Markdown» cola-se direto no Notion, Evernote ou Bear; «Exportar .md» descarrega o ficheiro. Ligação direta ao Notion a caminho."
+          titulo="Obsidian e Markdown"
+          detalhe="Em qualquer newsletter, no menu ⋯: «Abrir no Obsidian» cria a nota com o artigo e os teus sublinhados; «Copiar em Markdown» cola-se em qualquer app de notas; «Exportar .md» descarrega o ficheiro."
         />
-        
       </>
     ),
     organizacao: (

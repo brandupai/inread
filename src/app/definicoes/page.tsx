@@ -5,11 +5,14 @@ import { billingEnabled, baseUrl } from '@/lib/stripe';
 import { enviarEmail, emailAtivo, moldeConfirmacao } from '@/lib/email';
 import { randomBytes } from 'crypto';
 import DefinicoesInterativo from './DefinicoesInterativo';
+import { deUser, donoAtual, gravarLigacoes, lerLigacoes, novoToken } from '@/lib/ligacoes';
+import { enviarReadwise, validarReadwise } from '@/lib/readwise';
+import { notionAtivo } from '@/lib/notion';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Definicoes({ searchParams }: { searchParams: Promise<{ email?: string }> }) {
-  const { email: aviso } = await searchParams;
+export default async function Definicoes({ searchParams }: { searchParams: Promise<{ email?: string; c?: string; lig?: string }> }) {
+  const { email: aviso, c: categoriaInicial, lig: avisoLig } = await searchParams;
   let user = null;
   if (authEnabled) {
     const session = await auth();
@@ -61,6 +64,61 @@ export default async function Definicoes({ searchParams }: { searchParams: Promi
     redirect('/definicoes?email=enviado');
   }
 
+  async function acaoFeed(formData: FormData) {
+    'use server';
+    const uid = await donoAtual();
+    if (!uid) redirect('/login');
+    const desligar = formData.get('op') === 'desligar';
+    await gravarLigacoes(uid, { feedToken: desligar ? null : novoToken() });
+    redirect(`/definicoes?c=ligacoes&lig=${desligar ? 'feed-off' : 'feed-ok'}`);
+  }
+
+  async function acaoReadwise(formData: FormData) {
+    'use server';
+    const uid = await donoAtual();
+    if (!uid) redirect('/login');
+    const op = String(formData.get('op') ?? '');
+    if (op === 'desligar') {
+      await gravarLigacoes(uid, { readwiseToken: null });
+      redirect('/definicoes?c=ligacoes&lig=readwise-off');
+    }
+    if (op === 'ligar') {
+      const token = String(formData.get('token') ?? '').trim();
+      if (!token || token.length > 200 || !(await validarReadwise(token))) redirect('/definicoes?c=ligacoes&lig=readwise-invalido');
+      await gravarLigacoes(uid, { readwiseToken: token });
+      redirect('/definicoes?c=ligacoes&lig=readwise-ok');
+    }
+    // sync: envia todos os sublinhados existentes
+    const { readwiseToken } = await lerLigacoes(uid);
+    if (!readwiseToken) redirect('/definicoes?c=ligacoes&lig=readwise-invalido');
+    const todos = await prisma.highlight.findMany({
+      where: { newsletter: { userId: uid } },
+      include: { newsletter: { select: { id: true, subject: true, senderName: true, senderEmail: true } } },
+      orderBy: { createdAt: 'asc' },
+      take: 2000,
+    });
+    const ok = await enviarReadwise(
+      readwiseToken,
+      todos.map((h: { text: string; note: string | null; createdAt: Date; newsletter: { id: string; subject: string; senderName: string | null; senderEmail: string } }) => ({
+        text: h.text, note: h.note, title: h.newsletter.subject, author: h.newsletter.senderName ?? h.newsletter.senderEmail,
+        url: `${baseUrl()}/caixa?n=${h.newsletter.id}`, quando: h.createdAt,
+      }))
+    );
+    redirect(`/definicoes?c=ligacoes&lig=${ok ? 'readwise-sync' : 'readwise-falhou'}`);
+  }
+
+  async function acaoNotion(formData: FormData) {
+    'use server';
+    const uid = await donoAtual();
+    if (!uid) redirect('/login');
+    if (formData.get('op') === 'desligar') {
+      await gravarLigacoes(uid, { notionToken: null, notionWorkspace: null, notionPageId: null });
+      redirect('/definicoes?c=ligacoes&lig=notion-off');
+    }
+    redirect('/definicoes?c=ligacoes');
+  }
+
+  const lig = deUser(user);
   const total = await prisma.newsletter.count({ where: { userId: user.id } });
   const lidas = await prisma.newsletter.count({ where: { userId: user.id, isRead: true } });
   const favoritas = await prisma.newsletter.count({ where: { userId: user.id, isStarred: true } });
@@ -106,6 +164,18 @@ export default async function Definicoes({ searchParams }: { searchParams: Promi
       authEnabled={authEnabled}
       porLer={porLer}
       codigoGmail={codigoGmail}
+      categoriaInicial={categoriaInicial}
+      ligacoes={{
+        feedUrl: lig.feedToken ? `${baseUrl()}/api/feed/${lig.feedToken}` : null,
+        readwiseLigado: Boolean(lig.readwiseToken),
+        notionAtivo,
+        notionLigado: Boolean(lig.notionToken),
+        notionWorkspace: lig.notionWorkspace,
+        aviso: avisoLig,
+        acaoFeed,
+        acaoReadwise,
+        acaoNotion,
+      }}
     />
   );
 }

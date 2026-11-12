@@ -1163,3 +1163,20 @@ html[data-tema='light']:has(.app3), html[data-tema='light']:has(.app3) body { ba
 
 /* setas e voltar (links) com a mesma cor dos outros botões da barra */
 html .col-leitor a.lt-btn { color: var(--leitor-txt); }
+
+/* ---- faixa de anúncio do site ---- */
+.faixa { position: relative; z-index: 1; display: block; overflow: hidden; color: #fff; font-size: 13px; font-weight: 600; padding: 9px 0; text-align: center; white-space: nowrap; }
+.faixa-fixa { display: none; padding: 0 16px; white-space: normal; }
+.faixa-pista { display: inline-flex; width: max-content; animation: faixaPassa 48s linear infinite; }
+.faixa:hover .faixa-pista { animation-play-state: paused; }
+.faixa-item { padding: 0 26px; position: relative; }
+.faixa-item::after { content: ''; position: absolute; right: -3px; top: 50%; width: 5px; height: 5px; margin-top: -2.5px; border-radius: 999px; background: rgba(255, 255, 255, 0.7); }
+@keyframes faixaPassa { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (max-width: 860px) {
+  .faixa-pista { display: none; }
+  .faixa-fixa { display: block; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .faixa-pista { display: none; }
+  .faixa-fixa { display: block; }
+}

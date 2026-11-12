@@ -17,6 +17,11 @@ model User {
   plan          String       @default("free") // "free" | "pro"
   stripeCustomerId     String?
   stripeSubscriptionId String?
+  feedToken     String?      // feed RSS privado: /api/feed/<token>
+  readwiseToken String?      @db.Text // token de acesso Readwise do utilizador
+  notionToken   String?      @db.Text // access token OAuth do Notion
+  notionWorkspace String?
+  notionPageId  String?      // página-mãe onde o inread cria as notas
   createdAt     DateTime     @default(now())
   newsletters   Newsletter[]
   accounts      Account[]
@@ -25,6 +30,7 @@ model User {
   episodiosGuardados EpisodioGuardado[]
   pushSubs      PushSub[]
 
+  @@index([feedToken])
   @@map("users")
 }
 
