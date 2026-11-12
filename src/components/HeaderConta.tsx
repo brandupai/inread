@@ -1,23 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSessao } from '@/lib/useSessao';
 
 const INK = '#15160F';
 
 /** Botão de conta do cabeçalho. Renderiza o estado "visitante" no servidor (páginas estáticas, rápidas)
  *  e troca para "A minha caixa" depois de a hidratação confirmar a sessão. */
 export default function HeaderConta({ authEnabled }: { authEnabled: boolean }) {
-  const [entrou, setEntrou] = useState(false);
-
-  useEffect(() => {
-    if (!authEnabled) return;
-    const ctl = new AbortController();
-    fetch('/api/auth/session', { signal: ctl.signal, credentials: 'same-origin' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => setEntrou(Boolean(d && d.user)))
-      .catch(() => {});
-    return () => ctl.abort();
-  }, [authEnabled]);
+  const entrou = useSessao(authEnabled);
 
   return (
     <>
