@@ -16,24 +16,24 @@ export const metadata: Metadata = {
     ],
     apple: '/apple-touch-icon.png',
   },
-  appleWebApp: { capable: true, title: 'inread', statusBarStyle: 'black' },
+  appleWebApp: { capable: true, title: 'inread', statusBarStyle: 'default' },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0b140f',
+  themeColor: '#ece9e0',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt" data-tema="dark">
+    <html lang="pt" data-tema="light">
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var t=localStorage.getItem('inread-tema');var m=(t==='light')?'light':'dark';document.documentElement.dataset.tema=m;document.documentElement.style.background=m==='light'?'#f1f0eb':'#0b140f'}catch(e){}})();",
+              "(function(){try{var t=localStorage.getItem('inread-tema');var m=(t==='dark')?'dark':'light';document.documentElement.dataset.tema=m;document.documentElement.style.background=m==='light'?'#ece9e0':'#0b140f'}catch(e){}})();",
           }}
         />
-        <style dangerouslySetInnerHTML={{ __html: "html{background:#0b140f}" }} />
+        <style dangerouslySetInnerHTML={{ __html: "html{background:#ece9e0}" }} />
         <script defer src="https://cloud.umami.is/script.js" data-website-id="b9f0b8f7-dff6-488d-bbad-2573f5c7d837" />
         <link rel="preload" href="/fonts/Stang-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/Stang-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />

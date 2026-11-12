@@ -29,8 +29,8 @@ export default function TrocarEmail({
     <div className="glass" style={{ borderRadius: 16, padding: '15px 18px', display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 14 }}>
         <span style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0 }}>
-          <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)' }}>O teu email</span>
-          <span style={{ fontSize: 12.5, color: 'var(--quiet)', lineHeight: 1.5 }}>
+          <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--leitor-txt)' }}>O teu email</span>
+          <span style={{ fontSize: 12.5, color: 'var(--leitor-txt-fraco)', lineHeight: 1.5 }}>
             {emailAtual} — é por aqui que entras na conta.
           </span>
         </span>
@@ -55,7 +55,7 @@ export default function TrocarEmail({
             required
             placeholder="novo@email.com"
             aria-label="Novo email de acesso"
-            style={{ flex: '1 1 200px', minWidth: 0, height: 42, borderRadius: 12, border: '1px solid rgba(9,87,44,0.3)', background: 'rgba(255,255,255,0.85)', padding: '0 14px', fontFamily: 'inherit', fontSize: 16, color: 'var(--ink)', outline: 'none' }}
+            style={{ flex: '1 1 200px', minWidth: 0, height: 42, borderRadius: 12, border: '1px solid rgba(9,87,44,0.3)', background: 'var(--leitor-btn)', padding: '0 14px', fontFamily: 'inherit', fontSize: 16, color: 'var(--leitor-txt)', outline: 'none' }}
           />
           <button
             type="submit"
@@ -63,7 +63,7 @@ export default function TrocarEmail({
           >
             Enviar confirmação
           </button>
-          <span style={{ flex: '1 1 100%', fontSize: 11.5, color: 'var(--faint)', lineHeight: 1.5 }}>
+          <span style={{ flex: '1 1 100%', fontSize: 11.5, color: 'var(--leitor-txt-fraco)', lineHeight: 1.5 }}>
             Enviamos um link para o novo endereço. O email só muda depois de o confirmares.
           </span>
         </form>

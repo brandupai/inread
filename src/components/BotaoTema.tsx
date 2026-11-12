@@ -6,10 +6,10 @@ type Tema = 'dark' | 'light';
 
 /** Switch icon-only (sem texto) — alterna entre modo noite e modo dia (guarda a escolha no browser). */
 export default function BotaoTema({ classe = 'tema-switch' }: { classe?: string }) {
-  const [tema, setTema] = useState<Tema>('dark');
+  const [tema, setTema] = useState<Tema>('light');
 
   useEffect(() => {
-    const atual = (document.documentElement.dataset.tema as Tema) || 'dark';
+    const atual = (document.documentElement.dataset.tema as Tema) || 'light';
     setTema(atual);
   }, []);
 

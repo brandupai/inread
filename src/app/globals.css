@@ -1149,3 +1149,6 @@ html[data-tema='dark'] { --ico-cor: #5eea7a; }
 body:has(.sd) .bg-blobs { display: none; }
 /* conteúdo fora do ecrã não é pintado até ser preciso */
 .sd section:not(.hero-sec) { content-visibility: auto; contain-intrinsic-size: auto 600px; }
+
+/* app em modo claro: o fundo atrás das colunas (overscroll, topo) acompanha o tema */
+html[data-tema='light']:has(.app3), html[data-tema='light']:has(.app3) body { background: var(--app-bg); }

@@ -7,12 +7,14 @@ import TrocarEmail from './TrocarEmail';
 import PainelInstalar from '@/components/Instalar';
 import Notificacoes from '@/components/Notificacoes';
 import Ico from '@/components/Ico';
+import EscolherTema from '@/components/EscolherTema';
 import VoltarLista from '@/components/VoltarLista';
 
-type Categoria = 'plano' | 'instalar' | 'notificacoes' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
+type Categoria = 'plano' | 'aparencia' | 'instalar' | 'notificacoes' | 'conta' | 'ligacoes' | 'organizacao' | 'estatisticas' | 'sessao';
 
 const CATEGORIAS: { id: Categoria; rotulo: string; icone: string }[] = [
   { id: 'plano', rotulo: 'Plano', icone: 'sparkle' },
+  { id: 'aparencia', rotulo: 'Aparência', icone: 'sun' },
   { id: 'instalar', rotulo: 'Instalar app', icone: 'phone' },
   { id: 'notificacoes', rotulo: 'Notificações', icone: 'bell' },
   { id: 'conta', rotulo: 'Conta', icone: 'user' },
@@ -26,10 +28,10 @@ function Linha({ titulo, detalhe, extra, href }: { titulo: string; detalhe?: str
   const conteudo = (
     <>
       <span style={{ display: 'flex', flexDirection: 'column', gap: 3, minWidth: 0 }}>
-        <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)' }}>{titulo}</span>
-        {detalhe && <span style={{ fontSize: 12.5, color: 'var(--quiet)', lineHeight: 1.5 }}>{detalhe}</span>}
+        <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--leitor-txt)' }}>{titulo}</span>
+        {detalhe && <span style={{ fontSize: 12.5, color: 'var(--leitor-txt-fraco)', lineHeight: 1.5 }}>{detalhe}</span>}
       </span>
-      <span style={{ flex: '0 0 auto', fontSize: 12, fontWeight: 600, color: 'var(--faint)' }}>{extra ?? (href ? '›' : '')}</span>
+      <span style={{ flex: '0 0 auto', fontSize: 12, fontWeight: 600, color: 'var(--leitor-txt-fraco)' }}>{extra ?? (href ? '›' : '')}</span>
     </>
   );
   const estilo: CSSProperties = {
@@ -45,7 +47,7 @@ function Linha({ titulo, detalhe, extra, href }: { titulo: string; detalhe?: str
 
 function Titulo({ texto }: { texto: string }) {
   return (
-    <div style={{ padding: '2px 4px 2px', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--quiet)' }}>
+    <div style={{ padding: '2px 4px 2px', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--leitor-txt-fraco)' }}>
       {texto}
     </div>
   );
@@ -92,12 +94,13 @@ export default function DefinicoesInterativo({
           href={billingEnabled ? (ehPro ? '/api/stripe/portal' : '/pro') : undefined}
         />
         {!ehPro && billingEnabled && (
-          <p style={{ margin: '2px 4px 0', fontSize: 12, lineHeight: 1.6, color: 'var(--faint)' }}>
+          <p style={{ margin: '2px 4px 0', fontSize: 12, lineHeight: 1.6, color: 'var(--leitor-txt-fraco)' }}>
             No plano anual poupas o equivalente a 2 meses face ao mensal.
           </p>
         )}
       </>
     ),
+    aparencia: <EscolherTema />,
     instalar: (
       <>
         <p style={{ margin: '0 4px 4px', fontSize: 13.5, lineHeight: 1.6, color: 'var(--leitor-txt-fraco)' }}>
@@ -151,15 +154,15 @@ export default function DefinicoesInterativo({
     ),
     estatisticas: (
       <div className="glass" style={{ borderRadius: 20, padding: '22px 18px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <span style={{ fontSize: 12.5, color: 'var(--quiet)' }}>Tempo médio de leitura por dia</span>
-        <span style={{ fontFamily: 'var(--font-display)', fontSize: 40, fontWeight: 700, lineHeight: 1.1, color: 'var(--ink)' }}>
+        <span style={{ fontSize: 12.5, color: 'var(--leitor-txt-fraco)' }}>Tempo médio de leitura por dia</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontSize: 40, fontWeight: 700, lineHeight: 1.1, color: 'var(--leitor-txt)' }}>
           {mediaDiaria < 1 ? '< 1 min' : `${mediaDiaria} min`}
         </span>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 18, marginTop: 10, fontSize: 12.5, color: 'var(--quiet)', flexWrap: 'wrap' }}>
-          <span><strong style={{ color: 'var(--ink)' }}>{lidas}</strong> lidas</span>
-          <span><strong style={{ color: 'var(--ink)' }}>{favoritas}</strong> guardadas</span>
-          <span><strong style={{ color: 'var(--ink)' }}>{highlights}</strong> highlights</span>
-          <span><strong style={{ color: 'var(--ink)' }}>{minutosTotais}</strong> min de leitura</span>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 18, marginTop: 10, fontSize: 12.5, color: 'var(--leitor-txt-fraco)', flexWrap: 'wrap' }}>
+          <span><strong style={{ color: 'var(--leitor-txt)' }}>{lidas}</strong> lidas</span>
+          <span><strong style={{ color: 'var(--leitor-txt)' }}>{favoritas}</strong> guardadas</span>
+          <span><strong style={{ color: 'var(--leitor-txt)' }}>{highlights}</strong> highlights</span>
+          <span><strong style={{ color: 'var(--leitor-txt)' }}>{minutosTotais}</strong> min de leitura</span>
         </div>
       </div>
     ),
@@ -174,7 +177,7 @@ export default function DefinicoesInterativo({
         </button>
       </form>
     ) : (
-      <p style={{ fontSize: 13, color: 'var(--faint)' }}>Sem sessão ativa.</p>
+      <p style={{ fontSize: 13, color: 'var(--leitor-txt-fraco)' }}>Sem sessão ativa.</p>
     ),
   };
 
