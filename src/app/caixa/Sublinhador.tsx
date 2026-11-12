@@ -13,6 +13,7 @@ export default function Sublinhador({ newsletterId, assunto }: { newsletterId: s
   const [aGuardar, setAGuardar] = useState(false);
   const [copiado, setCopiado] = useState(false);
   const textoRef = useRef('');
+  const emToque = useRef(false);
 
   const esconder = useCallback(() => {
     setPos(null);
@@ -22,6 +23,7 @@ export default function Sublinhador({ newsletterId, assunto }: { newsletterId: s
 
   useEffect(() => {
     function onSelecao() {
+      if (emToque.current) return; // tocar num botão da barra não pode apagar a seleção
       const sel = window.getSelection();
       if (!sel || sel.isCollapsed) return esconder();
       const texto = sel.toString().trim();
@@ -35,8 +37,17 @@ export default function Sublinhador({ newsletterId, assunto }: { newsletterId: s
       textoRef.current = texto;
       setPos({ x: rect.left + rect.width / 2, y: rect.top });
     }
+    function reposicionar() {
+      if (textoRef.current) onSelecao();
+    }
     document.addEventListener('selectionchange', onSelecao);
-    return () => document.removeEventListener('selectionchange', onSelecao);
+    window.addEventListener('scroll', reposicionar, true);
+    window.addEventListener('resize', reposicionar);
+    return () => {
+      document.removeEventListener('selectionchange', onSelecao);
+      window.removeEventListener('scroll', reposicionar, true);
+      window.removeEventListener('resize', reposicionar);
+    };
   }, [esconder]);
 
   async function guardar() {
@@ -82,11 +93,17 @@ export default function Sublinhador({ newsletterId, assunto }: { newsletterId: s
   }
 
   if (!pos) return null;
+  const larg = Math.min(340, window.innerWidth - 16);
 
   const botao = (rotulo: string, onClick: () => void, forte = false, title?: string) => (
     <button
       type="button"
       onMouseDown={(e) => e.preventDefault()}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        emToque.current = true;
+        setTimeout(() => { emToque.current = false; }, 600);
+      }}
       onClick={onClick}
       title={title ?? rotulo}
       style={{
@@ -100,6 +117,8 @@ export default function Sublinhador({ newsletterId, assunto }: { newsletterId: s
         padding: '8px 12px',
         cursor: 'pointer',
         whiteSpace: 'nowrap',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
       }}
     >
       {rotulo}
@@ -112,14 +131,17 @@ export default function Sublinhador({ newsletterId, assunto }: { newsletterId: s
       aria-label="Ações da seleção"
       style={{
         position: 'fixed',
-        left: Math.max(8, Math.min(pos.x - 170, window.innerWidth - 348)),
+        left: Math.max(8, Math.min(pos.x - larg / 2, window.innerWidth - larg - 8)),
         top: Math.max(8, pos.y - 52),
         zIndex: 50,
         display: 'flex',
         alignItems: 'center',
         gap: 2,
         padding: 4,
-        borderRadius: 999,
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        width: larg,
+        borderRadius: 22,
         background: '#10231a',
         border: '1px solid rgba(255,255,255,0.14)',
         boxShadow: '0 14px 34px rgba(0,0,0,0.45)',

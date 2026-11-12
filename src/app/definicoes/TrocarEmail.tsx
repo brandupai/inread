@@ -55,7 +55,7 @@ export default function TrocarEmail({
             required
             placeholder="novo@email.com"
             aria-label="Novo email de acesso"
-            style={{ flex: '1 1 200px', minWidth: 0, height: 42, borderRadius: 12, border: '1px solid rgba(9,87,44,0.3)', background: 'rgba(255,255,255,0.85)', padding: '0 14px', fontFamily: 'inherit', fontSize: 14, color: 'var(--ink)', outline: 'none' }}
+            style={{ flex: '1 1 200px', minWidth: 0, height: 42, borderRadius: 12, border: '1px solid rgba(9,87,44,0.3)', background: 'rgba(255,255,255,0.85)', padding: '0 14px', fontFamily: 'inherit', fontSize: 16, color: 'var(--ink)', outline: 'none' }}
           />
           <button
             type="submit"

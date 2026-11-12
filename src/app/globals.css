@@ -637,6 +637,10 @@ mark {
 .artigo a {
   text-decoration: underline;
 }
+.artigo, .artigo-ilha h1 { overflow-wrap: anywhere; }
+.artigo table { display: block; max-width: 100%; overflow-x: auto; }
+.artigo pre { max-width: 100%; overflow-x: auto; }
+.artigo iframe, .artigo video, .artigo svg { max-width: 100%; }
 
 /* ===== App 3 colunas (estilo leitor) ===== */
 .app3 { display: flex; min-height: 100vh; min-height: 100dvh; }
@@ -987,12 +991,6 @@ html[data-tema='light'] .busca-cx { background: #fff; box-shadow: 0 30px 70px rg
 .artigo-ilha.largura-conforto #artigo-corpo { max-width: 64ch; }
 
 /* ---- leitor em voz alta ---- */
-.voz-barra {
-  position: sticky; bottom: 0; z-index: 6; display: flex; align-items: center; gap: 10px;
-  margin: 0 auto; padding: 10px 14px; border-radius: 999px 999px 0 0;
-  background: var(--leitor-barra); border: 1px solid var(--leitor-borda); border-bottom: 0;
-  backdrop-filter: blur(10px);
-}
 .artigo .lendo { background: rgba(27, 224, 60, 0.22); border-radius: 3px; }
 
 @media (max-width: 1023px) {
@@ -1082,6 +1080,17 @@ html[data-tema='light'] .dock-ic.on { background: #14150f; color: #fff; }
   .app3.m-leitor { padding-bottom: 96px; }
   .app3 .col-leitor .leitor-toolbar { flex-wrap: wrap; }
   .m-leitor .col-leitor { min-height: 100dvh; }
+  /* o scroll é o da janela: sem contentor de scroll próprio o sticky da barra funciona */
+  .col-lista, .col-leitor { overflow: visible; }
+  /* backdrop-filter criava um bloco de contenção que partia o overlay "fechar ao tocar fora" */
+  .leitor-toolbar { backdrop-filter: none; background: rgba(246, 248, 246, 0.98); top: 0; }
+  html[data-tema='dark'] .leitor-toolbar { background: var(--leitor-bg); }
+  /* menus da barra: largura do ecrã em vez de saírem pela direita */
+  .leitor-toolbar .ddown { position: static; }
+  .leitor-toolbar .ddown-menu { left: 12px !important; right: 12px !important; width: auto; min-width: 0 !important; max-width: 380px; }
+  .lt-btn { width: 40px; height: 40px; }
+  .lt-grupo .lt-btn { width: 38px; height: 38px; }
+  .so-desktop { display: none !important; }
 }
 
 /* ---- páginas do site público (SiteShell: .sd.luz) ---- */

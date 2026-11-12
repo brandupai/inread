@@ -46,7 +46,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
               type="email"
               required
               placeholder="tu@exemplo.com"
-              style={{ boxSizing: 'border-box', width: '100%', height: 46, border: '1px solid #D9DBD4', borderRadius: 12, background: '#FFFFFF', padding: '0 14px', fontSize: 15, fontFamily: 'inherit', color: 'var(--ink)' }}
+              style={{ boxSizing: 'border-box', width: '100%', height: 46, border: '1px solid #D9DBD4', borderRadius: 12, background: '#FFFFFF', padding: '0 14px', fontSize: 16, fontFamily: 'inherit', color: 'var(--ink)' }}
             />
             <button
               type="submit"

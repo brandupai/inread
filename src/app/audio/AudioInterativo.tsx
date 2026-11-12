@@ -300,7 +300,7 @@ export default function AudioInterativo({
             placeholder="Pesquisar podcasts…"
             style={{
               flex: '1 1 auto', minWidth: 0, borderRadius: 10, border: '1px solid var(--app-borda)', background: 'transparent',
-              color: 'var(--app-txt)', fontFamily: 'inherit', fontSize: 12.5, padding: '8px 10px',
+              color: 'var(--app-txt)', fontFamily: 'inherit', fontSize: 16, padding: '8px 10px',
             }}
           />
         </form>
